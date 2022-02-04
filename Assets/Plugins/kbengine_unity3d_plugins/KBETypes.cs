@@ -1179,6 +1179,43 @@ namespace KBEngine
 		}
 	}
 
+	public struct ENTITY_UTYPE
+	{
+		UInt32 value;
+
+		ENTITY_UTYPE(UInt32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt32(ENTITY_UTYPE value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator ENTITY_UTYPE(UInt32 value)
+		{
+			UInt32 tvalue = (UInt32)value;
+			return new ENTITY_UTYPE(tvalue);
+		}
+
+		public static UInt32 MaxValue
+		{
+			get
+			{
+				return UInt32.MaxValue;
+			}
+		}
+
+		public static UInt32 MinValue
+		{
+			get
+			{
+				return UInt32.MinValue;
+			}
+		}
+	}
+
 	public struct POSITION3D
 	{
 		Vector3 value;
@@ -1259,39 +1296,39 @@ namespace KBEngine
 
 	}
 
-	public struct ENTITY_UTYPE
+	public struct TIME_STAMP
 	{
-		UInt32 value;
+		Int64 value;
 
-		ENTITY_UTYPE(UInt32 value)
+		TIME_STAMP(Int64 value)
 		{
 			this.value = value;
 		}
 
-		public static implicit operator UInt32(ENTITY_UTYPE value)
+		public static implicit operator Int64(TIME_STAMP value)
 		{
 			return value.value;
 		}
 
-		public static implicit operator ENTITY_UTYPE(UInt32 value)
+		public static implicit operator TIME_STAMP(Int64 value)
 		{
-			UInt32 tvalue = (UInt32)value;
-			return new ENTITY_UTYPE(tvalue);
+			Int64 tvalue = (Int64)value;
+			return new TIME_STAMP(tvalue);
 		}
 
-		public static UInt32 MaxValue
+		public static Int64 MaxValue
 		{
 			get
 			{
-				return UInt32.MaxValue;
+				return Int64.MaxValue;
 			}
 		}
 
-		public static UInt32 MinValue
+		public static Int64 MinValue
 		{
 			get
 			{
-				return UInt32.MinValue;
+				return Int64.MinValue;
 			}
 		}
 	}
@@ -1440,6 +1477,43 @@ namespace KBEngine
 			get
 			{
 				return Int32.MinValue;
+			}
+		}
+	}
+
+	public struct MOVE_TYPE
+	{
+		UInt32 value;
+
+		MOVE_TYPE(UInt32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt32(MOVE_TYPE value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator MOVE_TYPE(UInt32 value)
+		{
+			UInt32 tvalue = (UInt32)value;
+			return new MOVE_TYPE(tvalue);
+		}
+
+		public static UInt32 MaxValue
+		{
+			get
+			{
+				return UInt32.MaxValue;
+			}
+		}
+
+		public static UInt32 MinValue
+		{
+			get
+			{
+				return UInt32.MinValue;
 			}
 		}
 	}
@@ -1598,6 +1672,12 @@ namespace KBEngine
 	{
 		public Int64 k1 = 0;
 		public Int64 k2 = 0;
+
+	}
+
+	public class MOVE_INFOS
+	{
+		public Vector3 tarPostion = new Vector3(0f, 0f, 0f);
 
 	}
 

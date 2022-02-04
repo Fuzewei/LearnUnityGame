@@ -31,6 +31,8 @@ namespace KBEngine
 		public virtual void onEntityNOChanged(UInt32 oldValue) {}
 		public Int32 forbids = 0;
 		public virtual void onForbidsChanged(Int32 oldValue) {}
+		public Byte inBattle = 0;
+		public virtual void onInBattleChanged(Byte oldValue) {}
 		public UInt32 modelID = 0;
 		public virtual void onModelIDChanged(UInt32 oldValue) {}
 		public Byte modelScale = 30;
@@ -140,7 +142,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 34:
+				case 39:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
@@ -307,6 +309,22 @@ namespace KBEngine
 						}
 
 						break;
+					case 39:
+						Byte oldval_inBattle = inBattle;
+						inBattle = stream.readUint8();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onInBattleChanged(oldval_inBattle);
+						}
+						else
+						{
+							if(inWorld)
+								onInBattleChanged(oldval_inBattle);
+						}
+
+						break;
 					case 41006:
 						UInt32 oldval_modelID = modelID;
 						modelID = stream.readUint32();
@@ -339,7 +357,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 32:
+					case 36:
 						Byte oldval_moveSpeed = moveSpeed;
 						moveSpeed = stream.readUint8();
 
@@ -612,8 +630,29 @@ namespace KBEngine
 				}
 			}
 
+			Byte oldval_inBattle = inBattle;
+			Property prop_inBattle = pdatas[10];
+			if(prop_inBattle.isBase())
+			{
+				if(inited && !inWorld)
+					onInBattleChanged(oldval_inBattle);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_inBattle.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onInBattleChanged(oldval_inBattle);
+					}
+				}
+			}
+
 			UInt32 oldval_modelID = modelID;
-			Property prop_modelID = pdatas[10];
+			Property prop_modelID = pdatas[11];
 			if(prop_modelID.isBase())
 			{
 				if(inited && !inWorld)
@@ -634,7 +673,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_modelScale = modelScale;
-			Property prop_modelScale = pdatas[11];
+			Property prop_modelScale = pdatas[12];
 			if(prop_modelScale.isBase())
 			{
 				if(inited && !inWorld)
@@ -655,7 +694,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_moveSpeed = moveSpeed;
-			Property prop_moveSpeed = pdatas[12];
+			Property prop_moveSpeed = pdatas[13];
 			if(prop_moveSpeed.isBase())
 			{
 				if(inited && !inWorld)
@@ -676,7 +715,7 @@ namespace KBEngine
 			}
 
 			string oldval_name = name;
-			Property prop_name = pdatas[13];
+			Property prop_name = pdatas[14];
 			if(prop_name.isBase())
 			{
 				if(inited && !inWorld)
@@ -718,7 +757,7 @@ namespace KBEngine
 			}
 
 			SByte oldval_state = state;
-			Property prop_state = pdatas[14];
+			Property prop_state = pdatas[15];
 			if(prop_state.isBase())
 			{
 				if(inited && !inWorld)
@@ -739,7 +778,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_subState = subState;
-			Property prop_subState = pdatas[15];
+			Property prop_subState = pdatas[16];
 			if(prop_subState.isBase())
 			{
 				if(inited && !inWorld)
@@ -760,7 +799,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_uid = uid;
-			Property prop_uid = pdatas[16];
+			Property prop_uid = pdatas[17];
 			if(prop_uid.isBase())
 			{
 				if(inited && !inWorld)
@@ -781,7 +820,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_utype = utype;
-			Property prop_utype = pdatas[17];
+			Property prop_utype = pdatas[18];
 			if(prop_utype.isBase())
 			{
 				if(inited && !inWorld)

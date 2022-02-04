@@ -59,7 +59,7 @@ namespace KBEngine
 			Method method = sm.idmethods[methodUtype];
 			switch(method.methodUtype)
 			{
-				case 30:
+				case 34:
 					Int32 helloCB_arg1 = stream.readInt32();
 					helloCB(helloCB_arg1);
 					break;
@@ -98,7 +98,7 @@ namespace KBEngine
 
 				switch(prop.properUtype)
 				{
-					case 24:
+					case 28:
 						Int32 oldval_own = own;
 						own = stream.readInt32();
 
@@ -114,7 +114,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 23:
+					case 27:
 						Int32 oldval_state = state;
 						state = stream.readInt32();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using KBEngine;
 
 // This class just convert from CharacterMotor.js to C#
 
@@ -10,7 +11,6 @@ public class CharacterMotor : MonoBehaviour
 {
     bool canControl = true;
     bool useFixedUpdate = true;
-
     // For the next variables, @System.NonSerialized tells Unity to not serialize the variable or show it in the inspector view.
     // Very handy for organization!
 

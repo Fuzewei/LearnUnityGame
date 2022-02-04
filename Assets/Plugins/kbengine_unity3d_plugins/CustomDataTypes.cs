@@ -253,7 +253,24 @@ namespace KBEngine
 
 
 
-	public class DATATYPE_AnonymousArray_32 : DATATYPE_BASE
+	public class DATATYPE_MOVE_INFOS : DATATYPE_BASE
+	{
+		public MOVE_INFOS createFromStreamEx(MemoryStream stream)
+		{
+			MOVE_INFOS datas = new MOVE_INFOS();
+			datas.tarPostion = stream.readVector3();
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, MOVE_INFOS v)
+		{
+			stream.writeVector3(v.tarPostion);
+		}
+	}
+
+
+
+	public class DATATYPE_AnonymousArray_33 : DATATYPE_BASE
 	{
 		public List<Int32> createFromStreamEx(MemoryStream stream)
 		{

@@ -31,5 +31,15 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
+		public void setInBattle(Byte arg1)
+		{
+			Bundle pBundle = newCall("setInBattle", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeUint8(arg1);
+			sendCall(null);
+		}
+
 	}
 	}
