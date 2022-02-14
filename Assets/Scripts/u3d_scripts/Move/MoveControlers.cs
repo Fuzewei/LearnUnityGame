@@ -76,6 +76,10 @@ namespace SwordMaster
             this.xzMoveSpeed = Mathf.Max(this.xzMoveSpeed, 0);
             this.yMoveSpeed = -9.8f;
         }
+        public override bool canSetFaceDirection(ref Vector3 rotation)
+        {
+            return false;
+        }
     }
 
     class NormalWalkControler: MoveControlersBase

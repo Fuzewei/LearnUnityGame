@@ -19,7 +19,7 @@ public class World : MonoBehaviour
 
 	void Awake() 
 	 {
-		Application.targetFrameRate = 60;
+		Application.targetFrameRate = 120;
 		DontDestroyOnLoad(transform.gameObject);
 		world = this;
 	}

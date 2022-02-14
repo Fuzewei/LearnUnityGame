@@ -52,6 +52,7 @@ public class MoveMotor : MonoBehaviour
     //计算的值（控制动画状态机）end
 
     public Animator animator;                                        //动画驱动移动(只用来计算位置)
+    public AnimatorController animatorController;
 
     CharacterController controller;
 
@@ -73,6 +74,7 @@ public class MoveMotor : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        animatorController = animator.GetBehaviour<AnimatorController>();
         animator.SetInteger("moveType", (int)nowMoveType);
         animator.SetBool("inBattle", inBattle);
         animator.SetFloat("moveSpeed", moveSpeed);
@@ -149,6 +151,7 @@ public class MoveMotor : MonoBehaviour
 
         if (!currentMoveControler.canSetFaceDirection(ref direction))
         {
+            faceDirection = transform.rotation.eulerAngles;
             return;
         }
         faceDirection = direction;

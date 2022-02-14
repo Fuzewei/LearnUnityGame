@@ -39,12 +39,12 @@ public class InputControl : MonoBehaviour
         {
             newMoveType = MoveConst.Jump;
         }
-        else if (directionVector != Vector3.zero && acc == false)
+        else if (directionVector.magnitude >= 0.2 && acc == false)
         {
             newMoveType = MoveConst.Walk;    
         }
 
-        else if (directionVector != Vector3.zero && acc == true)
+        else if (directionVector.magnitude >= 0.2 && acc == true)
         {
             newMoveType = MoveConst.Run; 
         }
@@ -74,6 +74,12 @@ public class InputControl : MonoBehaviour
         if (newMoveType != oldMoveType)
         {
             KBEngine.Event.fireIn("inputCommand", newMoveType);
+        }
+
+        bool testKey = Input.GetKeyDown(KeyCode.T);
+        if (testKey)
+        {
+            motor.animatorController.playerSkillAttackAnimatior(motor.animator, "GreatSword_Attack01");
         }
     }
 
