@@ -79,6 +79,8 @@ public class InputControl : MonoBehaviour
         bool testKey = Input.GetKeyDown(KeyCode.T);
         if (testKey)
         {
+            KBEngine.Event.fireIn("useSkill", 1);
+
             motor.animatorController.playerSkillAttackAnimatior(motor.animator, "GreatSword_Attack01");
         }
     }

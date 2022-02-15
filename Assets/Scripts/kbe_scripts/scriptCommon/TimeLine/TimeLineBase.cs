@@ -17,7 +17,7 @@ namespace GameLogic
         public float speed ; //≤•∑≈ÀŸ∂»
 
         TimeLineManager manager;
-        public TimeLineBase(TimeLineManager manager)
+        public TimeLineBase()
         {
             init(); 
         }
@@ -28,6 +28,10 @@ namespace GameLogic
             delterTimeStamp = 0;
             nodesList = new List<NodeBase>();
             speed = 1.0f;
+        }
+        public void setManager(TimeLineManager m)
+        {
+            manager = m;
         }
         public virtual void start()
         {
@@ -67,6 +71,12 @@ namespace GameLogic
         public float getNextTimeStamp()
         {
            return nodesList[nextIndex].runTimeStamp;
+        }
+
+        public float getNextDelterTime()
+        {
+            float _t = nodesList[nextIndex].runTimeStamp - delterTimeStamp;
+            return _t / speed;
         }
 
         public void addNode(NodeBase node)

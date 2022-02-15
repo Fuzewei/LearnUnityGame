@@ -29,7 +29,6 @@ public class World : MonoBehaviour
 	{
 		installEvents();
 		timers = new SortedDictionary<long, TimerHandle>();
-		passKeys = new List<long>();
 	}
 
 	void installEvents()
@@ -347,58 +346,60 @@ public class World : MonoBehaviour
 
 
 
+
+
 	//timer相关,暂时这么用
 
 	struct TimerHandle
 	{
 		public uint timerId;
 		public float interval;
+		public long beginTimeStamp; //设置时间
+		public long nextTimeStamp; //下次时间
+		public uint times;
 	}
 	private SortedDictionary<long, TimerHandle> timers;
-	private List<long> passKeys;
+
 	private UInt32 g_timerId = 1;
 	public UInt32 _addTimer(float timeout, float interval)
 	{
 		long now = KBEngine.Utils.serverTime();
-		long nextTime = now + (long)(timeout * 1000);
 		TimerHandle timerHandle = new TimerHandle();
 		timerHandle.timerId = g_timerId++;
 		timerHandle.interval = interval;
-		timers.Add(nextTime, timerHandle);
+		timerHandle.beginTimeStamp = now;
+		timerHandle.nextTimeStamp = now + (long)(timeout * 1000); 
+		timers.Add(timerHandle.timerId, timerHandle);
 		return timerHandle.timerId;
 	}
 
 	public void _cancelTimer(UInt32 timeId)
 	{
-		foreach (var item in timers)
-		{
-			if (item.Value.timerId == timeId)
-			{
-				timers.Remove(item.Key);
-				break;
-			}
-			
-		}
+		timers.Remove(timeId);
 	}
 	private void updateTimes()
 	{
 		long now = KBEngine.Utils.serverTime();
+		List<long> passKeys = new List<long>();
 		foreach (var item in timers)
 		{
-			if (item.Key > now)
+			if (item.Value.nextTimeStamp <= now)
 			{
-				break;
+				passKeys.Add(item.Key);
 			}
-			passKeys.Add(item.Key);
 		}
-		foreach (var item in passKeys)
+		foreach (var key in passKeys)
 		{
-			TimerHandle timeHandle = timers[item];
+			TimerHandle timeHandle = timers[key];
 			TimerUtils.onTimer(timeHandle.timerId);
-			timers.Remove(item);
+			timers.Remove(key);
 			if (timeHandle.interval >= 0.001f)
-				timers.Add(now + (long)(timeHandle.interval * 1000), timeHandle);
+            {
+				timeHandle.times++;
+				timeHandle.nextTimeStamp = now + (long)(timeHandle.interval * 1000);
+				timers.Add(timeHandle.timerId, timeHandle);
+			}	
 		}
-		passKeys.Clear();
+
 	}
 }

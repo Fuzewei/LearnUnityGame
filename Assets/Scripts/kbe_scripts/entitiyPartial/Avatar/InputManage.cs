@@ -1,6 +1,6 @@
 ﻿namespace KBEngine
 {
-	using UnityEngine;
+	using GameLogic;
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
@@ -8,12 +8,15 @@
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
 		private bool settedInBattle;
+		private TimeLineManager timeLineManager;
 
 		private void __init__InputManage()
 		{
 			settedInBattle = Convert.ToBoolean(inBattle);
+			timeLineManager = new TimeLineManager();
 			Event.registerIn("inputSwitchBattle", this, "inputSwitchBattle");//切换战斗
 			Event.registerIn("inputCommand", this, "inputCommand");//移动指令通知
+			Event.registerIn("useSkill", this, "useSkill");//使用技能
 		}
 
 		//非移动状态
@@ -34,5 +37,17 @@
 			renderEntity.setMoveType(commandType);
 		}
 
+		public virtual void useSkill(int skillid)
+		{
+			Dbg.DEBUG_MSG("useSkill:" + skillid);
+			TimeLineBase line = new TimeLineBase();
+			NodeBase NodeBase1 = new NodeBase(1);
+			line.addNode(NodeBase1);
+			NodeBase NodeBase2 = new NodeBase(2.5f);
+			line.addNode(NodeBase2);
+			NodeBase NodeBase3 = new NodeBase(5);
+			line.addNode(NodeBase3);
+			timeLineManager.addTimeLine(line);
+		}
 	}
 }

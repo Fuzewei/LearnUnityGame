@@ -203,7 +203,7 @@ public class MoveMotor : MonoBehaviour
 
     void OnAnimatorMove()
     {
-        Debug.Log("OnAnimatorMove:" + animator.speed + animator.velocity.magnitude);
+        //Debug.Log("OnAnimatorMove:" + animator.speed + animator.velocity.magnitude);
         currentMoveControler.tick(Time.deltaTime);
         currentMoveControler.UpdateMoveSpeed();
         if (isSyncSource)

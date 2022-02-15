@@ -25,11 +25,12 @@ namespace KBEngine
 
 		private static Dictionary<UInt32, timerHolder> id2Callback = new Dictionary<UInt32, timerHolder>();
 
-		public static void addTimer(Entity entity, float timeout, float interval, TimerCallback callback, params object[] args)
+		public static UInt32 addTimer(float timeout, float interval, TimerCallback callback, params object[] args)
 		{
 			UInt32 timeId = World.world._addTimer(timeout, interval);
 			timerHolder holder = new timerHolder(interval >= 0.001, callback, args);
 			id2Callback[timeId] = holder;
+			return timeId;
 		}
 		public static void cancelTimer(UInt32 timeId)
 		{
