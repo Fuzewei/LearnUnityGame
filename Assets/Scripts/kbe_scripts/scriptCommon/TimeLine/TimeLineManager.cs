@@ -49,9 +49,10 @@ namespace GameLogic
             }
             foreach (var item in delete)
             {
+                timeLines[item].onEnd();
                 timeLines.Remove(item);
             }
-            nextDelterTime = nextTimer();
+            nextDelterTime = getNextTimer();
             if (nextDelterTime < float.MaxValue)
             {
                 updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
@@ -63,7 +64,7 @@ namespace GameLogic
             return nodeUUid++;
         }
 
-        public float nextTimer()
+        public float getNextTimer()
         {
             float minDelter = float.MaxValue;
             foreach (var item in timeLines)

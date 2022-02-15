@@ -23,16 +23,16 @@ namespace KBEngine
 			public bool isForever;
 		}
 
-		private static Dictionary<UInt32, timerHolder> id2Callback = new Dictionary<UInt32, timerHolder>();
+		private static Dictionary<uint, timerHolder> id2Callback = new Dictionary<uint, timerHolder>();
 
-		public static UInt32 addTimer(float timeout, float interval, TimerCallback callback, params object[] args)
+		public static uint addTimer(float timeout, float interval, TimerCallback callback, params object[] args)
 		{
-			UInt32 timeId = World.world._addTimer(timeout, interval);
+			uint timeId = World.world._addTimer(timeout, interval);
 			timerHolder holder = new timerHolder(interval >= 0.001, callback, args);
 			id2Callback[timeId] = holder;
 			return timeId;
 		}
-		public static void cancelTimer(UInt32 timeId)
+		public static void cancelTimer(uint timeId)
 		{
 			timerHolder holder = null;
 			if (id2Callback.TryGetValue(timeId, out holder))
@@ -43,7 +43,7 @@ namespace KBEngine
 
 		}
 
-		public static void onTimer(UInt32 timeId)
+		public static void onTimer(uint timeId)
 		{
 			//Debug.Log(id2Callback.Count);
 			timerHolder holder = id2Callback[timeId];

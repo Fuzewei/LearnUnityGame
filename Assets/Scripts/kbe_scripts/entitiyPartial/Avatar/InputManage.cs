@@ -40,13 +40,9 @@
 		public virtual void useSkill(int skillid)
 		{
 			Dbg.DEBUG_MSG("useSkill:" + skillid);
-			TimeLineBase line = new TimeLineBase();
-			NodeBase NodeBase1 = new NodeBase(1);
+			skillTimeLine line = new skillTimeLine(this);
+			NodeBase NodeBase1 = new PlayerAnimationNode(1, "GreatSword_Attack01");
 			line.addNode(NodeBase1);
-			NodeBase NodeBase2 = new NodeBase(2.5f);
-			line.addNode(NodeBase2);
-			NodeBase NodeBase3 = new NodeBase(5);
-			line.addNode(NodeBase3);
 			timeLineManager.addTimeLine(line);
 		}
 	}

@@ -10,6 +10,7 @@ namespace GameLogic
         public float runTimeStamp;
         public float priority = 0;
         public int nodeId;
+        public TimeLineBase owneTimeLine;
         public NodeBase(float timeStamp)
         {
             this.runTimeStamp = timeStamp;

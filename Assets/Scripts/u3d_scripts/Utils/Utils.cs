@@ -29,6 +29,9 @@ namespace KBEngine
             Quaternion ans = Quaternion.Lerp(t_1, t_2, persentage);
             return ans.eulerAngles;
         }
+
     }
+
+
 
 }

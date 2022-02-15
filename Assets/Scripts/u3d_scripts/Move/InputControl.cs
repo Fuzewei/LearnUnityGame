@@ -80,8 +80,6 @@ public class InputControl : MonoBehaviour
         if (testKey)
         {
             KBEngine.Event.fireIn("useSkill", 1);
-
-            motor.animatorController.playerSkillAttackAnimatior(motor.animator, "GreatSword_Attack01");
         }
     }
 
