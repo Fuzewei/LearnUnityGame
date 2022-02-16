@@ -6,7 +6,7 @@ using UnityEditor.SceneManagement;
 
 public class EditorPanel
 {
-    [MenuItem("Tools/��Start������ʼPlay")]
+    [MenuItem("Tools/重新开始")]
     private static void rePlay()
     {
         if (EditorApplication.isPlaying)
