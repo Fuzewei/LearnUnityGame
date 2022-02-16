@@ -6,7 +6,7 @@ using UnityEditor.SceneManagement;
 
 public class EditorPanel
 {
-    [MenuItem("Tools/´ÓStart³¡¾°¿ªÊ¼Play")]
+    [MenuItem("Tools/ï¿½ï¿½Startï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼Play")]
     private static void rePlay()
     {
         if (EditorApplication.isPlaying)
@@ -32,6 +32,8 @@ public class EditorPanel
             EditorSceneManager.OpenScene("Assets/start.unity");
             EditorApplication.EnterPlaymode();
         }
+
+        
 
     }
     #endregion
