@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class World : MonoBehaviour 
+public partial class World : MonoBehaviour 
 {
 	public static World world = null;
 	private UnityEngine.GameObject terrain = null;
@@ -22,6 +22,7 @@ public class World : MonoBehaviour
 		Application.targetFrameRate = 120;
 		DontDestroyOnLoad(transform.gameObject);
 		world = this;
+		AwakeGameObjectManager();
 	}
 	 
 	// Use this for initialization
@@ -68,38 +69,7 @@ public class World : MonoBehaviour
 	void Update () 
 	{
 		createPlayer();
-		updateTimes();
-
-		if (Input.GetKeyUp(KeyCode.Space))
-        {
-			Debug.Log("KeyCode.Space");
-			KBEngine.Event.fireIn("jump");
-        }
-		else if (Input.GetMouseButton (0))     
-		{   
-			// 射线选择，攻击
-			if(Camera.main)
-			{
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);   
-				RaycastHit hit;   
-
-				if (Physics.Raycast(ray, out hit))     
-				{   
-					Debug.DrawLine (ray.origin, hit.point); 
-					UnityEngine.GameObject gameObj = hit.collider.gameObject;
-					if(gameObj.name.IndexOf("terrain") == -1)
-					{
-						string[] s = gameObj.name.Split(new char[]{'_' });
-						
-						if(s.Length > 0)
-						{
-							int targetEntityID = Convert.ToInt32(s[s.Length - 1]);
-							KBEngine.Event.fireIn("useTargetSkill", (Int32)1, (Int32)targetEntityID);	
-						}	
-					}
-				}  
-			}
-		}    
+		updateTimes();   
 	}
 	
 	public void addSpaceGeometryMapping(string respath)
