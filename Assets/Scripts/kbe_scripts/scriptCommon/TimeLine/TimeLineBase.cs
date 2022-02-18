@@ -87,6 +87,7 @@ namespace GameLogic
         public void addNode(NodeBase node)
         {
             node.owneTimeLine = this;
+            node.OnSetTimeLine();
             int i = 0;
             for (; i < nodesList.Count; i++)
             {

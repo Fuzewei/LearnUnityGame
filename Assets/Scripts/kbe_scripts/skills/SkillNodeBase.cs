@@ -9,8 +9,14 @@ namespace KBEngine
 {
     public class SkillNodeBase : NodeBase
     {
+        protected Avatar avatarOwner;
         public SkillNodeBase(float timeStamp) : base(timeStamp)
         {
+        }
+
+        public override void OnSetTimeLine()
+        {
+            avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar; ;
         }
     }
 }

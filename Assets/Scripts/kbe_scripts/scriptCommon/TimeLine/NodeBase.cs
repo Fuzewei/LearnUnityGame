@@ -25,6 +25,11 @@ namespace GameLogic
         {
             Debug.Log("NodeBase:OnDestory " + runTimeStamp + "   " + Utils.localTime());
         }
+
+        public virtual void OnSetTimeLine()
+        {
+            Debug.Log("NodeBase:OnSetTimeLine " + runTimeStamp + "   " + Utils.localTime());
+        }
     }
 
 }

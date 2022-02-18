@@ -42,7 +42,8 @@ public partial class World : MonoBehaviour
     {
         var uuid = getNewUUid();
         GameObject Prefab = (GameObject)Resources.Load(path);
-        GameObject obj = UnityEngine.Object.Instantiate(Prefab, Vector3.zero, Quaternion.identity) as GameObject;
+
+        GameObject obj = UnityEngine.Object.Instantiate(Prefab, new Vector3(-1, 0, 0), Quaternion.identity) as GameObject;
         GameobjectHolderBase _t = obj.GetComponent<GameobjectHolderBase>();
         _t.objId = uuid;
         _t.destoryTimestamp = destoryTimestamp;
