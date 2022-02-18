@@ -1,38 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
+using KBEngine.GameobjectHolder;
 using UnityEngine;
 
 namespace KBEngine.GameobjectHolder
 {
-
-    public class GameobjectHolderBase
+    public class AttackBoxArges : ObjectArgeBase
     {
-        public uint objId;
-        public GameObject obj;
-        public Type script;
-        public float destoryTimestamp = float.MaxValue;
-        public GameobjectHolderBase(uint _id, GameObject _obj)
-        {
-            objId = _id;
-            obj = _obj;
-        }
+        public uint type;
+        public GameEntity gameEntity;
+    }
+}
 
-        public void generate()
-        {
+public class AttackBox : GameobjectHolderBase
+{
 
-        }
+    void OnTriggerEnter(Collider other)
+    {
+        AttackBoxArges args = new AttackBoxArges();
+        args.type = 1;
+        args.gameEntity = other.GetComponent<GameEntity>();
+        notice(args); 
     }
 
-    public class AttackBox: GameobjectHolderBase
+    void OnTriggerExit(Collider other)
     {
-        public AttackBox(uint _id, GameObject _obj):base(_id, _obj)
-        {
-            script = typeof(BoxCollider);
-        }
-
+        AttackBoxArges args = new AttackBoxArges();
+        args.type = 2;
     }
-
 }

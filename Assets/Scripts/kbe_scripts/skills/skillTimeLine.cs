@@ -29,6 +29,10 @@ namespace KBEngine
         public override void onEnd()
         {
             Dbg.DEBUG_MSG("skillTimeLine:onEnd");
+            foreach (var item in nodesList)
+            {
+                item.OnDestory();
+            }
         }
     }
 }

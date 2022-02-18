@@ -69,7 +69,8 @@ public partial class World : MonoBehaviour
 	void Update () 
 	{
 		createPlayer();
-		updateTimes();   
+		updateTimes();
+		tickGameObjectManager();
 	}
 	
 	public void addSpaceGeometryMapping(string respath)

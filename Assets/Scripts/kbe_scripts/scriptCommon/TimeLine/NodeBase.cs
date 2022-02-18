@@ -18,7 +18,12 @@ namespace GameLogic
 
         public virtual void Run()
         {
-            Debug.Log("NodeBase: " + runTimeStamp +  "   "  + Utils.localTime());
+            Debug.Log("NodeBase: Run" + runTimeStamp +  "   "  + Utils.localTime());
+        }
+
+        public virtual void OnDestory()
+        {
+            Debug.Log("NodeBase:OnDestory " + runTimeStamp + "   " + Utils.localTime());
         }
     }
 
