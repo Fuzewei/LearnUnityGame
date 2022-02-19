@@ -14,13 +14,23 @@ namespace KBEngine
         {
         }
 
-        public override void Run()
+        public override void runP1()
         {
-            attackBoxId = World.world.createObject("Prefabs/Common/BoxTriger",Utils.localTime() + 0.3f );
+            attackBoxId = World.world.createObject("Prefabs/Common/BoxTriger",Utils.localTime() + 0.5f );
             GameobjectHolderBase obj = World.world.getObject(attackBoxId);
             World.world.addObjectCallback(attackBoxId, onAttack);
             World.world.setObjectParentToEntity(attackBoxId, avatarOwner.renderEntity);
 
+        }
+
+        public override void runP3()
+        {
+
+        }
+
+        public override void serverCall(object args)
+        {
+            
         }
 
         public override void OnDestory()
