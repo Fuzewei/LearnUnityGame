@@ -300,7 +300,7 @@ public class GameEntity : MonoBehaviour
 
 	public void palyerAnimation(string animationName)
 	{
-		moveMotor.animatorController.playerSkillAttackAnimatior(moveMotor.animator, "GreatSword_Attack01");
+		moveMotor.animatorController.playerSkillAttackAnimatior(moveMotor.animator, animationName);
 	}
 
 }

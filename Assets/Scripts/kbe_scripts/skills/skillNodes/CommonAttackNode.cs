@@ -47,7 +47,7 @@ namespace KBEngine
             }
             Avatar a = attackeEntity.logicEntity as Avatar;
             Dbg.DEBUG_MSG("CommonAttack:onAttack" + _r.type);
-            if (a.id != avatarOwner.id)
+            if (attackeEntity != avatarOwner.renderEntity)
             {
                 attackeEntity.palyerAnimation("BeGreatSword_Attack01");
             }
