@@ -61,6 +61,7 @@ public class MoveMotor : MonoBehaviour
     NormalRunControler runMove;
     NormalIdleControler idle;
     NormalJumpControler jump;
+    NormalUseSkillControler useSkill;
 
     public Vector3 globalmoveDirection
     {
@@ -195,6 +196,9 @@ public class MoveMotor : MonoBehaviour
                 break;
             case MoveConst.Jump:
                 ans = jump;
+                break;
+            case MoveConst.Skill:
+                ans = useSkill;
                 break;
         }
         return ans;

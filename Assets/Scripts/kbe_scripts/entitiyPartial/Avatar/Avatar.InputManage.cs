@@ -41,13 +41,13 @@
 		{
 			Dbg.DEBUG_MSG("useSkill:" + skillid);
 			skillTimeLine line = new skillTimeLine(this);
-			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "GreatSword_Attack01");
+			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
 			line.addNode(NodeBase1);
             NodeBase NodeBase2 = new CommonAttack(0.3f);
             line.addNode(NodeBase2);
             NodeBase NodeBase3 = new TimeLineEndNode(2.5f);
             line.addNode(NodeBase3);
-            timeLineManager.addTimeLine(line);
+            var uuid = timeLineManager.addTimeLine(line);
         }
 	}
 }

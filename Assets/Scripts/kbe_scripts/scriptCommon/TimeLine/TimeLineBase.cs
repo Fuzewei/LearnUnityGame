@@ -11,7 +11,7 @@ namespace GameLogic
         
         public float tickTimeStamp; // 上次tick时间
         public int nextIndex;    //下一个node的id
-        public float delterTimeStamp ;//相对开始的时间
+        public float delterTimeStamp ;//相对开始的时间（不考虑加速）
         protected List<NodeBase> nodesList ;
 
         public float speed ; //播放速度

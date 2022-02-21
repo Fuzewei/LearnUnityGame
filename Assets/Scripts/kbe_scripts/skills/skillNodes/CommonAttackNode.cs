@@ -33,6 +33,7 @@ namespace KBEngine
             
         }
 
+        //timeLine结束
         public override void OnDestory()
         {
             World.world.deleteObject(attackBoxId);
@@ -40,17 +41,11 @@ namespace KBEngine
         public void onAttack(ObjectArgeBase arge)
         {
             AttackBoxArges _r = arge as AttackBoxArges;
-            GameEntity attackeEntity = _r.gameEntity;
-            if (attackeEntity == null)
-            {
-                return;
-            }
-            Avatar a = attackeEntity.logicEntity as Avatar;
+            INT32 attackeEntityId = _r.entityId;
+           
+            var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
             Dbg.DEBUG_MSG("CommonAttack:onAttack" + _r.type);
-            if (attackeEntity != avatarOwner.renderEntity)
-            {
-                attackeEntity.palyerAnimation("BeGreatSword_Attack01");
-            }
+            entity.renderEntity.palyerAnimation("Attack.BeGreatSword_Attack01");
         }
 
 

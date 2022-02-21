@@ -71,7 +71,7 @@ namespace SwordMaster
         {
         }
 
-        override public void UpdateMoveSpeed() {
+        public override void UpdateMoveSpeed() {
             this.xzMoveSpeed = this.xzMoveSpeed - acc * deltaTime;
             this.xzMoveSpeed = Mathf.Max(this.xzMoveSpeed, 0);
             this.yMoveSpeed = -9.8f;
@@ -203,6 +203,48 @@ namespace SwordMaster
             Vector3 delta = this.xzMoveSpeed * deltaTime * montor.globalmoveDirection;
             delta.y += yMoveSpeed * Time.deltaTime;
             return delta;
+        }
+    }
+
+    //使用技能移动
+    class NormalUseSkillControler : MoveControlersBase
+    {
+        public NormalUseSkillControler(MoveMotor _montor) : base(_montor)
+        {
+
+        }
+        // skill的加速度
+        public float acc = 5.5f;
+        public override void UpdateMoveSpeed()
+        {
+            this.xzMoveSpeed = this.xzMoveSpeed - acc * deltaTime;
+            this.xzMoveSpeed = Mathf.Max(this.xzMoveSpeed, 0);
+            this.yMoveSpeed = -9.8f;
+        }
+
+        public override Vector3 calcuteDelterPosition()
+        {
+            Vector3 delta = montor.animator.deltaPosition;
+            delta.y += yMoveSpeed * Time.deltaTime;
+            return delta;
+        }
+    }
+
+    //被动移动的预表现
+    class NormalPreMove : MoveControlersBase
+    {
+        public NormalPreMove(MoveMotor _montor) : base(_montor)
+        {
+
+        }
+    }
+
+    //被动移动的实际表现
+    class NormalActuallyPreMove : MoveControlersBase
+    {
+        public NormalActuallyPreMove(MoveMotor _montor) : base(_montor)
+        {
+
         }
     }
 

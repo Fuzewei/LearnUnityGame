@@ -51,14 +51,14 @@ public class AnimatorController : StateMachineBehaviour
         inBattle = inBattleNew;
     }
 
-    public void playerSkillAttackAnimatior(Animator animator, string name,int index = 0, float offset = 0.0f)
+    public void playerSkillAttackAnimatior(Animator animator, string name, int index = 0, float fixTransDuration = 0.0f, float offset = 0.0f)
     {
-        StringBuilder MyStringBuilder = new StringBuilder("Base Layer.Skill.Attack.", 50);
+        StringBuilder MyStringBuilder = new StringBuilder("Base Layer.Skill.", 10);
         MyStringBuilder.Append(name);
         MyStringBuilder.Append(".");
         MyStringBuilder.Append(index);
         int clip = Animator.StringToHash(MyStringBuilder.ToString());
-        animator.CrossFadeInFixedTime(clip, 0.1f, 0, offset);
+        animator.CrossFadeInFixedTime(clip, fixTransDuration, 0, offset);
     }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -9,6 +9,7 @@ namespace KBEngine
             Run = 2,//ÅÜ
             Jump = 3,//Ìø
             Rush,//³å´Ì
+            Skill,//¼¼ÄÜ
 
         }
 
