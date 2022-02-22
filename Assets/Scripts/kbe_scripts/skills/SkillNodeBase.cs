@@ -41,7 +41,9 @@ namespace KBEngine
 
         public override void Run()
         {
-           switch (nodeType)
+            Dbg.DEBUG_MSG("SkillNodeBase.Run" + this.GetType().Name);
+
+            switch (nodeType)
            {
                case SkillNodeType.P1:
                     runP1();

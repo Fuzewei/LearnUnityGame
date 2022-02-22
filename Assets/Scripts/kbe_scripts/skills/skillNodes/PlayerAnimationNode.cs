@@ -14,10 +14,16 @@ namespace KBEngine
             animName = name;
         }
 
-        public override void Run()
+        public override void runP1()
         {
             Avatar a = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar;
             a.renderEntity.palyerAnimation(animName);
+
+        }
+
+        public override void runP3()
+        {
+
         }
     }
 }
