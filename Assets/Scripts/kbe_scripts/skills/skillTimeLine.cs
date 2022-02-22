@@ -21,9 +21,9 @@ namespace KBEngine
 
         }
 
-        public override void doTick()
+        public override void doTick(int index)
         {
-            nodesList[nextIndex].Run();
+            nodesList[index].Run();
         }
 
         public override void onEnd()

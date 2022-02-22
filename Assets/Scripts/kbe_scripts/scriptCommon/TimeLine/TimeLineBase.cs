@@ -10,7 +10,7 @@ namespace GameLogic
     {
         
         public float tickTimeStamp; // 上次tick时间
-        public int nextIndex;    //下一个node的id
+        private int nextIndex;    //下一个node的id
         public float delterTimeStamp ;//相对开始的时间（不考虑加速）
         protected List<NodeBase> nodesList ;
 
@@ -44,19 +44,21 @@ namespace GameLogic
         {
             float now = Utils.localTime();
             delterTimeStamp += (now - tickTimeStamp) * speed;
-            float diff = delterTimeStamp - getNextTimeStamp();
-            while (!isFinish() && diff + 0.05 >= 0)
+            tickTimeStamp = now;
+            while (tickCheck())
             {
-                doTick();
+                doTick(nextIndex);
                 nextIndex += 1;
             }
-            tickTimeStamp = now;
-
+        }
+        private bool tickCheck()
+        {
+            return !isFinish() && delterTimeStamp - getNextTimeStamp() + 0.01 >= 0;
         }
 
-        public virtual void doTick()
+        public virtual void doTick(int index)
         {
-            nodesList[nextIndex].Run();
+            nodesList[index].Run();
         }
 
         public virtual bool isFinish()
@@ -76,7 +78,7 @@ namespace GameLogic
 
         public float getNextDelterTime()
         {
-            float _t = nodesList[nextIndex].runTimeStamp - delterTimeStamp;
+            float _t = getNextTimeStamp() - delterTimeStamp;
             return _t / speed;
         }
 

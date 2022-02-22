@@ -29,7 +29,7 @@ public partial class World : MonoBehaviour
 	void Start () 
 	{
 		installEvents();
-		timers = new SortedDictionary<long, TimerHandle>();
+		timers = new SortedDictionary<uint, TimerHandle>();
 	}
 
 	void installEvents()
@@ -354,7 +354,7 @@ public partial class World : MonoBehaviour
 		List<uint> passKeys = new List<uint>();
 		foreach (var item in timers)
 		{
-			if (item.Value.nextTimeStamp <= now)
+			if (item.Value.nextTimeStamp <= now + 0.01f)
 			{
 				passKeys.Add(item.Key);
 			}
