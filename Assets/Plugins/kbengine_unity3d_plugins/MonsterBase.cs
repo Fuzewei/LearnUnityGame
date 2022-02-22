@@ -51,6 +51,7 @@ namespace KBEngine
 		public virtual void onUtypeChanged(UInt32 oldValue) {}
 
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
+		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
 
 		public MonsterBase()
 		{
@@ -142,12 +143,18 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 39:
+				case 44:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
+					break;
+				case 45:
+					UInt32 skillNodeCallClient_arg1 = stream.readUint32();
+					Int32 skillNodeCallClient_arg2 = stream.readInt32();
+					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
+					skillNodeCallClient(skillNodeCallClient_arg1, skillNodeCallClient_arg2, skillNodeCallClient_arg3);
 					break;
 				default:
 					break;

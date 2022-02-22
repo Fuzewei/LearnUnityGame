@@ -25,7 +25,7 @@ namespace KBEngine
             avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar; ;
         }
 
-        public virtual void serverCall(object args)
+        public virtual void serverCall(TABLE args)
         {
 
         }

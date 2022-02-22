@@ -43,6 +43,17 @@ namespace KBEngine
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
+		public void clientRequestUseSkill(UInt32 arg1, Int32 arg2)
+		{
+			Bundle pBundle = newCall("clientRequestUseSkill", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeUint32(arg1);
+			bundle.writeInt32(arg2);
+			sendCall(null);
+		}
+
 		public void dialog(Int32 arg1, UInt32 arg2)
 		{
 			Bundle pBundle = newCall("dialog", 0);
@@ -89,6 +100,18 @@ namespace KBEngine
 				return;
 
 			bundle.writeUint8(arg1);
+			sendCall(null);
+		}
+
+		public void skillNodeCallServer(UInt32 arg1, Int32 arg2, TABLE arg3)
+		{
+			Bundle pBundle = newCall("skillNodeCallServer", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeUint32(arg1);
+			bundle.writeInt32(arg2);
+			((DATATYPE_TABLE)EntityDef.id2datatypes[33]).addToStreamEx(bundle, arg3);
 			sendCall(null);
 		}
 

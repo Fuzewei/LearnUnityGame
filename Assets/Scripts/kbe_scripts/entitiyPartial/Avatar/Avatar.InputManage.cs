@@ -8,12 +8,10 @@
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
 		private bool settedInBattle;
-		private TimeLineManager timeLineManager;
 
 		private void __init__InputManage()
 		{
 			settedInBattle = Convert.ToBoolean(inBattle);
-			timeLineManager = new TimeLineManager();
 			Event.registerIn("inputSwitchBattle", this, "inputSwitchBattle");//切换战斗
 			Event.registerIn("inputCommand", this, "inputCommand");//移动指令通知
 			Event.registerIn("useSkill", this, "useSkill");//使用技能
@@ -40,14 +38,7 @@
 		public virtual void useSkill(int skillid)
 		{
 			Dbg.DEBUG_MSG("useSkill:" + skillid);
-			skillTimeLine line = new skillTimeLine(this);
-			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
-			line.addNode(NodeBase1);
-            NodeBase NodeBase2 = new CommonAttack(0.3f);
-            line.addNode(NodeBase2);
-            NodeBase NodeBase3 = new TimeLineEndNode(2.5f);
-            line.addNode(NodeBase3);
-            var uuid = timeLineManager.addTimeLine(line);
+			requestUseSkill(skillid);
         }
 	}
 }

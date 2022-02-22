@@ -34,5 +34,21 @@ namespace KBEngine
                 item.OnDestory();
             }
         }
+        public void callServer(uint nodeId, TABLE arg)
+        {
+            Dbg.DEBUG_MSG("skillTimeLine:callServer");
+            Avatar avatar = ownerEntity as Avatar;
+            if (avatar!= null)
+            {
+                avatar.cellEntityCall.skillNodeCallServer(uuid, (int)nodeId, arg);
+            }
+        }
+
+        public void callFromServer(int nodeId, TABLE arg)
+        {
+            SkillNodeBase node = nodesList[nodeId] as SkillNodeBase;
+            node.serverCall(arg);
+        }
+
     }
 }

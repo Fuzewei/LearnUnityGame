@@ -18,8 +18,9 @@ public class AttackBox : GameobjectHolderBase
     void OnTriggerEnter(Collider other)
     {
         AttackBoxArges args = new AttackBoxArges();
+        GameEntity ownerEntity = gameObject.GetComponentInParent<GameEntity>();
         args.type = 1;
-        if (other.gameObject != gameObject)
+        if (ownerEntity != null && other.gameObject != ownerEntity.gameObject)
         {
             var showEntity = other.GetComponent<GameEntity>();
             var avatar = showEntity.logicEntity as KBEngine.Avatar;

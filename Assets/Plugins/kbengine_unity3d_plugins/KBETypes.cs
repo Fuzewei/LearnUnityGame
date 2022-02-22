@@ -930,6 +930,43 @@ namespace KBEngine
 		}
 	}
 
+	public struct SKILLNODEID
+	{
+		Int32 value;
+
+		SKILLNODEID(Int32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator Int32(SKILLNODEID value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator SKILLNODEID(Int32 value)
+		{
+			Int32 tvalue = (Int32)value;
+			return new SKILLNODEID(tvalue);
+		}
+
+		public static Int32 MaxValue
+		{
+			get
+			{
+				return Int32.MaxValue;
+			}
+		}
+
+		public static Int32 MinValue
+		{
+			get
+			{
+				return Int32.MinValue;
+			}
+		}
+	}
+
 	public struct QUESTID
 	{
 		Int32 value;
@@ -1000,6 +1037,43 @@ namespace KBEngine
 			get
 			{
 				return UInt64.MinValue;
+			}
+		}
+	}
+
+	public struct UUID
+	{
+		UInt32 value;
+
+		UUID(UInt32 value)
+		{
+			this.value = value;
+		}
+
+		public static implicit operator UInt32(UUID value)
+		{
+			return value.value;
+		}
+
+		public static implicit operator UUID(UInt32 value)
+		{
+			UInt32 tvalue = (UInt32)value;
+			return new UUID(tvalue);
+		}
+
+		public static UInt32 MaxValue
+		{
+			get
+			{
+				return UInt32.MaxValue;
+			}
+		}
+
+		public static UInt32 MinValue
+		{
+			get
+			{
+				return UInt32.MinValue;
 			}
 		}
 	}
@@ -1678,6 +1752,14 @@ namespace KBEngine
 	public class MOVE_INFOS
 	{
 		public Vector3 tarPostion = new Vector3(0f, 0f, 0f);
+
+	}
+
+	public class TABLE
+	{
+		public Byte dictOrlist = 0;
+		public List<UInt16> keys = new List<UInt16>();
+		public List<Int32> values = new List<Int32>();
 
 	}
 

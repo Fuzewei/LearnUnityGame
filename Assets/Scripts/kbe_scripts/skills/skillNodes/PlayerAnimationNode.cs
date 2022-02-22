@@ -23,7 +23,7 @@ namespace KBEngine
 
         public override void runP3()
         {
-
+            runP1();
         }
     }
 }

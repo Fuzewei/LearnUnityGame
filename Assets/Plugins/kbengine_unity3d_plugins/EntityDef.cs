@@ -647,7 +647,7 @@ namespace KBEngine
 
 			Method pAvatar_confirmMoveTimeStamp = new Method();
 			pAvatar_confirmMoveTimeStamp.name = "confirmMoveTimeStamp";
-			pAvatar_confirmMoveTimeStamp.methodUtype = 29;
+			pAvatar_confirmMoveTimeStamp.methodUtype = 32;
 			pAvatar_confirmMoveTimeStamp.aliasID = 1;
 			pAvatar_confirmMoveTimeStamp.args = pAvatar_confirmMoveTimeStamp_args;
 
@@ -655,7 +655,7 @@ namespace KBEngine
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_confirmMoveTimeStamp.aliasID] = pAvatar_confirmMoveTimeStamp;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(confirmMoveTimeStamp / 29).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(confirmMoveTimeStamp / 32).");
 
 			List<DATATYPE_BASE> pAvatar_dialog_addOption_args = new List<DATATYPE_BASE>();
 			pAvatar_dialog_addOption_args.Add(EntityDef.id2datatypes[2]);
@@ -759,7 +759,7 @@ namespace KBEngine
 
 			Method pAvatar_recvDamage = new Method();
 			pAvatar_recvDamage.name = "recvDamage";
-			pAvatar_recvDamage.methodUtype = 17;
+			pAvatar_recvDamage.methodUtype = 19;
 			pAvatar_recvDamage.aliasID = 8;
 			pAvatar_recvDamage.args = pAvatar_recvDamage_args;
 
@@ -767,7 +767,41 @@ namespace KBEngine
 			pAvatarModule.useMethodDescrAlias = true;
 			pAvatarModule.idmethods[(UInt16)pAvatar_recvDamage.aliasID] = pAvatar_recvDamage;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(recvDamage / 17).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(recvDamage / 19).");
+
+			List<DATATYPE_BASE> pAvatar_skillNodeCallClient_args = new List<DATATYPE_BASE>();
+			pAvatar_skillNodeCallClient_args.Add(EntityDef.id2datatypes[4]);
+			pAvatar_skillNodeCallClient_args.Add(EntityDef.id2datatypes[8]);
+			pAvatar_skillNodeCallClient_args.Add(EntityDef.id2datatypes[33]);
+
+			Method pAvatar_skillNodeCallClient = new Method();
+			pAvatar_skillNodeCallClient.name = "skillNodeCallClient";
+			pAvatar_skillNodeCallClient.methodUtype = 20;
+			pAvatar_skillNodeCallClient.aliasID = 9;
+			pAvatar_skillNodeCallClient.args = pAvatar_skillNodeCallClient_args;
+
+			pAvatarModule.methods["skillNodeCallClient"] = pAvatar_skillNodeCallClient; 
+			pAvatarModule.useMethodDescrAlias = true;
+			pAvatarModule.idmethods[(UInt16)pAvatar_skillNodeCallClient.aliasID] = pAvatar_skillNodeCallClient;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(skillNodeCallClient / 20).");
+
+			List<DATATYPE_BASE> pAvatar_clientRequestUseSkill_args = new List<DATATYPE_BASE>();
+			pAvatar_clientRequestUseSkill_args.Add(EntityDef.id2datatypes[4]);
+			pAvatar_clientRequestUseSkill_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pAvatar_clientRequestUseSkill = new Method();
+			pAvatar_clientRequestUseSkill.name = "clientRequestUseSkill";
+			pAvatar_clientRequestUseSkill.methodUtype = 15;
+			pAvatar_clientRequestUseSkill.aliasID = -1;
+			pAvatar_clientRequestUseSkill.args = pAvatar_clientRequestUseSkill_args;
+
+			pAvatarModule.methods["clientRequestUseSkill"] = pAvatar_clientRequestUseSkill; 
+			pAvatarModule.cell_methods["clientRequestUseSkill"] = pAvatar_clientRequestUseSkill;
+
+			pAvatarModule.idcell_methods[pAvatar_clientRequestUseSkill.methodUtype] = pAvatar_clientRequestUseSkill;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(clientRequestUseSkill / 15).");
 
 			List<DATATYPE_BASE> pAvatar_dialog_args = new List<DATATYPE_BASE>();
 			pAvatar_dialog_args.Add(EntityDef.id2datatypes[8]);
@@ -848,6 +882,24 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(setInBattle / 14).");
 
+			List<DATATYPE_BASE> pAvatar_skillNodeCallServer_args = new List<DATATYPE_BASE>();
+			pAvatar_skillNodeCallServer_args.Add(EntityDef.id2datatypes[4]);
+			pAvatar_skillNodeCallServer_args.Add(EntityDef.id2datatypes[8]);
+			pAvatar_skillNodeCallServer_args.Add(EntityDef.id2datatypes[33]);
+
+			Method pAvatar_skillNodeCallServer = new Method();
+			pAvatar_skillNodeCallServer.name = "skillNodeCallServer";
+			pAvatar_skillNodeCallServer.methodUtype = 16;
+			pAvatar_skillNodeCallServer.aliasID = -1;
+			pAvatar_skillNodeCallServer.args = pAvatar_skillNodeCallServer_args;
+
+			pAvatarModule.methods["skillNodeCallServer"] = pAvatar_skillNodeCallServer; 
+			pAvatarModule.cell_methods["skillNodeCallServer"] = pAvatar_skillNodeCallServer;
+
+			pAvatarModule.idcell_methods[pAvatar_skillNodeCallServer.methodUtype] = pAvatar_skillNodeCallServer;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(skillNodeCallServer / 16).");
+
 			List<DATATYPE_BASE> pAvatar_updateAvatarMoveState_args = new List<DATATYPE_BASE>();
 			pAvatar_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[13]);
 			pAvatar_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[4]);
@@ -858,7 +910,7 @@ namespace KBEngine
 
 			Method pAvatar_updateAvatarMoveState = new Method();
 			pAvatar_updateAvatarMoveState.name = "updateAvatarMoveState";
-			pAvatar_updateAvatarMoveState.methodUtype = 28;
+			pAvatar_updateAvatarMoveState.methodUtype = 31;
 			pAvatar_updateAvatarMoveState.aliasID = -1;
 			pAvatar_updateAvatarMoveState.args = pAvatar_updateAvatarMoveState_args;
 
@@ -867,7 +919,7 @@ namespace KBEngine
 
 			pAvatarModule.idcell_methods[pAvatar_updateAvatarMoveState.methodUtype] = pAvatar_updateAvatarMoveState;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(updateAvatarMoveState / 28).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(updateAvatarMoveState / 31).");
 
 			List<DATATYPE_BASE> pAvatar_updatePosition_args = new List<DATATYPE_BASE>();
 			pAvatar_updatePosition_args.Add(EntityDef.id2datatypes[13]);
@@ -877,7 +929,7 @@ namespace KBEngine
 
 			Method pAvatar_updatePosition = new Method();
 			pAvatar_updatePosition.name = "updatePosition";
-			pAvatar_updatePosition.methodUtype = 27;
+			pAvatar_updatePosition.methodUtype = 30;
 			pAvatar_updatePosition.aliasID = -1;
 			pAvatar_updatePosition.args = pAvatar_updatePosition_args;
 
@@ -886,7 +938,7 @@ namespace KBEngine
 
 			pAvatarModule.idcell_methods[pAvatar_updatePosition.methodUtype] = pAvatar_updatePosition;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(updatePosition / 27).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), method(updatePosition / 30).");
 
 			List<DATATYPE_BASE> pAvatar_useTargetSkill_args = new List<DATATYPE_BASE>();
 			pAvatar_useTargetSkill_args.Add(EntityDef.id2datatypes[8]);
@@ -987,7 +1039,7 @@ namespace KBEngine
 
 			Method pTest_helloCB = new Method();
 			pTest_helloCB.name = "helloCB";
-			pTest_helloCB.methodUtype = 32;
+			pTest_helloCB.methodUtype = 35;
 			pTest_helloCB.aliasID = 1;
 			pTest_helloCB.args = pTest_helloCB_args;
 
@@ -995,14 +1047,14 @@ namespace KBEngine
 			pTestModule.useMethodDescrAlias = true;
 			pTestModule.idmethods[(UInt16)pTest_helloCB.aliasID] = pTest_helloCB;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(helloCB / 32).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(helloCB / 35).");
 
 			List<DATATYPE_BASE> pTest_say_args = new List<DATATYPE_BASE>();
 			pTest_say_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pTest_say = new Method();
 			pTest_say.name = "say";
-			pTest_say.methodUtype = 31;
+			pTest_say.methodUtype = 34;
 			pTest_say.aliasID = -1;
 			pTest_say.args = pTest_say_args;
 
@@ -1011,14 +1063,14 @@ namespace KBEngine
 
 			pTestModule.idbase_methods[pTest_say.methodUtype] = pTest_say;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(say / 31).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(say / 34).");
 
 			List<DATATYPE_BASE> pTest_hello_args = new List<DATATYPE_BASE>();
 			pTest_hello_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pTest_hello = new Method();
 			pTest_hello.name = "hello";
-			pTest_hello.methodUtype = 30;
+			pTest_hello.methodUtype = 33;
 			pTest_hello.aliasID = -1;
 			pTest_hello.args = pTest_hello_args;
 
@@ -1027,7 +1079,7 @@ namespace KBEngine
 
 			pTestModule.idcell_methods[pTest_hello.methodUtype] = pTest_hello;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(hello / 30).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), method(hello / 33).");
 
 			ScriptModule pTestNoBaseModule = new ScriptModule("TestNoBase");
 			EntityDef.moduledefs["TestNoBase"] = pTestNoBaseModule;
@@ -1111,7 +1163,7 @@ namespace KBEngine
 
 			Method pTestNoBase_helloCB = new Method();
 			pTestNoBase_helloCB.name = "helloCB";
-			pTestNoBase_helloCB.methodUtype = 34;
+			pTestNoBase_helloCB.methodUtype = 37;
 			pTestNoBase_helloCB.aliasID = 1;
 			pTestNoBase_helloCB.args = pTestNoBase_helloCB_args;
 
@@ -1119,14 +1171,14 @@ namespace KBEngine
 			pTestNoBaseModule.useMethodDescrAlias = true;
 			pTestNoBaseModule.idmethods[(UInt16)pTestNoBase_helloCB.aliasID] = pTestNoBase_helloCB;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), method(helloCB / 34).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), method(helloCB / 37).");
 
 			List<DATATYPE_BASE> pTestNoBase_hello_args = new List<DATATYPE_BASE>();
 			pTestNoBase_hello_args.Add(EntityDef.id2datatypes[8]);
 
 			Method pTestNoBase_hello = new Method();
 			pTestNoBase_hello.name = "hello";
-			pTestNoBase_hello.methodUtype = 33;
+			pTestNoBase_hello.methodUtype = 36;
 			pTestNoBase_hello.aliasID = -1;
 			pTestNoBase_hello.args = pTestNoBase_hello_args;
 
@@ -1135,7 +1187,7 @@ namespace KBEngine
 
 			pTestNoBaseModule.idcell_methods[pTestNoBase_hello.methodUtype] = pTestNoBase_hello;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), method(hello / 33).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), method(hello / 36).");
 
 			ScriptModule pMonsterModule = new ScriptModule("Monster");
 			EntityDef.moduledefs["Monster"] = pMonsterModule;
@@ -1416,7 +1468,7 @@ namespace KBEngine
 
 			Method pMonster_recvDamage = new Method();
 			pMonster_recvDamage.name = "recvDamage";
-			pMonster_recvDamage.methodUtype = 39;
+			pMonster_recvDamage.methodUtype = 44;
 			pMonster_recvDamage.aliasID = 1;
 			pMonster_recvDamage.args = pMonster_recvDamage_args;
 
@@ -1424,14 +1476,48 @@ namespace KBEngine
 			pMonsterModule.useMethodDescrAlias = true;
 			pMonsterModule.idmethods[(UInt16)pMonster_recvDamage.aliasID] = pMonster_recvDamage;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(recvDamage / 39).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(recvDamage / 44).");
+
+			List<DATATYPE_BASE> pMonster_skillNodeCallClient_args = new List<DATATYPE_BASE>();
+			pMonster_skillNodeCallClient_args.Add(EntityDef.id2datatypes[4]);
+			pMonster_skillNodeCallClient_args.Add(EntityDef.id2datatypes[8]);
+			pMonster_skillNodeCallClient_args.Add(EntityDef.id2datatypes[33]);
+
+			Method pMonster_skillNodeCallClient = new Method();
+			pMonster_skillNodeCallClient.name = "skillNodeCallClient";
+			pMonster_skillNodeCallClient.methodUtype = 45;
+			pMonster_skillNodeCallClient.aliasID = 2;
+			pMonster_skillNodeCallClient.args = pMonster_skillNodeCallClient_args;
+
+			pMonsterModule.methods["skillNodeCallClient"] = pMonster_skillNodeCallClient; 
+			pMonsterModule.useMethodDescrAlias = true;
+			pMonsterModule.idmethods[(UInt16)pMonster_skillNodeCallClient.aliasID] = pMonster_skillNodeCallClient;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(skillNodeCallClient / 45).");
+
+			List<DATATYPE_BASE> pMonster_clientRequestUseSkill_args = new List<DATATYPE_BASE>();
+			pMonster_clientRequestUseSkill_args.Add(EntityDef.id2datatypes[4]);
+			pMonster_clientRequestUseSkill_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pMonster_clientRequestUseSkill = new Method();
+			pMonster_clientRequestUseSkill.name = "clientRequestUseSkill";
+			pMonster_clientRequestUseSkill.methodUtype = 40;
+			pMonster_clientRequestUseSkill.aliasID = -1;
+			pMonster_clientRequestUseSkill.args = pMonster_clientRequestUseSkill_args;
+
+			pMonsterModule.methods["clientRequestUseSkill"] = pMonster_clientRequestUseSkill; 
+			pMonsterModule.cell_methods["clientRequestUseSkill"] = pMonster_clientRequestUseSkill;
+
+			pMonsterModule.idcell_methods[pMonster_clientRequestUseSkill.methodUtype] = pMonster_clientRequestUseSkill;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(clientRequestUseSkill / 40).");
 
 			List<DATATYPE_BASE> pMonster_setInBattle_args = new List<DATATYPE_BASE>();
 			pMonster_setInBattle_args.Add(EntityDef.id2datatypes[2]);
 
 			Method pMonster_setInBattle = new Method();
 			pMonster_setInBattle.name = "setInBattle";
-			pMonster_setInBattle.methodUtype = 36;
+			pMonster_setInBattle.methodUtype = 39;
 			pMonster_setInBattle.aliasID = -1;
 			pMonster_setInBattle.args = pMonster_setInBattle_args;
 
@@ -1440,7 +1526,25 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_setInBattle.methodUtype] = pMonster_setInBattle;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setInBattle / 36).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setInBattle / 39).");
+
+			List<DATATYPE_BASE> pMonster_skillNodeCallServer_args = new List<DATATYPE_BASE>();
+			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[4]);
+			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[8]);
+			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[33]);
+
+			Method pMonster_skillNodeCallServer = new Method();
+			pMonster_skillNodeCallServer.name = "skillNodeCallServer";
+			pMonster_skillNodeCallServer.methodUtype = 41;
+			pMonster_skillNodeCallServer.aliasID = -1;
+			pMonster_skillNodeCallServer.args = pMonster_skillNodeCallServer_args;
+
+			pMonsterModule.methods["skillNodeCallServer"] = pMonster_skillNodeCallServer; 
+			pMonsterModule.cell_methods["skillNodeCallServer"] = pMonster_skillNodeCallServer;
+
+			pMonsterModule.idcell_methods[pMonster_skillNodeCallServer.methodUtype] = pMonster_skillNodeCallServer;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(skillNodeCallServer / 41).");
 
 			ScriptModule pNPCModule = new ScriptModule("NPC");
 			EntityDef.moduledefs["NPC"] = pNPCModule;
@@ -2040,31 +2144,9 @@ namespace KBEngine
 
 			{
 				UInt16 utype = 33;
-				string typeName = "AnonymousArray_33";
-				DATATYPE_AnonymousArray_33 datatype = new DATATYPE_AnonymousArray_33();
+				string typeName = "TABLE";
+				DATATYPE_TABLE datatype = new DATATYPE_TABLE();
 				EntityDef.datatypes[typeName] = datatype;
-				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
-				EntityDef.datatype2id[typeName] = utype;
-			}
-
-			{
-				UInt16 utype = 34;
-				string typeName = "AnonymousArray_34";
-				string name = "ENTITY_COMPONENT";
-				DATATYPE_BASE val = null;
-				EntityDef.datatypes.TryGetValue(name, out val);
-				EntityDef.datatypes[typeName] = val;
-				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
-				EntityDef.datatype2id[typeName] = utype;
-			}
-
-			{
-				UInt16 utype = 35;
-				string typeName = "AnonymousArray_35";
-				string name = "ENTITY_COMPONENT";
-				DATATYPE_BASE val = null;
-				EntityDef.datatypes.TryGetValue(name, out val);
-				EntityDef.datatypes[typeName] = val;
 				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
 				EntityDef.datatype2id[typeName] = utype;
 			}
@@ -2072,6 +2154,37 @@ namespace KBEngine
 			{
 				UInt16 utype = 36;
 				string typeName = "AnonymousArray_36";
+				DATATYPE_AnonymousArray_36 datatype = new DATATYPE_AnonymousArray_36();
+				EntityDef.datatypes[typeName] = datatype;
+				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
+				EntityDef.datatype2id[typeName] = utype;
+			}
+
+			{
+				UInt16 utype = 37;
+				string typeName = "AnonymousArray_37";
+				string name = "ENTITY_COMPONENT";
+				DATATYPE_BASE val = null;
+				EntityDef.datatypes.TryGetValue(name, out val);
+				EntityDef.datatypes[typeName] = val;
+				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
+				EntityDef.datatype2id[typeName] = utype;
+			}
+
+			{
+				UInt16 utype = 38;
+				string typeName = "AnonymousArray_38";
+				string name = "ENTITY_COMPONENT";
+				DATATYPE_BASE val = null;
+				EntityDef.datatypes.TryGetValue(name, out val);
+				EntityDef.datatypes[typeName] = val;
+				EntityDef.id2datatypes[utype] = EntityDef.datatypes[typeName];
+				EntityDef.datatype2id[typeName] = utype;
+			}
+
+			{
+				UInt16 utype = 39;
+				string typeName = "AnonymousArray_39";
 				string name = "ENTITY_COMPONENT";
 				DATATYPE_BASE val = null;
 				EntityDef.datatypes.TryGetValue(name, out val);

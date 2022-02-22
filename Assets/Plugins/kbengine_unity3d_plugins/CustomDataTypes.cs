@@ -270,7 +270,84 @@ namespace KBEngine
 
 
 
-	public class DATATYPE_AnonymousArray_33 : DATATYPE_BASE
+	public class DATATYPE_TABLE : DATATYPE_BASE
+	{
+		private DATATYPE__TABLE_keys_ArrayType_ChildArray keys_DataType = new DATATYPE__TABLE_keys_ArrayType_ChildArray();
+
+		public class DATATYPE__TABLE_keys_ArrayType_ChildArray : DATATYPE_BASE
+		{
+			public List<UInt16> createFromStreamEx(MemoryStream stream)
+			{
+				UInt32 size = stream.readUint32();
+				List<UInt16> datas = new List<UInt16>();
+
+				while(size > 0)
+				{
+					--size;
+					datas.Add(stream.readUint16());
+				};
+
+				return datas;
+			}
+
+			public void addToStreamEx(Bundle stream, List<UInt16> v)
+			{
+				stream.writeUint32((UInt32)v.Count);
+				for(int i=0; i<v.Count; ++i)
+				{
+					stream.writeUint16(v[i]);
+				};
+			}
+		}
+
+		private DATATYPE__TABLE_values_ArrayType_ChildArray values_DataType = new DATATYPE__TABLE_values_ArrayType_ChildArray();
+
+		public class DATATYPE__TABLE_values_ArrayType_ChildArray : DATATYPE_BASE
+		{
+			public List<Int32> createFromStreamEx(MemoryStream stream)
+			{
+				UInt32 size = stream.readUint32();
+				List<Int32> datas = new List<Int32>();
+
+				while(size > 0)
+				{
+					--size;
+					datas.Add(stream.readInt32());
+				};
+
+				return datas;
+			}
+
+			public void addToStreamEx(Bundle stream, List<Int32> v)
+			{
+				stream.writeUint32((UInt32)v.Count);
+				for(int i=0; i<v.Count; ++i)
+				{
+					stream.writeInt32(v[i]);
+				};
+			}
+		}
+
+		public TABLE createFromStreamEx(MemoryStream stream)
+		{
+			TABLE datas = new TABLE();
+			datas.dictOrlist = stream.readUint8();
+			datas.keys = keys_DataType.createFromStreamEx(stream);
+			datas.values = values_DataType.createFromStreamEx(stream);
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, TABLE v)
+		{
+			stream.writeUint8(v.dictOrlist);
+			keys_DataType.addToStreamEx(stream, v.keys);
+			values_DataType.addToStreamEx(stream, v.values);
+		}
+	}
+
+
+
+	public class DATATYPE_AnonymousArray_36 : DATATYPE_BASE
 	{
 		public List<Int32> createFromStreamEx(MemoryStream stream)
 		{

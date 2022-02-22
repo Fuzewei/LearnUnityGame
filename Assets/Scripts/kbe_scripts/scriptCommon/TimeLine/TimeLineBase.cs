@@ -8,7 +8,7 @@ namespace GameLogic
 
     public class TimeLineBase
     {
-        
+        public uint uuid;
         public float tickTimeStamp; // 上次tick时间
         private int nextIndex;    //下一个node的id
         public float delterTimeStamp ;//相对开始的时间（不考虑加速）

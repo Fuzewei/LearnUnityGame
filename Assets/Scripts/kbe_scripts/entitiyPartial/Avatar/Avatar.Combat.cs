@@ -1,0 +1,55 @@
+﻿namespace KBEngine
+{
+	using GameLogic;
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using Const;
+	public partial class Avatar : AvatarBase, IServerEntity
+	{
+		private TimeLineManager timeLineManager;
+		private void __init__Combat()
+		{
+
+			timeLineManager = new TimeLineManager();
+
+		}
+
+		public override void onInBattleChanged(Byte oldValue)
+		{
+			
+		}
+
+		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
+		{
+			// Dbg.DEBUG_MSG(className + "::recvDamage: attackerID=" + attackerID + ", skillID=" + skillID + ", damageType=" + damageType + ", damage=" + damage);
+			Entity entity = KBEngineApp.app.findEntity(attackerID);
+
+			Event.fireOut("recvDamage", new object[] { this, entity, skillID, damageType, damage });
+		}
+
+		public override void skillNodeCallClient(UInt32 uuid, Int32 nodeId, TABLE args)
+		{
+			var timeLine = timeLineManager.getTimeLine(uuid);
+            if (timeLine != null)
+            {
+				((skillTimeLine)timeLine).callFromServer(nodeId, args);
+			}
+		}
+
+		public void requestUseSkill(int skillid)
+		{
+			skillTimeLine line = new skillTimeLine(this);
+			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
+			line.addNode(NodeBase1);
+			NodeBase NodeBase2 = new CommonAttack(0.3f);
+			line.addNode(NodeBase2);
+			NodeBase NodeBase3 = new TimeLineEndNode(2.5f);
+			line.addNode(NodeBase3);
+			var uuid = timeLineManager.addTimeLine(line);
+			cellEntityCall.clientRequestUseSkill(uuid, skillid);
+		}
+
+
+	}
+}

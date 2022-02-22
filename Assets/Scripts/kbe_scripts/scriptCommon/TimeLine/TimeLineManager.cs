@@ -5,9 +5,9 @@ namespace GameLogic
 {
     public class TimeLineManager
     {
-        private int nodeUUid = 0;
-        private Dictionary<int, TimeLineBase> timeLines = new Dictionary<int, TimeLineBase>();
-        private Dictionary<int, Dictionary<int, object>> timeLinesData = new Dictionary<int, Dictionary<int, object>>();
+        private uint nodeUUid = 0;
+        private Dictionary<uint, TimeLineBase> timeLines = new Dictionary<uint, TimeLineBase>();
+        private Dictionary<uint, Dictionary<int, object>> timeLinesData = new Dictionary<uint, Dictionary<int, object>>();
 
         private float nextDelterTime = float.MaxValue;
         private uint updateTimerId = 0;
@@ -15,9 +15,10 @@ namespace GameLogic
         public TimeLineManager()
         { }
 
-        public int addTimeLine(TimeLineBase timeLine)
+        public uint addTimeLine(TimeLineBase timeLine)
         {
-            int _id = getUUid();
+            uint _id = getUUid();
+            timeLine.uuid = _id;
             timeLine.setManager(this);
             timeLine.start();
             timeLines.Add(_id, timeLine);
@@ -35,10 +36,21 @@ namespace GameLogic
             return _id;
         }
 
+        public TimeLineBase getTimeLine(uint uuid)
+        {
+            TimeLineBase ans;
+            if (timeLines.TryGetValue(uuid, out ans))
+            {
+                return ans;
+            }
+            else
+                return null;       
+        }
+
         public void onTime(params object[] args)
         {
             updateTimerId = 0;
-            List<int> delete = new List<int>();
+            List<uint> delete = new List<uint>();
             foreach (var item in timeLines)
             {
                 item.Value.tick();
@@ -59,7 +71,7 @@ namespace GameLogic
             }
         }
 
-        public int getUUid()
+        public uint getUUid()
         {
             return nodeUUid++;
         }

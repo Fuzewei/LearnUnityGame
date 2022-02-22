@@ -74,5 +74,11 @@ namespace KBEngine
 			Event.fireOut("set_modelID", new object[]{this, modelID});
 		}
 
-    }
+		//后面要重构的
+		public override void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3)
+		{
+
+		}
+
+	}
 } 
