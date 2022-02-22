@@ -44,7 +44,8 @@ namespace GameLogic
         {
             float now = Utils.localTime();
             delterTimeStamp += (now - tickTimeStamp) * speed;
-            while (!isFinish() && delterTimeStamp >= getNextTimeStamp())
+            float diff = delterTimeStamp - getNextTimeStamp();
+            while (!isFinish() && diff + 0.05 >= 0)
             {
                 doTick();
                 nextIndex += 1;

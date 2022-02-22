@@ -325,21 +325,21 @@ public partial class World : MonoBehaviour
 	{
 		public uint timerId;
 		public float interval;
-		public long beginTimeStamp; //设置时间
-		public long nextTimeStamp; //下次时间
+		public float beginTimeStamp; //设置时间
+		public float nextTimeStamp; //下次时间
 		public uint times;
 	}
-	private SortedDictionary<long, TimerHandle> timers;
+	private SortedDictionary<uint, TimerHandle> timers;
 
 	private UInt32 g_timerId = 1;
 	public UInt32 _addTimer(float timeout, float interval)
 	{
-		long now = KBEngine.Utils.serverTime();
+		float now = KBEngine.Utils.localTime();
 		TimerHandle timerHandle = new TimerHandle();
 		timerHandle.timerId = g_timerId++;
 		timerHandle.interval = interval;
 		timerHandle.beginTimeStamp = now;
-		timerHandle.nextTimeStamp = now + (long)(timeout * 1000); 
+		timerHandle.nextTimeStamp = now + timeout;
 		timers.Add(timerHandle.timerId, timerHandle);
 		return timerHandle.timerId;
 	}
@@ -350,8 +350,8 @@ public partial class World : MonoBehaviour
 	}
 	private void updateTimes()
 	{
-		long now = KBEngine.Utils.serverTime();
-		List<long> passKeys = new List<long>();
+		float now = KBEngine.Utils.localTime();
+		List<uint> passKeys = new List<uint>();
 		foreach (var item in timers)
 		{
 			if (item.Value.nextTimeStamp <= now)
@@ -367,7 +367,7 @@ public partial class World : MonoBehaviour
 			if (timeHandle.interval >= 0.001f)
             {
 				timeHandle.times++;
-				timeHandle.nextTimeStamp = now + (long)(timeHandle.interval * 1000);
+				timeHandle.nextTimeStamp = now + timeHandle.interval;
 				timers.Add(timeHandle.timerId, timeHandle);
 			}	
 		}
