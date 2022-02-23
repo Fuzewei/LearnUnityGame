@@ -84,7 +84,7 @@ public partial class World : MonoBehaviour
 			terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
 
 		if(player)
-			player.GetComponent<GameEntity>().entityEnable();
+			player.GetComponent<GameEntity>().entityEnable((KBEngine.Avatar)KBEngineApp.app.player());
 	}	
 	
 	public void onAvatarEnterWorld(UInt64 rndUUID, Int32 eid, KBEngine.Avatar avatar)
@@ -100,31 +100,34 @@ public partial class World : MonoBehaviour
 
 	public void createPlayer()
 	{
+
+		if (KBEngineApp.app.entity_type != "Avatar") //可能是account
+		{
+			return;
+		}
+
+		KBEngine.Avatar avatar = (KBEngine.Avatar)KBEngineApp.app.player();
+		if (avatar == null)
+		{
+			Debug.Log("wait create(palyer)!");
+			return;
+		}
+
+
 		// 需要等场景加载完毕再显示玩家
 		if (player != null)
 		{
 			if (terrain != null && !player.GetComponent<GameEntity>().entityEnabled)
 			{
-				player.GetComponent<GameEntity>().entityEnable();
+				player.GetComponent<GameEntity>().entityEnable(avatar);
 			}
 				
 			return;
 		}
 		
-		if (KBEngineApp.app.entity_type != "Avatar") {
-			return;
-		}
-
-		KBEngine.Avatar avatar = (KBEngine.Avatar)KBEngineApp.app.player();
-		if(avatar == null)
-		{
-			Debug.Log("wait create(palyer)!");
-			return;
-		}
-		
 		float y = avatar.position.y;
 		if(avatar.isOnGround)
-			y = 1.3f;
+			y = 2.3f;
 
 		player = Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z), 
 		                     Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
@@ -165,14 +168,15 @@ public partial class World : MonoBehaviour
 		entity.renderObj = Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z), 
 			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
 
-		var a = entity as KBEngine.Avatar;
+		var p3 = entity as KBEngine.Avatar;
 
 		var renderEntity = entity.renderObj as UnityEngine.GameObject;
-
+		GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
+		gameEntity.entityEnable((KBEngine.Avatar)entity);
 		renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
-		a.renderEntity = renderEntity.GetComponent<GameEntity>();
+		p3.renderEntity = gameEntity;
 
-		((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_" + entity.id;
+		((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
 	}
 	
 	public void onLeaveWorld(KBEngine.Entity entity)

@@ -40,5 +40,12 @@ namespace SwordMaster
         }
     }
 
-   
+    class SkillSamples : SampleBase
+    {
+        public SkillSamples(Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle) : base(MoveConst.Skill, position, faceDirection, moveDirection, inBattle)
+        {
+        }
+    }
+
+
 }

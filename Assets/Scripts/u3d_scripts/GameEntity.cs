@@ -199,10 +199,10 @@ public class GameEntity : MonoBehaviour
 
 
 
-	public void entityEnable()
+	public void entityEnable(KBEngine.Avatar entity)
 	{
 		entityEnabled = true;
-		logicEntity = (IServerEntity)KBEngineApp.app.player();
+		logicEntity = entity;
 		logicEntity.onRenderObjectCreat(this);
 	}
 
@@ -260,6 +260,11 @@ public class GameEntity : MonoBehaviour
 		moveMotor.setInBattle(inBattle);
 	}
 
+	public void setEnitiyInUseSkill(int skillid)
+	{
+		moveMotor.setInUseSkill(skillid);
+	}
+
 	public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 direction, Vector3 moveDirection, bool inBattle)
 	{
 		moveMotor.confirmMoveTimeStamp(timeStamp, moveType, position, direction, moveDirection, inBattle);
@@ -277,7 +282,7 @@ public class GameEntity : MonoBehaviour
 
 	public void createWeaponEvent(int tag)
 	{
-		KBEngine.Avatar a = (KBEngine.Avatar)_logicEntity;
+		KBEngine.Avatar a = (KBEngine.Avatar)logicEntity;
 		GameObject Prefab = (GameObject)Resources.Load("Prefabs/Weapon/GreatSword_01");
 		GameObject weapon = Instantiate(Prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		weapon.transform.SetParent(hand_r.transform, false);

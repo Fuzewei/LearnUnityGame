@@ -8,6 +8,7 @@
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
 		private bool settedInBattle;
+		private int preUseSkillId = 0;
 
 		private void __init__InputManage()
 		{
@@ -38,7 +39,9 @@
 		public virtual void useSkill(int skillid)
 		{
 			Dbg.DEBUG_MSG("useSkill:" + skillid);
-			requestUseSkill(skillid);
+			preUseSkillId = skillid;
+			renderEntity.setEnitiyInUseSkill(skillid);
+			//requestUseSkill(skillid);
         }
 	}
 }

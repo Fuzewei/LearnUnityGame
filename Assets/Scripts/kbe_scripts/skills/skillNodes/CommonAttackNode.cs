@@ -20,13 +20,6 @@ namespace KBEngine
             GameobjectHolderBase obj = World.world.getObject(attackBoxId);
             World.world.addObjectCallback(attackBoxId, onAttack);
             World.world.setObjectParentToEntity(attackBoxId, avatarOwner.renderEntity);
-
-            TABLE arg = new TABLE();
-            arg.dictOrlist = 0;
-            arg.values.Add(1234567);
-
-            ((skillTimeLine)owneTimeLine).callServer(1, arg);
-
         }
 
         public override void runP3()
@@ -37,6 +30,9 @@ namespace KBEngine
         public override void serverCall(TABLE args)
         {
             Dbg.DEBUG_MSG("CommonAttack:serverCall" + args.dictOrlist + args.keys.Count + args.values.Count);
+            INT32 attackeEntityId = args.values[0];
+            var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
+            entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }
 
         //timeLine结束

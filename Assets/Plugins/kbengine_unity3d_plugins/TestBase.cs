@@ -59,7 +59,7 @@ namespace KBEngine
 			Method method = sm.idmethods[methodUtype];
 			switch(method.methodUtype)
 			{
-				case 35:
+				case 36:
 					Int32 helloCB_arg1 = stream.readInt32();
 					helloCB(helloCB_arg1);
 					break;

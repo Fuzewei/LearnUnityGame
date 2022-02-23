@@ -5,7 +5,7 @@ namespace GameLogic
 {
     public class TimeLineManager
     {
-        private uint nodeUUid = 0;
+        private uint nodeUUid = 1;
         private Dictionary<uint, TimeLineBase> timeLines = new Dictionary<uint, TimeLineBase>();
         private Dictionary<uint, Dictionary<int, object>> timeLinesData = new Dictionary<uint, Dictionary<int, object>>();
 
@@ -15,9 +15,8 @@ namespace GameLogic
         public TimeLineManager()
         { }
 
-        public uint addTimeLine(TimeLineBase timeLine)
+        public uint addTimeLine(uint _id, TimeLineBase timeLine)
         {
-            uint _id = getUUid();
             timeLine.uuid = _id;
             timeLine.setManager(this);
             timeLine.start();

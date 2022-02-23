@@ -64,7 +64,7 @@ public class AnimatorController : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         var fullPathHash = stateInfo.fullPathHash;
-        if (fullPathHash == Animator.StringToHash("Base Layer.Skill.Attack.End"))
+        if (fullPathHash == Animator.StringToHash("Base Layer.Skill.Attack.End") || fullPathHash == Animator.StringToHash("Base Layer.Skill.Attacked.End"))
         {
             int clip = Animator.StringToHash("Base Layer.Battle.Idle");
             animator.CrossFadeInFixedTime(clip, 0.0f, 0, 0);

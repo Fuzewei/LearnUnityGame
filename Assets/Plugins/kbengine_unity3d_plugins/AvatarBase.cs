@@ -71,6 +71,7 @@ namespace KBEngine
 		public abstract void onJump(); 
 		public abstract void onRemoveSkill(Int32 arg1); 
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
+		public abstract void serverRequestUseSkill(UInt32 arg1, Int32 arg2); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
 
 		public AvatarBase()
@@ -266,7 +267,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 32:
+				case 33:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -304,6 +305,11 @@ namespace KBEngine
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
+					break;
+				case 21:
+					UInt32 serverRequestUseSkill_arg1 = stream.readUint32();
+					Int32 serverRequestUseSkill_arg2 = stream.readInt32();
+					serverRequestUseSkill(serverRequestUseSkill_arg1, serverRequestUseSkill_arg2);
 					break;
 				case 20:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();

@@ -34,6 +34,8 @@ public class MoveMotor : MonoBehaviour
     public bool inBattle = false;                                 //战斗状态
     public bool setedInBattle = false;                                 //战斗状态
 
+    public int skillId = 0;                                 //使用技能的id
+
     public MoveConst nowMoveType = MoveConst.Idel;                   //当前移动类型
     public MoveConst setedMoveType = MoveConst.Idel;                   //设置的移动类型
     public Vector3 moveDirection = Vector3.forward;               //移动方向(局部,向量)
@@ -88,10 +90,9 @@ public class MoveMotor : MonoBehaviour
         runMove = new NormalRunControler(this);
         idle = new NormalIdleControler(this);
         jump = new NormalJumpControler(this);
+        useSkill = new NormalUseSkillControler(this);
         currentMoveControler = idle;
     }
-
-
 
     public Vector3 renderRotation
     {
@@ -119,13 +120,20 @@ public class MoveMotor : MonoBehaviour
         this.setedInBattle = isInbattle;
     }
 
-    public void setMoveType(MoveConst state)
+    public void setInUseSkill(int skillid)
+    {
+        if(setMoveType(MoveConst.Skill))
+            this.skillId = skillid;
+    }
+
+    public bool setMoveType(MoveConst state)
     {
         if (!currentMoveControler.canSetNewMoveType(state)) //是否接受输入判断
         {
-            return;
+            return false;
         }
         setedMoveType = state;
+        return true;
     }
 
     public void setMoveDirection(Vector3 dir)
@@ -174,6 +182,9 @@ public class MoveMotor : MonoBehaviour
                 break;
             case MoveConst.Jump:
                 ans = new JumpSamples(position, faceDirection, moveDirection, inBattle);
+                break;
+            case MoveConst.Skill:
+                ans = new SkillSamples(position, faceDirection, moveDirection, inBattle);
                 break;
         }
         return ans;
