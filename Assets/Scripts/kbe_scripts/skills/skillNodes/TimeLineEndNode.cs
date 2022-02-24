@@ -13,9 +13,11 @@ namespace KBEngine
         {
         }
 
-        public override void Run()
+        public override void runP1()
         {
+            KBEngine.Event.fireIn("skillFinish", 1);
         }
+
 
     }
 }

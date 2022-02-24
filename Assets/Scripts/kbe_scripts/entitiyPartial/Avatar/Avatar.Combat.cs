@@ -44,7 +44,7 @@
 			line.addNode(NodeBase1);
 			NodeBase NodeBase2 = new CommonAttack(0.3f);
 			line.addNode(NodeBase2);
-			NodeBase NodeBase3 = new TimeLineEndNode(2.5f);
+			NodeBase NodeBase3 = new TimeLineEndNode(1.5f);
 			line.addNode(NodeBase3);
 			var uuid = timeLineManager.getUUid();
 			timeLineManager.addTimeLine(uuid, line);
@@ -54,11 +54,14 @@
 		public override void serverRequestUseSkill(uint UUid, Int32 skillId)
 		{
 			skillTimeLine line = new skillTimeLine(this);
-			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
+			PlayerAnimationNode NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
+			NodeBase1.nodeType = SkillNodeType.P3;
 			line.addNode(NodeBase1);
-			NodeBase NodeBase2 = new CommonAttack(0.3f);
+			CommonAttack NodeBase2 = new CommonAttack(0.3f);
+			NodeBase2.nodeType = SkillNodeType.P3;
 			line.addNode(NodeBase2);
-			NodeBase NodeBase3 = new TimeLineEndNode(2.5f);
+			TimeLineEndNode NodeBase3 = new TimeLineEndNode(1.5f);
+			NodeBase3.nodeType = SkillNodeType.P3;
 			line.addNode(NodeBase3);
 			timeLineManager.addTimeLine(UUid, line);
 		}

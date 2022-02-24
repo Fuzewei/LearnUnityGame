@@ -29,8 +29,8 @@ namespace KBEngine
 
         public override void serverCall(TABLE args)
         {
-            Dbg.DEBUG_MSG("CommonAttack:serverCall" + args.dictOrlist + args.keys.Count + args.values.Count);
             INT32 attackeEntityId = args.values[0];
+            Dbg.DEBUG_MSG("CommonAttack:serverCall" + attackeEntityId);
             var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
             entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }

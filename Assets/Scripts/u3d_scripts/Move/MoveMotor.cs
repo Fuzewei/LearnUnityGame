@@ -64,6 +64,7 @@ public class MoveMotor : MonoBehaviour
     NormalIdleControler idle;
     NormalJumpControler jump;
     NormalUseSkillControler useSkill;
+    NormalServerMove serverMove;
 
     public Vector3 globalmoveDirection
     {
@@ -91,6 +92,7 @@ public class MoveMotor : MonoBehaviour
         idle = new NormalIdleControler(this);
         jump = new NormalJumpControler(this);
         useSkill = new NormalUseSkillControler(this);
+        serverMove = new NormalServerMove(this);
         currentMoveControler = idle;
     }
 
@@ -124,6 +126,12 @@ public class MoveMotor : MonoBehaviour
     {
         if(setMoveType(MoveConst.Skill))
             this.skillId = skillid;
+    }
+
+    public void setyFinishSkill(int skillid)
+    {
+        if (setMoveType(MoveConst.Idel))
+            this.skillId = 0;
     }
 
     public bool setMoveType(MoveConst state)
@@ -186,6 +194,9 @@ public class MoveMotor : MonoBehaviour
             case MoveConst.Skill:
                 ans = new SkillSamples(position, faceDirection, moveDirection, inBattle);
                 break;
+            case MoveConst.ServerMove:
+                ans = new ServerMoveSamples(position, faceDirection, moveDirection, inBattle);
+                break;
         }
         return ans;
     }
@@ -193,7 +204,6 @@ public class MoveMotor : MonoBehaviour
     private MoveControlersBase getMoveControl(MoveConst moveType)
     {
         MoveControlersBase ans = null;
-
         switch (moveType)
         {
             case MoveConst.Idel:
@@ -210,6 +220,9 @@ public class MoveMotor : MonoBehaviour
                 break;
             case MoveConst.Skill:
                 ans = useSkill;
+                break;
+            case MoveConst.ServerMove:
+                ans = serverMove;
                 break;
         }
         return ans;
@@ -284,10 +297,39 @@ public class MoveMotor : MonoBehaviour
     {
         if (isSyncSource)
         {
-
             /*todo
              * 除了调整队列，还要看是否有冲突并且更新队列中未被确认的位置
              */
+            if (moveType == MoveConst.ServerMove && setedMoveType != MoveConst.ServerMove)
+            {
+                opQueue.popBeforePosition(timeStamp + 10000); //先全部清除
+                SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
+                setFaceDirection(newSample.faceDirection);
+                setMoveType(newSample.moveType);
+                setMoveDirection(newSample.moveDirection);
+                setInBattle(newSample.inBattle);
+                transform.rotation = Quaternion.Euler(newSample.moveDirection);
+                transform.position = newSample.position;
+                return;
+            }
+
+            if (setedMoveType == MoveConst.ServerMove && moveType != MoveConst.ServerMove)
+            {
+                opQueue.popBeforePosition(timeStamp + 10000); //先全部清除
+                SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
+                setFaceDirection(newSample.faceDirection);
+                setMoveType(newSample.moveType);
+                setMoveDirection(newSample.moveDirection);
+                setInBattle(newSample.inBattle);
+                transform.rotation = Quaternion.Euler(newSample.moveDirection);
+                transform.position = newSample.position;
+                return;
+            }
+            /*todo
+             * end
+             */
+
+
             opQueue.popBeforePosition(timeStamp - 1000);//保留确认前一秒的位置
         }
         else

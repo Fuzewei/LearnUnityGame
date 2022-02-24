@@ -8,9 +8,9 @@ namespace KBEngine
             Walk = 1,//走
             Run = 2,//跑
             Jump = 3,//跳
-            Rush,//冲刺
-            Skill,//技能
-            ServerMove,//服务端发起的移动
+            Rush = 4,//冲刺
+            Skill = 5,//技能
+            ServerMove = 6,//服务端控制的移动（技能击飞等）
             //PreMove,//p3的预移动
         }
 

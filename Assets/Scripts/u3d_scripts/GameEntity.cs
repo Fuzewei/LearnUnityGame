@@ -265,6 +265,11 @@ public class GameEntity : MonoBehaviour
 		moveMotor.setInUseSkill(skillid);
 	}
 
+	public void setEnitiyFinishSkill(int skillid)
+	{
+		moveMotor.setyFinishSkill(skillid);
+	}
+
 	public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 direction, Vector3 moveDirection, bool inBattle)
 	{
 		moveMotor.confirmMoveTimeStamp(timeStamp, moveType, position, direction, moveDirection, inBattle);

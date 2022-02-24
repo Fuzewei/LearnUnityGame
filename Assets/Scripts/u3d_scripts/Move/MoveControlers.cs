@@ -230,19 +230,25 @@ namespace SwordMaster
         }
     }
 
+    //服务端驱动的移动
+    class NormalServerMove : MoveControlersBase
+    {
+        public NormalServerMove(MoveMotor _montor) : base(_montor)
+        {
+
+        }
+        public override Vector3 calcuteDelterPosition()
+        {
+            Vector3 delta = montor.animator.deltaPosition;
+            delta.y += yMoveSpeed * Time.deltaTime;
+            return delta;
+        }
+    }
+
     //被动移动的预表现
     class NormalPreMove : MoveControlersBase
     {
         public NormalPreMove(MoveMotor _montor) : base(_montor)
-        {
-
-        }
-    }
-
-    //被动移动的实际表现
-    class NormalActuallyPreMove : MoveControlersBase
-    {
-        public NormalActuallyPreMove(MoveMotor _montor) : base(_montor)
         {
 
         }
