@@ -44,10 +44,6 @@ namespace SwordMaster
         public void tick(float _deltaTime) {
             deltaTime = _deltaTime;
         }
-        public virtual bool canSetNewMoveType(MoveConst state )
-        {
-            return true;
-        }
 
         public virtual bool canSetFaceDirection(ref Vector3 rotation)
         {
@@ -55,6 +51,8 @@ namespace SwordMaster
         }
 
         public virtual void UpdateMoveSpeed() { }
+
+        public virtual void BeforeSwitchMoveControl() { }
         public virtual Vector3 calcuteDelterPosition() {   
             Vector3 delta = montor.animator.deltaPosition;
             delta.y += yMoveSpeed * Time.deltaTime;
@@ -119,9 +117,10 @@ namespace SwordMaster
 
     class NormalJumpControler : MoveControlersBase
     {
+        public Vector3 jumpDirection ;
         public NormalJumpControler(MoveMotor _montor) : base(_montor)
         {
-
+            jumpDirection = _montor.globalmoveDirection;
         }
         // 向上的速度
         public float UpSpeed = 5.5f;
@@ -133,25 +132,10 @@ namespace SwordMaster
         public int jumpStage = 0; //0是没有收到起跳指令，1准备起跳，2是起跳成功
 
         public float nextSteteTime; //进入下一阶段的时间
-        private MoveConst nextMoveType = MoveConst.Idel;
+       
 
         public override void onReset() {
             jumpStage = 0;
-            nextMoveType = MoveConst.Idel;
-        }
-        public override bool canSetNewMoveType(MoveConst state)
-        {
-            if (jumpStage >= 4 && montor.isOnGrounded == true)
-            {
-                return true;
-            }
-            nextMoveType = state;
-            return false;
-        }
-
-        public override bool canSetFaceDirection(ref Vector3 rotation)
-        {
-            return false;
         }
 
         public override void UpdateMoveSpeed()
@@ -194,13 +178,23 @@ namespace SwordMaster
             else if (jumpStage == 3 && Utils.localTime() > nextSteteTime)
             {
                 jumpStage = 4;
-                montor.setedMoveType = nextMoveType;
+            }
+        }
+
+        public override void BeforeSwitchMoveControl(){
+            if (jumpStage == 4)
+            {
+                KBEngine.Avatar avatar = montor.GetComponent<GameEntity>().logicEntity as KBEngine.Avatar;
+                if (avatar.isPlayer())
+                {
+                    avatar.playerJumpFinish();
+                }
             }
         }
 
         public override Vector3 calcuteDelterPosition()
         {
-            Vector3 delta = this.xzMoveSpeed * deltaTime * montor.globalmoveDirection;
+            Vector3 delta = this.xzMoveSpeed * deltaTime * jumpDirection;
             delta.y += yMoveSpeed * Time.deltaTime;
             return delta;
         }

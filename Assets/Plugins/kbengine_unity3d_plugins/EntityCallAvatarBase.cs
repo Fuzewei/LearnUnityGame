@@ -93,13 +93,26 @@ namespace KBEngine
 			sendCall(null);
 		}
 
-		public void setInBattle(Byte arg1)
+		public void setInBattle(float arg1, Byte arg2)
 		{
 			Bundle pBundle = newCall("setInBattle", 0);
 			if(pBundle == null)
 				return;
 
-			bundle.writeUint8(arg1);
+			bundle.writeFloat(arg1);
+			bundle.writeUint8(arg2);
+			sendCall(null);
+		}
+
+		public void setPostionAndRotation(Vector3 arg1, Vector3 arg2, Vector3 arg3)
+		{
+			Bundle pBundle = newCall("setPostionAndRotation", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeVector3(arg1);
+			bundle.writeVector3(arg2);
+			bundle.writeVector3(arg3);
 			sendCall(null);
 		}
 
@@ -127,6 +140,17 @@ namespace KBEngine
 			bundle.writeVector3(arg4);
 			bundle.writeVector3(arg5);
 			bundle.writeUint8(arg6);
+			sendCall(null);
+		}
+
+		public void updateMovetype(float arg1, UInt32 arg2)
+		{
+			Bundle pBundle = newCall("updateMovetype", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeFloat(arg1);
+			bundle.writeUint32(arg2);
 			sendCall(null);
 		}
 

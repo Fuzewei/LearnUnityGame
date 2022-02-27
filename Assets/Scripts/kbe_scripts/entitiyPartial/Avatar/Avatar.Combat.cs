@@ -17,7 +17,7 @@
 
 		public override void onInBattleChanged(Byte oldValue)
 		{
-			
+			Dbg.DEBUG_MSG("onInBattleChanged:" + oldValue +"    " +inBattle);
 		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
@@ -35,6 +35,14 @@
             {
 				((skillTimeLine)timeLine).callFromServer(nodeId, args);
 			}
+		}
+
+
+		public void uploadInbattle(bool Inbattle)
+		{
+			Dbg.DEBUG_MSG("uploadInbattle:" + Inbattle);
+			cellEntityCall.setInBattle(Utils.localTime(), Convert.ToByte(Inbattle));
+			//requestUseSkill(preUseSkillId);
 		}
 
 		public void requestUseSkill(int skillid)

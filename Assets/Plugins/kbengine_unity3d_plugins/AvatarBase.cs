@@ -267,7 +267,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 33:
+				case 35:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -299,19 +299,19 @@ namespace KBEngine
 					Int32 onRemoveSkill_arg1 = stream.readInt32();
 					onRemoveSkill(onRemoveSkill_arg1);
 					break;
-				case 19:
+				case 18:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
 					break;
-				case 21:
+				case 20:
 					UInt32 serverRequestUseSkill_arg1 = stream.readUint32();
 					Int32 serverRequestUseSkill_arg2 = stream.readInt32();
 					serverRequestUseSkill(serverRequestUseSkill_arg1, serverRequestUseSkill_arg2);
 					break;
-				case 20:
+				case 19:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);

@@ -16,9 +16,7 @@ namespace KBEngine
 
         public override void runP1()
         {
-            Avatar a = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar;
-            a.renderEntity.palyerAnimation(animName);
-
+            avatarOwner.renderEntity.palyerAnimation(animName);
         }
 
         public override void runP3()

@@ -250,10 +250,17 @@ public class GameEntity : MonoBehaviour
 		
 	}
 
+	public SampleBase getMoveSample()
+	{
+		return moveMotor.localOpQueue.end();
+	}
+
 	public void setMoveType(MoveConst moveType)
 	{
 		moveMotor.setMoveType(moveType);
 	}
+
+
 
 	public void setEnitiyInbattle(bool inBattle)
 	{
@@ -267,7 +274,7 @@ public class GameEntity : MonoBehaviour
 
 	public void setEnitiyFinishSkill(int skillid)
 	{
-		moveMotor.setyFinishSkill(skillid);
+		moveMotor.setFinishSkill(skillid);
 	}
 
 	public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 direction, Vector3 moveDirection, bool inBattle)
@@ -311,6 +318,11 @@ public class GameEntity : MonoBehaviour
 	public void palyerAnimation(string animationName)
 	{
 		moveMotor.animatorController.playerSkillAttackAnimatior(moveMotor.animator, animationName);
+	}
+
+	public void setAnimationFloatParam(string parmName, float value)
+	{
+		moveMotor.animator.SetFloat(parmName, value);
 	}
 
 }

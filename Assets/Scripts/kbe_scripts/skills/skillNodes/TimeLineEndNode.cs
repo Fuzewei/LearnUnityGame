@@ -15,9 +15,7 @@ namespace KBEngine
 
         public override void runP1()
         {
-            KBEngine.Event.fireIn("skillFinish", 1);
+            avatarOwner.skillFinish(1);
         }
-
-
     }
 }

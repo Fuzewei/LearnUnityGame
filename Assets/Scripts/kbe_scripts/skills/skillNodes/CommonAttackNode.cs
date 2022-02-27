@@ -32,6 +32,12 @@ namespace KBEngine
             INT32 attackeEntityId = args.values[0];
             Dbg.DEBUG_MSG("CommonAttack:serverCall" + attackeEntityId);
             var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
+            var tar = entity.position - avatarOwner.position;
+            tar.y = 0;
+            tar.Normalize();
+            tar = entity.renderEntity.rotation* tar;
+            entity.renderEntity.setAnimationFloatParam("Param1", tar.x);
+            entity.renderEntity.setAnimationFloatParam("Param1", tar.z);
             entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }
 

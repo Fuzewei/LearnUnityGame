@@ -42,16 +42,6 @@ namespace KBEngine
 			sendCall(null);
 		}
 
-		public void setInBattle(Byte arg1)
-		{
-			Bundle pBundle = newCall("setInBattle", 0);
-			if(pBundle == null)
-				return;
-
-			bundle.writeUint8(arg1);
-			sendCall(null);
-		}
-
 		public void skillNodeCallServer(UInt32 arg1, Int32 arg2, TABLE arg3)
 		{
 			Bundle pBundle = newCall("skillNodeCallServer", 0);
