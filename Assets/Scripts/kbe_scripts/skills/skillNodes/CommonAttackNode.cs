@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 using KBEngine;
+using UnityEngine;
 using KBEngine.GameobjectHolder;
 
 namespace KBEngine
@@ -32,12 +30,15 @@ namespace KBEngine
             INT32 attackeEntityId = args.values[0];
             Dbg.DEBUG_MSG("CommonAttack:serverCall" + attackeEntityId);
             var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
-            var tar = entity.position - avatarOwner.position;
-            tar.y = 0;
-            tar.Normalize();
-            tar = entity.renderEntity.rotation* tar;
-            entity.renderEntity.setAnimationFloatParam("Param1", tar.x);
-            entity.renderEntity.setAnimationFloatParam("Param1", tar.z);
+            var hitTar = entity.position - avatarOwner.position;
+            hitTar.y = 0;
+            hitTar.Normalize();
+            var inverstRotation = Quaternion.Inverse(entity.renderEntity.rotation);
+            hitTar = inverstRotation * hitTar;
+
+
+            entity.renderEntity.setAnimationFloatParam("Param1", -hitTar.x);
+            entity.renderEntity.setAnimationFloatParam("Param2", -hitTar.z);
             entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }
 

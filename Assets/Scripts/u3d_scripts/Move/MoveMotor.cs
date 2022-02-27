@@ -25,7 +25,6 @@ public class MoveMotor : MonoBehaviour
     public SampleQueue serverOpQueue; //服务端确认的操作队列
     public float oldTimeStamp = 0;                 //上次执行的时间戳
     public float currentTimeStamp = 0;                 //当前执行到的时间
-    public float latestTimeStamp = 0;                 //最新位置数据包的时间
     public bool isSyncSource = true;
     //操作队列相关 end
 
@@ -228,26 +227,26 @@ public class MoveMotor : MonoBehaviour
     private void p1Update()
     {
         localOpQueue.popBeforePosition(float.MaxValue);
+
+        if (serverOpQueue.lenth() != 0)
+        {
+            float recentPackageTime = serverOpQueue.recentPosition();
+            SampleBase newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
+            serverOpQueue.popBeforePosition(float.MaxValue);
+            if (newSample.moveType == MoveConst.ServerMove)
+            {
+                p3Update();
+                return;
+            }
+        }
     }
 
     private void p3Update()
     {
-        //while (serverOpQueue.lenth() > 0)
-        //{
-        //    float recentPackageTime = serverOpQueue.recentPosition();
-        //    if (recentPackageTime > currentTimeStamp)
-        //    {
-        //        currentTimeStamp = recentPackageTime;
-        //        SampleBase newSample = localOpQueue.getSampleByPosition(float.MaxValue);
-
-        //    }
-        //}
         if (serverOpQueue.lenth() == 0)
         {
             return;
         }
-
-
         float recentPackageTime = serverOpQueue.recentPosition();
         SampleBase newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
         serverOpQueue.popBeforePosition(float.MaxValue);
@@ -295,131 +294,77 @@ public class MoveMotor : MonoBehaviour
         }
         nowMoveType = setedMoveType;
         inBattle = setedInBattle;
-
     }
 
-    void _OnAnimatorMove()
-    {
-        //Debug.Log("OnAnimatorMove:" + animator.speed + animator.velocity.magnitude);
-        currentMoveControler.tick(Time.deltaTime);
-        currentMoveControler.UpdateMoveSpeed();
-        if (isSyncSource)
-        {
-            currentTimeStamp = Utils.localTime();
-            latestTimeStamp = currentTimeStamp;
+    //void _OnAnimatorMove()
+    //{
+    //    //Debug.Log("OnAnimatorMove:" + animator.speed + animator.velocity.magnitude);
+    //    currentMoveControler.tick(Time.deltaTime);
+    //    currentMoveControler.UpdateMoveSpeed();
+    //    if (isSyncSource)
+    //    {
+    //        currentTimeStamp = Utils.localTime();
+    //        latestTimeStamp = currentTimeStamp;
 
-            flushAnimatorParameter();
-            controller.Move(currentMoveControler.calcuteDelterPosition());
-            transform.rotation = Quaternion.Euler(faceDirection);
-            SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
-            localOpQueue.push(newSample, currentTimeStamp);
-            if (nowMoveType != setedMoveType || setedInBattle != inBattle)
-            {
-                KBEngine.Event.fireIn("uploadMovetypeAndPositionAndRotation", currentTimeStamp, newSample.moveType, newSample.position, newSample.faceDirection, newSample.moveDirection, newSample.inBattle);
-                if (nowMoveType != setedMoveType)
-                {
-                    currentMoveControler = getMoveControl(newSample.moveType);
-                    currentMoveControler.reset();
-                }
+    //        flushAnimatorParameter();
+    //        controller.Move(currentMoveControler.calcuteDelterPosition());
+    //        transform.rotation = Quaternion.Euler(faceDirection);
+    //        SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
+    //        localOpQueue.push(newSample, currentTimeStamp);
+    //        if (nowMoveType != setedMoveType || setedInBattle != inBattle)
+    //        {
+    //            KBEngine.Event.fireIn("uploadMovetypeAndPositionAndRotation", currentTimeStamp, newSample.moveType, newSample.position, newSample.faceDirection, newSample.moveDirection, newSample.inBattle);
+    //            if (nowMoveType != setedMoveType)
+    //            {
+    //                currentMoveControler = getMoveControl(newSample.moveType);
+    //                currentMoveControler.reset();
+    //            }
 
-                nowMoveType = newSample.moveType;
-                inBattle = setedInBattle;
-            }
-        }
-        else
-        {
-            SampleBase newSample = localOpQueue.getSampleByPosition(latestTimeStamp);
-            setFaceDirection(newSample.faceDirection);
-            setMoveType(newSample.moveType);
-            setMoveDirection(newSample.moveDirection);
-            setInBattle(newSample.inBattle);
-            if (latestTimeStamp != currentTimeStamp)
-            {
-                currentTimeStamp = latestTimeStamp;
-            }
-            if (nowMoveType != setedMoveType || setedInBattle != inBattle)
-            {
-                if (nowMoveType != setedMoveType)
-                {
-                    currentMoveControler = getMoveControl(newSample.moveType);
-                    currentMoveControler.reset();
-                }
-                faceDirection = newSample.moveDirection;
-                transform.rotation = Quaternion.Euler(faceDirection);
-                transform.position = newSample.position;
-                flushAnimatorParameter();
-                nowMoveType = setedMoveType;
-                inBattle = setedInBattle;
-            }
-            else
-            {
-                flushAnimatorParameter();
-                controller.Move(currentMoveControler.calcuteDelterPosition());
-                transform.rotation = Quaternion.Euler(faceDirection);
+    //            nowMoveType = newSample.moveType;
+    //            inBattle = setedInBattle;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        SampleBase newSample = localOpQueue.getSampleByPosition(latestTimeStamp);
+    //        setFaceDirection(newSample.faceDirection);
+    //        setMoveType(newSample.moveType);
+    //        setMoveDirection(newSample.moveDirection);
+    //        setInBattle(newSample.inBattle);
+    //        if (latestTimeStamp != currentTimeStamp)
+    //        {
+    //            currentTimeStamp = latestTimeStamp;
+    //        }
+    //        if (nowMoveType != setedMoveType || setedInBattle != inBattle)
+    //        {
+    //            if (nowMoveType != setedMoveType)
+    //            {
+    //                currentMoveControler = getMoveControl(newSample.moveType);
+    //                currentMoveControler.reset();
+    //            }
+    //            faceDirection = newSample.moveDirection;
+    //            transform.rotation = Quaternion.Euler(faceDirection);
+    //            transform.position = newSample.position;
+    //            flushAnimatorParameter();
+    //            nowMoveType = setedMoveType;
+    //            inBattle = setedInBattle;
+    //        }
+    //        else
+    //        {
+    //            flushAnimatorParameter();
+    //            controller.Move(currentMoveControler.calcuteDelterPosition());
+    //            transform.rotation = Quaternion.Euler(faceDirection);
 
-            }
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     //收到确认位置信息
     public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle)
     {
-
         SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
         serverOpQueue.push(newSample, timeStamp);
-
-        //if (isSyncSource)
-        //{
-        //    /*todo
-        //     * 除了调整队列，还要看是否有冲突并且更新队列中未被确认的位置
-        //     */
-        //    if (moveType == MoveConst.ServerMove && setedMoveType != MoveConst.ServerMove)
-        //    {
-        //        localOpQueue.popBeforePosition(timeStamp + 10000); //先全部清除
-        //        SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
-        //        setFaceDirection(newSample.faceDirection);
-        //        setMoveType(newSample.moveType);
-        //        setMoveDirection(newSample.moveDirection);
-        //        setInBattle(newSample.inBattle);
-        //        transform.rotation = Quaternion.Euler(newSample.moveDirection);
-        //        transform.position = newSample.position;
-        //        return;
-        //    }
-
-        //    if (setedMoveType == MoveConst.ServerMove && moveType != MoveConst.ServerMove)
-        //    {
-        //        localOpQueue.popBeforePosition(timeStamp + 10000); //先全部清除
-        //        SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
-        //        setFaceDirection(newSample.faceDirection);
-        //        setMoveType(newSample.moveType);
-        //        setMoveDirection(newSample.moveDirection);
-        //        setInBattle(newSample.inBattle);
-        //        transform.rotation = Quaternion.Euler(newSample.moveDirection);
-        //        transform.position = newSample.position;
-        //        return;
-        //    }
-        //    /*todo
-        //     * end
-        //     */
-
-
-        //    localOpQueue.popBeforePosition(timeStamp - 1000);//保留确认前一秒的位置
-        //}
-        //else
-        //{
-        //    Debug.Log("confirmMoveTimeStamp:" + moveType + faceDirection);
-        //    latestTimeStamp = timeStamp;
-        //    SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
-        //    localOpQueue.push(newSample, timeStamp);
-
-        //    if (localOpQueue.lenth() >= 3)
-        //    {
-        //        localOpQueue.popBeforePosition(timeStamp - 2000); //保留确认前二秒的位置
-        //    }
-
-        //}
-
     }
 
     //刷新状态机参数
