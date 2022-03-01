@@ -1759,7 +1759,7 @@ namespace KBEngine
 	{
 		public Byte dictOrlist = 0;
 		public List<UInt16> keys = new List<UInt16>();
-		public List<Int32> values = new List<Int32>();
+		public List<float> values = new List<float>();
 
 	}
 

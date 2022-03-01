@@ -304,26 +304,26 @@ namespace KBEngine
 
 		public class DATATYPE__TABLE_values_ArrayType_ChildArray : DATATYPE_BASE
 		{
-			public List<Int32> createFromStreamEx(MemoryStream stream)
+			public List<float> createFromStreamEx(MemoryStream stream)
 			{
 				UInt32 size = stream.readUint32();
-				List<Int32> datas = new List<Int32>();
+				List<float> datas = new List<float>();
 
 				while(size > 0)
 				{
 					--size;
-					datas.Add(stream.readInt32());
+					datas.Add(stream.readFloat());
 				};
 
 				return datas;
 			}
 
-			public void addToStreamEx(Bundle stream, List<Int32> v)
+			public void addToStreamEx(Bundle stream, List<float> v)
 			{
 				stream.writeUint32((UInt32)v.Count);
 				for(int i=0; i<v.Count; ++i)
 				{
-					stream.writeInt32(v[i]);
+					stream.writeFloat(v[i]);
 				};
 			}
 		}

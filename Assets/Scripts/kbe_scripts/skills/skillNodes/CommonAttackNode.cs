@@ -27,18 +27,11 @@ namespace KBEngine
 
         public override void serverCall(TABLE args)
         {
-            INT32 attackeEntityId = args.values[0];
+            INT32 attackeEntityId = (INT32) args.values[0];
             Dbg.DEBUG_MSG("CommonAttack:serverCall" + attackeEntityId);
             var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
-            var hitTar = entity.position - avatarOwner.position;
-            hitTar.y = 0;
-            hitTar.Normalize();
-            var inverstRotation = Quaternion.Inverse(entity.renderEntity.rotation);
-            hitTar = inverstRotation * hitTar;
-
-
-            entity.renderEntity.setAnimationFloatParam("Param1", hitTar.x);
-            entity.renderEntity.setAnimationFloatParam("Param2", hitTar.z);
+            entity.renderEntity.setAnimationFloatParam("Param1", args.values[1]);
+            entity.renderEntity.setAnimationFloatParam("Param2", args.values[2]);
             entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }
 
@@ -59,6 +52,15 @@ namespace KBEngine
             TABLE arg = new TABLE();
             arg.dictOrlist = 0;
             arg.values.Add(attackeEntityId);
+
+            var hitTar = entity.position - avatarOwner.position;
+            hitTar.y = 0;
+            hitTar.Normalize();
+            var inverstRotation = Quaternion.Inverse(entity.renderEntity.rotation);
+            hitTar = inverstRotation * hitTar;
+
+            arg.values.Add(hitTar.x);
+            arg.values.Add(hitTar.z);
 
             ((skillTimeLine)owneTimeLine).callServer(1, arg);
         }
