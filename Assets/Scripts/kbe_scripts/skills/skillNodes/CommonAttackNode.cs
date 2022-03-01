@@ -14,7 +14,7 @@ namespace KBEngine
 
         public override void runP1()
         {
-            attackBoxId = World.world.createObject("Prefabs/Common/BoxTriger",Utils.localTime() + 0.5f );
+            attackBoxId = World.world.createObject("Prefabs/Common/BoxTriger", Utils.localTime() + 0.5f);
             GameobjectHolderBase obj = World.world.getObject(attackBoxId);
             World.world.addObjectCallback(attackBoxId, onAttack);
             World.world.setObjectParentToEntity(attackBoxId, avatarOwner.renderEntity);
@@ -37,8 +37,8 @@ namespace KBEngine
             hitTar = inverstRotation * hitTar;
 
 
-            entity.renderEntity.setAnimationFloatParam("Param1", -hitTar.x);
-            entity.renderEntity.setAnimationFloatParam("Param2", -hitTar.z);
+            entity.renderEntity.setAnimationFloatParam("Param1", hitTar.x);
+            entity.renderEntity.setAnimationFloatParam("Param2", hitTar.z);
             entity.renderEntity.palyerAnimation("Attacked.BeGreatSword_Attack01");
         }
 

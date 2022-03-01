@@ -36,6 +36,8 @@ public partial class World : MonoBehaviour
         {
             deleteObject(item);
         }
+
+
     }
 
     public uint createObject(string path, float destoryTimestamp = float.MaxValue)

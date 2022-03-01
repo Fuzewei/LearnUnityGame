@@ -19,7 +19,6 @@ public partial class World : MonoBehaviour
 
 	void Awake() 
 	 {
-		Application.targetFrameRate = 120;
 		DontDestroyOnLoad(transform.gameObject);
 		world = this;
 		AwakeGameObjectManager();

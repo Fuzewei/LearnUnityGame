@@ -16,9 +16,9 @@
 		{
 			//settedInBattle = Convert.ToBoolean(inBattle);
 			Event.registerIn("inputSwitchBattle", this, "inputSwitchBattle");//切换战斗状态
-			Event.registerIn("useSkill", this, "useSkill");//使用技能
+			Event.registerIn("useSkill", new Action<int>(useSkill));//使用技能
 			Event.registerIn("playerJump", this, "playerJump");//玩家使用跳跃指令
-			Event.registerIn("playerWalk", this, "playerWalk");//玩家走
+			Event.registerIn("playerWalk", new Action(playerWalk));//玩家走
 			Event.registerIn("playerRun", this, "playerRun");//玩家跑
 			Event.registerIn("playerIdle", this, "playerIdle");//玩家Idle
 		}

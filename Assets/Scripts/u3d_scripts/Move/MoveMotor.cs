@@ -23,7 +23,6 @@ public class MoveMotor : MonoBehaviour
     //操作队列相关
     public SampleQueue localOpQueue; //本地的操作队列
     public SampleQueue serverOpQueue; //服务端确认的操作队列
-    public float oldTimeStamp = 0;                 //上次执行的时间戳
     public float currentTimeStamp = 0;                 //当前执行到的时间
     public bool isSyncSource = true;
     //操作队列相关 end
@@ -33,7 +32,6 @@ public class MoveMotor : MonoBehaviour
     //设定将要干的事情，先入队列（后面要移除）
     public bool inBattle = false;                                 //战斗状态
     public bool setedInBattle = false;                                 //战斗状态
-
     public int skillId = 0;                                 //使用技能的id
 
     public MoveConst nowMoveType = MoveConst.Idel;                   //当前移动类型
@@ -222,6 +220,19 @@ public class MoveMotor : MonoBehaviour
         {
             p3Update();
         }
+
+        #if UNITY_EDITOR
+        var p1 = animator.GetFloat("Param1");
+        var p2 = animator.GetFloat("Param2");
+
+        Vector3 v = new Vector3(p1, 0, p2);
+        if (v.magnitude <= 0.5f)
+        {
+            return;
+        }
+        v = transform.rotation * v;
+        Debug.DrawLine(transform.position + new Vector3(0, 1, 0), transform.position + v * 5 + new Vector3(0, 1, 0), Color.red);
+        #endif
     }
 
     private void p1Update()
@@ -399,8 +410,6 @@ public class MoveMotor : MonoBehaviour
 
         animator.SetBool("isGrounded", this.isOnGrounded);
         animator.SetBool("InBattle", this.inBattle);
-        
-        oldTimeStamp = currentTimeStamp;
     }
 
 }
