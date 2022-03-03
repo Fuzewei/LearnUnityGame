@@ -252,7 +252,7 @@ public class GameEntity : MonoBehaviour
 
 	public SampleBase getMoveSample()
 	{
-		return moveMotor.localOpQueue.end();
+		return moveMotor.localOpQueue.end().Item2;
 	}
 
 	public void setMoveType(MoveConst moveType)

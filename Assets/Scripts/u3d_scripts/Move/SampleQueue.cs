@@ -49,24 +49,21 @@ public class SampleQueue
     {
         return positionQueue[positionQueue.Count - 1];
     }
+
     public SampleBase getSampleByPosition(float position)
     {
         Tuple<Int32, Int32> leftAndRight = getLeftAndRight(position);
         Int32 left = leftAndRight.Item1;
-        Int32 right = leftAndRight.Item2;
-        //Debug.Log(left);
-
+       
         SampleBase leftSample = opQueue[left];
-        SampleBase rightSample = right > 0 ? opQueue[right] : null;
-        float percentage = right > left ? (position - positionQueue[left]) / (positionQueue[right] - positionQueue[left]) : 0;
 
-        if (right <= 0)
-        {
-            //Debug.Log("getSampleByPosition:");
-           
-            return leftSample;
-        }
         return leftSample;
+    }
+
+    public Tuple<float, SampleBase> getSampleByIndex(int index)
+    {
+        float position = positionQueue[index];
+        return new Tuple<float, SampleBase>(positionQueue[index], opQueue[index]);
     }
 
     public Tuple<Int32, Int32> getLeftAndRight(float position)
@@ -78,15 +75,16 @@ public class SampleQueue
             if (positionQueue[i] <= position)
             {
                 left = i;
-                continue;
+                right = i;
             }
                 
 
-            if (positionQueue[i] > position) {
+            if (positionQueue[i] >= position) {
                 right = i;
                 break;
             }   
         }
+
         return Tuple.Create<Int32, Int32>(left, right);
     }
 
@@ -107,9 +105,15 @@ public class SampleQueue
         positionQueue.Insert(positionQueue.Count, position);
     }
 
-    public SampleBase end()
+    public Tuple<float, SampleBase> end()
     {
-        return opQueue[opQueue.Count - 1];
+        var a = new Tuple<float, SampleBase>(positionQueue[positionQueue.Count - 1], opQueue[opQueue.Count - 1]);
+        return a;
+    }
+
+    public Tuple<float, SampleBase> fromt()
+    {
+        return new Tuple<float, SampleBase>(positionQueue[0], opQueue[0]);
     }
 
     public void popBeforePosition(float position)

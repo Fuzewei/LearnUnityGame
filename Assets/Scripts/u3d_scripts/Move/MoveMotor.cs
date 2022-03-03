@@ -22,8 +22,11 @@ public class MoveMotor : MonoBehaviour
     private MotorSettingParam moveParam = new MotorSettingParam();
     //操作队列相关
     public SampleQueue localOpQueue; //本地的操作队列
-    public SampleQueue serverOpQueue; //服务端确认的操作队列
+    public SampleQueue serverOpQueue; //收到的服务端操作队列
     public float currentTimeStamp = 0;                 //当前执行到的时间
+
+    public float confirmTimeStamp = 0;                 //服务器确认的时间
+
     public bool isSyncSource = true;
     //操作队列相关 end
 
@@ -38,6 +41,8 @@ public class MoveMotor : MonoBehaviour
     public MoveConst setedMoveType = MoveConst.Idel;                   //设置的移动类型
     public Vector3 moveDirection = Vector3.forward;               //移动方向(局部,向量)
     public Vector3 faceDirection = Vector3.zero;                  //面朝方向(全局,欧拉角)
+
+    public Vector3? forcePosition;                  //面朝方向(全局,欧拉角)
     //设定将要干的事情 end
 
     //计算的值（控制动画状态机的参数）
@@ -56,7 +61,7 @@ public class MoveMotor : MonoBehaviour
 
     CharacterController controller;
 
-    //移动的控制类
+    #region 移动的控制类
     public MoveControlersBase currentMoveControler;
     NormalWalkControler walkMove;
     NormalRunControler runMove;
@@ -64,6 +69,17 @@ public class MoveMotor : MonoBehaviour
     NormalJumpControler jump;
     NormalUseSkillControler useSkill;
     NormalServerMove serverMove;
+    #endregion
+
+    /*
+     * p3使用的
+     * 位置的预测由动画系统做了，只要调整误差
+     * 转动的预测根据历史，计算转动速度
+     */
+    Vector3 positionDiff; //移动误差（位置慢慢调整）
+    float moveDirectionSpeed = 0; // 移动的方向
+    float faceDirectionSpeed = 0; // 朝向y轴的转动速度（用来预测的）
+    public SampleQueue forecastOpQueue; //预测的队列
 
     public Vector3 globalmoveDirection
     {
@@ -83,6 +99,7 @@ public class MoveMotor : MonoBehaviour
         animator.SetFloat("moveSpeed", moveSpeed);
         localOpQueue = new SampleQueue();
         serverOpQueue = new SampleQueue();
+        forecastOpQueue = new SampleQueue();
 
         SampleBase newSample = getNewOpSample(setedMoveType, transform.position, faceDirection, moveDirection, inBattle);
         localOpQueue.push(newSample, currentTimeStamp);
@@ -94,6 +111,8 @@ public class MoveMotor : MonoBehaviour
         useSkill = new NormalUseSkillControler(this);
         serverMove = new NormalServerMove(this);
         currentMoveControler = idle;
+
+        positionDiff = new Vector3(0, 0, 0);
     }
 
     public Vector3 renderRotation
@@ -116,6 +135,8 @@ public class MoveMotor : MonoBehaviour
             return controller.isGrounded;
         }
     }
+
+    #region 设置各种属性
 
     public void setInBattle(bool isInbattle)
     {
@@ -154,6 +175,13 @@ public class MoveMotor : MonoBehaviour
         //}
         faceDirection = direction;
     }
+
+    public void setForcePosition(Vector3 position)
+    {
+        forcePosition = position;
+    }
+
+    #endregion
     public SampleBase getNewOpSample(MoveConst moveType, Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle)
     {
         SampleBase ans = null;
@@ -212,6 +240,9 @@ public class MoveMotor : MonoBehaviour
     private void Update()
     {
         currentTimeStamp += Time.deltaTime;
+
+       // Debug.Log("moveTest1: "+currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
+
         if (isSyncSource)
         {
             p1Update();
@@ -237,11 +268,12 @@ public class MoveMotor : MonoBehaviour
 
     private void p1Update()
     {
-        localOpQueue.popBeforePosition(float.MaxValue);
-
         if (serverOpQueue.lenth() != 0)
         {
             float recentPackageTime = serverOpQueue.recentPosition();
+            confirmTimeStamp = recentPackageTime;
+            localOpQueue.popBeforePosition(confirmTimeStamp - 3);
+
             SampleBase newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
             serverOpQueue.popBeforePosition(float.MaxValue);
             if (newSample.moveType == MoveConst.ServerMove)
@@ -252,32 +284,116 @@ public class MoveMotor : MonoBehaviour
         }
     }
 
+
+
     private void p3Update()
     {
         if (serverOpQueue.lenth() == 0)
         {
             return;
         }
-        float recentPackageTime = serverOpQueue.recentPosition();
-        SampleBase newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
-        serverOpQueue.popBeforePosition(float.MaxValue);
 
+       
+        float recentReciveTimer = serverOpQueue.recentPosition();
 
-        setMoveType(newSample.moveType);
-        setFaceDirection(newSample.faceDirection);
-        setMoveDirection(newSample.moveDirection);
-        setInBattle(newSample.inBattle);
-        if (nowMoveType != setedMoveType)
+        while (serverOpQueue.lenth() > 0)
         {
-            transform.position = newSample.position;
+            Tuple<float, SampleBase> tuple = serverOpQueue.fromt();
+            float serverTimer = tuple.Item1;
+            SampleBase serverSample = tuple.Item2;
+            serverOpQueue.pop();
+            setMoveType(serverSample.moveType);
+            setInBattle(serverSample.inBattle);
+            setMoveDirection(serverSample.moveDirection);
+            setFaceDirection(serverSample.faceDirection);
+            //setForcePosition(serverSample.position);
+            if (serverTimer >= currentTimeStamp || nowMoveType != setedMoveType)
+            {
+                /*
+                 *强制同步的情况
+                 */
+                currentTimeStamp = serverTimer;//todo  p1的修改
+                setForcePosition(serverSample.position);
+               
+            }
+            else
+            {
+                /*
+                 *本地领先，估算本地的误差position的diff,平滑处理
+                 */
+                calculateDiff();
+                //Debug.Log("p3Update:<0 " +"left:" + leftAndRight.Item1 + "right:" + leftAndRight.Item2 + "serverSample"+ serverTimer + "positionDiff:" + positionDiff);
+
+            }
         }
+
+        localOpQueue.popBeforePosition(recentReciveTimer - 3);
+
+    }
+
+    void calculateDiff()
+    {
+        positionDiff = new Vector3(0, 0, 0);
+        faceDirectionSpeed = 0;
+        if (forecastOpQueue.lenth() < 3)
+        {
+            return;
+        }
+        var recent = forecastOpQueue.end();
+        SampleBase recentSampe = recent.Item2;
+        SampleBase localSample = localOpQueue.getSampleByPosition(recent.Item1);
+        positionDiff = recentSampe.position - localSample.position;
+
+        var secend = forecastOpQueue.getSampleByIndex(forecastOpQueue.lenth() - 2);
+        float delterTimer = recent.Item1 - secend.Item1;
+        float y_delter = recent.Item2.faceDirection.y - secend.Item2.faceDirection.y;
+        if (delterTimer < 0.01)
+        {
+            faceDirectionSpeed = 0;
+        }
+        else
+        {
+            faceDirectionSpeed = y_delter / delterTimer;
+        }
+
+    }
+
+    public Vector3 getDelterMove()
+    {
+        Vector3 moveDis = currentMoveControler.calcuteDelterPosition();//马上要移动的偏移
+        Vector3 old = transform.position;
+        controller.Move(moveDis); //设置位移
+        Vector3 _new = transform.position;
+        transform.position = old;
+        Vector3 delter = _new - old;
+        return delter;
     }
     void OnAnimatorMove()
     {
         currentMoveControler.tick(Time.deltaTime);
         currentMoveControler.UpdateMoveSpeed();
-        Vector3 moveDis = currentMoveControler.calcuteDelterPosition();//计算位移偏移
-        controller.Move(moveDis); //设置位移
+        var delterMove = getDelterMove();
+        //Debug.Log("moveTest2: " + currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
+        if (positionDiff.magnitude >= 0.01)
+        {
+            positionDiff /= 2;
+            delterMove += positionDiff;
+        }
+        if (forcePosition.HasValue)
+        {
+            transform.position = forcePosition.Value;
+            forcePosition = null;
+        }
+        else {
+            transform.position += delterMove;
+        }
+
+
+        //Vector3 moveDis = currentMoveControler.calcuteDelterPosition();//计算位移偏移(最好提前)
+        //controller.Move(moveDis); //设置位移
+
+
+        faceDirection.y += faceDirectionSpeed * Time.deltaTime;
         transform.rotation = Quaternion.Euler(faceDirection); //设置朝向
         currentMoveControler.BeforeSwitchMoveControl();//设置切换状态
         flushAnimatorParameter();
@@ -287,11 +403,12 @@ public class MoveMotor : MonoBehaviour
             currentMoveControler.reset();
 
         }
+        //缓存指令
+        SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
+        localOpQueue.push(newSample, currentTimeStamp);
+
         if (isSyncSource)
         {
-            //缓存指令
-            SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
-            localOpQueue.push(newSample, currentTimeStamp);
             KBEngine.Avatar avatar = (KBEngine.Avatar)KBEngineApp.app.player();
             if (nowMoveType != setedMoveType)
             {  
@@ -307,75 +424,14 @@ public class MoveMotor : MonoBehaviour
         inBattle = setedInBattle;
     }
 
-    //void _OnAnimatorMove()
-    //{
-    //    //Debug.Log("OnAnimatorMove:" + animator.speed + animator.velocity.magnitude);
-    //    currentMoveControler.tick(Time.deltaTime);
-    //    currentMoveControler.UpdateMoveSpeed();
-    //    if (isSyncSource)
-    //    {
-    //        currentTimeStamp = Utils.localTime();
-    //        latestTimeStamp = currentTimeStamp;
-
-    //        flushAnimatorParameter();
-    //        controller.Move(currentMoveControler.calcuteDelterPosition());
-    //        transform.rotation = Quaternion.Euler(faceDirection);
-    //        SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
-    //        localOpQueue.push(newSample, currentTimeStamp);
-    //        if (nowMoveType != setedMoveType || setedInBattle != inBattle)
-    //        {
-    //            KBEngine.Event.fireIn("uploadMovetypeAndPositionAndRotation", currentTimeStamp, newSample.moveType, newSample.position, newSample.faceDirection, newSample.moveDirection, newSample.inBattle);
-    //            if (nowMoveType != setedMoveType)
-    //            {
-    //                currentMoveControler = getMoveControl(newSample.moveType);
-    //                currentMoveControler.reset();
-    //            }
-
-    //            nowMoveType = newSample.moveType;
-    //            inBattle = setedInBattle;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        SampleBase newSample = localOpQueue.getSampleByPosition(latestTimeStamp);
-    //        setFaceDirection(newSample.faceDirection);
-    //        setMoveType(newSample.moveType);
-    //        setMoveDirection(newSample.moveDirection);
-    //        setInBattle(newSample.inBattle);
-    //        if (latestTimeStamp != currentTimeStamp)
-    //        {
-    //            currentTimeStamp = latestTimeStamp;
-    //        }
-    //        if (nowMoveType != setedMoveType || setedInBattle != inBattle)
-    //        {
-    //            if (nowMoveType != setedMoveType)
-    //            {
-    //                currentMoveControler = getMoveControl(newSample.moveType);
-    //                currentMoveControler.reset();
-    //            }
-    //            faceDirection = newSample.moveDirection;
-    //            transform.rotation = Quaternion.Euler(faceDirection);
-    //            transform.position = newSample.position;
-    //            flushAnimatorParameter();
-    //            nowMoveType = setedMoveType;
-    //            inBattle = setedInBattle;
-    //        }
-    //        else
-    //        {
-    //            flushAnimatorParameter();
-    //            controller.Move(currentMoveControler.calcuteDelterPosition());
-    //            transform.rotation = Quaternion.Euler(faceDirection);
-
-    //        }
-
-    //    }
-    //}
 
     //收到确认位置信息
     public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle)
     {
         SampleBase newSample = getNewOpSample(moveType, position, faceDirection, moveDirection, inBattle);
         serverOpQueue.push(newSample, timeStamp);
+        forecastOpQueue.push(newSample, timeStamp);
+        forecastOpQueue.popBeforePosition(timeStamp - 3);
     }
 
     //刷新状态机参数
