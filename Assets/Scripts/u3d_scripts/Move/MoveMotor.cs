@@ -124,12 +124,12 @@ public class MoveMotor : MonoBehaviour
         get
         {
             Vector3 ans = transform.rotation.eulerAngles;
-            Debug.Log("setFaceDirection: renderRotation1: " + transform.rotation.eulerAngles);
+           // Debug.Log("setFaceDirection: renderRotation1: " + transform.rotation.eulerAngles);
             var y = (double)(ans.y / 360 * (System.Math.PI * 2));
             if (y - System.Math.PI > 0.0)
                 y -= System.Math.PI * 2;
             ans.y = (float)y;
-            Debug.Log("setFaceDirection: renderRotation2: " + ans);
+           // Debug.Log("setFaceDirection: renderRotation2: " + ans);
             return ans;
         }
     }
@@ -243,7 +243,18 @@ public class MoveMotor : MonoBehaviour
     {
         currentTimeStamp += Time.deltaTime;
 
-       // Debug.Log("moveTest1: "+currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
+        // Debug.Log("moveTest1: "+currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
+        for (int i = 1; i < forecastOpQueue.lenth(); i++)
+        {
+            var b = forecastOpQueue.getSampleByIndex(i);
+            var e = forecastOpQueue.getSampleByIndex(i -1 );
+            var p = b.Item2.position;
+            var p112 = e.Item2.position;
+            p.y += 1;
+            p112.y += 1;
+            Debug.DrawLine(p, p112, Color.yellow);
+        }
+       
 
         if (isSyncSource)
         {
@@ -324,8 +335,8 @@ public class MoveMotor : MonoBehaviour
                 /*
                  *本地领先，估算本地的误差position的diff,平滑处理不用服务器的位置
                  */
-                calculateDiff();
-                //Debug.Log("p3Update:<0 " +"left:" + leftAndRight.Item1 + "right:" + leftAndRight.Item2 + "serverSample"+ serverTimer + "positionDiff:" + positionDiff);
+                calculatePositionDiff();
+                calculateFacedirectionSpeed();
 
             }
         }
@@ -334,35 +345,22 @@ public class MoveMotor : MonoBehaviour
 
     }
 
-    void calculateDiff()
+    
+
+    void calculateFacedirectionSpeed()
     {
-        //移动计算误差，进行调整
-        positionDiff = new Vector3(0, 0, 0);
-        faceDirectionDiff = 0;
-        
         if (forecastOpQueue.lenth() < 3)
         {
             return;
         }
-        var recent = forecastOpQueue.end();
-        SampleBase recentSampe = recent.Item2;
-        var localSample = localOpQueue.getSampleByPosition(recent.Item1);
-        SampleBase localSampe = localSample.Item2;
-
-        positionDiff = recentSampe.position - localSampe.position;
-        faceDirectionDiff = recentSampe.faceDirection.y - localSampe.faceDirection.y;
-       
-       Debug.Log("positionDiff" + positionDiff.magnitude+ "delter_time:" + (recent.Item1 - localSample.Item1) + ":"+ recentSampe.position + "-----" + localSampe.position);
-      
-
+        var r = forecastOpQueue.end();
 
         faceDirectionSpeed = 0;
         //计算旋转的预测
         var secend = forecastOpQueue.getSampleByIndex(forecastOpQueue.lenth() - 2);
-        float delterTimer = recent.Item1 - secend.Item1;
-        var y_recent = recent.Item2.faceDirection.y;
+        float delterTimer = r.Item1 - secend.Item1;
+        var y_recent = r.Item2.faceDirection.y;
         var y_secend = secend.Item2.faceDirection.y;
-        // Mathf.Atan2()
         if (y_recent - y_secend < -180)
         {
             y_recent = 180 + y_recent + 180;
@@ -381,10 +379,33 @@ public class MoveMotor : MonoBehaviour
         {
             faceDirectionSpeed = y_delter / delterTimer;
         }
-        if (faceDirectionSpeed < 10)
+        if (faceDirectionSpeed < 20)
         {
             faceDirectionSpeed = 0;
         }
+    }
+
+    void calculatePositionDiff()
+    {
+        if (forecastOpQueue.lenth() < 3)
+        {
+            return;
+        }
+        //移动计算误差，进行调整
+        positionDiff = new Vector3(0, 0, 0);
+
+        var r = forecastOpQueue.end();
+        SampleBase recentSample = r.Item2;
+        var l = localOpQueue.getSampleByPosition(r.Item1);
+        SampleBase localSample = l.Item2;
+        float timeDiff = r.Item1 - l.Item1;
+        var moveDirection = (Quaternion.Euler(localSample.faceDirection) * localSample.moveDirection).normalized;
+        positionDiff = recentSample.position - (localSample.position + timeDiff * moveSpeed * moveDirection);
+        Debug.Log("positionDiff" + positionDiff.magnitude + "delter_time:" + timeDiff + ":" + recentSample.position + "-----" + (localSample.position + timeDiff * moveSpeed * moveDirection));
+
+
+        faceDirectionDiff = 0;
+        faceDirectionDiff = recentSample.faceDirection.y - (localSample.faceDirection.y + timeDiff * faceDirectionSpeed);
     }
 
     public Vector3 getDelterMove()
@@ -395,7 +416,6 @@ public class MoveMotor : MonoBehaviour
         Vector3 _new = transform.position;
         transform.position = old;
         Vector3 delter = _new - old;
-        Debug.Log("getDelterMove" + delter.magnitude);
         return delter;
     }
     void OnAnimatorMove()
