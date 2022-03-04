@@ -77,6 +77,8 @@ public class MoveMotor : MonoBehaviour
      * 转动的预测根据历史，计算转动速度
      */
     Vector3 positionDiff; //移动误差（位置慢慢调整）
+    float faceDirectionDiff; //朝向误差
+
     float moveDirectionSpeed = 0; // 移动的方向
     float faceDirectionSpeed = 0; // 朝向y轴的转动速度（用来预测的）
     public SampleQueue forecastOpQueue; //预测的队列
@@ -115,15 +117,19 @@ public class MoveMotor : MonoBehaviour
         positionDiff = new Vector3(0, 0, 0);
     }
 
+
+    //unity引擎是0-360度，需要转换成-pai 到+pai
     public Vector3 renderRotation
     {
         get
         {
             Vector3 ans = transform.rotation.eulerAngles;
+            Debug.Log("setFaceDirection: renderRotation1: " + transform.rotation.eulerAngles);
             var y = (double)(ans.y / 360 * (System.Math.PI * 2));
             if (y - System.Math.PI > 0.0)
                 y -= System.Math.PI * 2;
             ans.y = (float)y;
+            Debug.Log("setFaceDirection: renderRotation2: " + ans);
             return ans;
         }
     }
@@ -168,11 +174,7 @@ public class MoveMotor : MonoBehaviour
 
     public void setFaceDirection(Vector3 direction)
     {
-        //if (!currentMoveControler.canSetFaceDirection(ref direction))
-        //{
-        //    faceDirection = transform.rotation.eulerAngles;
-        //    return;
-        //}
+        Debug.Log("setFaceDirection: " + direction );
         faceDirection = direction;
     }
 
@@ -274,9 +276,9 @@ public class MoveMotor : MonoBehaviour
             confirmTimeStamp = recentPackageTime;
             localOpQueue.popBeforePosition(confirmTimeStamp - 3);
 
-            SampleBase newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
+            var newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
             serverOpQueue.popBeforePosition(float.MaxValue);
-            if (newSample.moveType == MoveConst.ServerMove)
+            if (newSample.Item2.moveType == MoveConst.ServerMove)
             {
                 p3Update();
                 return;
@@ -306,7 +308,6 @@ public class MoveMotor : MonoBehaviour
             setInBattle(serverSample.inBattle);
             setMoveDirection(serverSample.moveDirection);
             setFaceDirection(serverSample.faceDirection);
-            //setForcePosition(serverSample.position);
             if (serverTimer >= currentTimeStamp || nowMoveType != setedMoveType)
             {
                 /*
@@ -314,12 +315,14 @@ public class MoveMotor : MonoBehaviour
                  */
                 currentTimeStamp = serverTimer;//todo  p1的修改
                 setForcePosition(serverSample.position);
-               
+                positionDiff = new Vector3(0, 0, 0);
+                faceDirectionSpeed = 0;
+
             }
             else
             {
                 /*
-                 *本地领先，估算本地的误差position的diff,平滑处理
+                 *本地领先，估算本地的误差position的diff,平滑处理不用服务器的位置
                  */
                 calculateDiff();
                 //Debug.Log("p3Update:<0 " +"left:" + leftAndRight.Item1 + "right:" + leftAndRight.Item2 + "serverSample"+ serverTimer + "positionDiff:" + positionDiff);
@@ -333,21 +336,44 @@ public class MoveMotor : MonoBehaviour
 
     void calculateDiff()
     {
+        //移动计算误差，进行调整
         positionDiff = new Vector3(0, 0, 0);
-        faceDirectionSpeed = 0;
+        faceDirectionDiff = 0;
+        
         if (forecastOpQueue.lenth() < 3)
         {
             return;
         }
         var recent = forecastOpQueue.end();
         SampleBase recentSampe = recent.Item2;
-        SampleBase localSample = localOpQueue.getSampleByPosition(recent.Item1);
-        positionDiff = recentSampe.position - localSample.position;
+        var localSample = localOpQueue.getSampleByPosition(recent.Item1);
+        SampleBase localSampe = localSample.Item2;
 
+        positionDiff = recentSampe.position - localSampe.position;
+        faceDirectionDiff = recentSampe.faceDirection.y - localSampe.faceDirection.y;
+       
+       Debug.Log("positionDiff" + positionDiff.magnitude+ "delter_time:" + (recent.Item1 - localSample.Item1) + ":"+ recentSampe.position + "-----" + localSampe.position);
+      
+
+
+        faceDirectionSpeed = 0;
+        //计算旋转的预测
         var secend = forecastOpQueue.getSampleByIndex(forecastOpQueue.lenth() - 2);
         float delterTimer = recent.Item1 - secend.Item1;
-        float y_delter = recent.Item2.faceDirection.y - secend.Item2.faceDirection.y;
-        if (delterTimer < 0.01)
+        var y_recent = recent.Item2.faceDirection.y;
+        var y_secend = secend.Item2.faceDirection.y;
+        // Mathf.Atan2()
+        if (y_recent - y_secend < -180)
+        {
+            y_recent = 180 + y_recent + 180;
+        }
+        else if (y_recent - y_secend >= 180)
+        {
+            y_recent = y_recent - 180 - 180;
+        }
+        float y_delter = y_recent - y_secend;
+
+        if (delterTimer < 0.008)
         {
             faceDirectionSpeed = 0;
         }
@@ -355,7 +381,10 @@ public class MoveMotor : MonoBehaviour
         {
             faceDirectionSpeed = y_delter / delterTimer;
         }
-
+        if (faceDirectionSpeed < 10)
+        {
+            faceDirectionSpeed = 0;
+        }
     }
 
     public Vector3 getDelterMove()
@@ -366,6 +395,7 @@ public class MoveMotor : MonoBehaviour
         Vector3 _new = transform.position;
         transform.position = old;
         Vector3 delter = _new - old;
+        Debug.Log("getDelterMove" + delter.magnitude);
         return delter;
     }
     void OnAnimatorMove()
@@ -376,9 +406,11 @@ public class MoveMotor : MonoBehaviour
         //Debug.Log("moveTest2: " + currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
         if (positionDiff.magnitude >= 0.01)
         {
-            positionDiff /= 2;
-            delterMove += positionDiff;
+            //positionDiff /= 2;
+            delterMove += positionDiff * Time.deltaTime;
+            positionDiff -= positionDiff * Time.deltaTime;
         }
+
         if (forcePosition.HasValue)
         {
             transform.position = forcePosition.Value;
@@ -394,6 +426,13 @@ public class MoveMotor : MonoBehaviour
 
 
         faceDirection.y += faceDirectionSpeed * Time.deltaTime;
+
+        if (faceDirectionDiff!=0)
+        {
+           // faceDirection.y += faceDirectionDiff * Time.deltaTime;
+            //faceDirectionDiff-= faceDirectionDiff * Time.deltaTime;
+        }
+
         transform.rotation = Quaternion.Euler(faceDirection); //设置朝向
         currentMoveControler.BeforeSwitchMoveControl();//设置切换状态
         flushAnimatorParameter();
@@ -404,7 +443,7 @@ public class MoveMotor : MonoBehaviour
 
         }
         //缓存指令
-        SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle);
+        SampleBase newSample = getNewOpSample(setedMoveType, transform.position, renderRotation, moveDirection, setedInBattle); //本地放的是弧度，而且是经过调整到-pai到pai的
         localOpQueue.push(newSample, currentTimeStamp);
 
         if (isSyncSource)
@@ -432,6 +471,7 @@ public class MoveMotor : MonoBehaviour
         serverOpQueue.push(newSample, timeStamp);
         forecastOpQueue.push(newSample, timeStamp);
         forecastOpQueue.popBeforePosition(timeStamp - 3);
+        Debug.Log("confirmMoveTimeStamp" + faceDirection);
     }
 
     //刷新状态机参数

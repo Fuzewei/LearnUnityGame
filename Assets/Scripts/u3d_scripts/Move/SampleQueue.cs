@@ -50,14 +50,14 @@ public class SampleQueue
         return positionQueue[positionQueue.Count - 1];
     }
 
-    public SampleBase getSampleByPosition(float position)
+    public Tuple<float, SampleBase> getSampleByPosition(float position)
     {
         Tuple<Int32, Int32> leftAndRight = getLeftAndRight(position);
         Int32 left = leftAndRight.Item1;
        
         SampleBase leftSample = opQueue[left];
 
-        return leftSample;
+        return new Tuple<float, SampleBase>(positionQueue[left], opQueue[left]);
     }
 
     public Tuple<float, SampleBase> getSampleByIndex(int index)

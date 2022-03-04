@@ -76,14 +76,8 @@ public class InputControl : MonoBehaviour
         {
             float rotateAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg;
             Vector3 inputRotation = new Vector3(0, Camera.main.transform.rotation.eulerAngles.y + rotateAngle, 0);
-            if (inputRotation.y < 0)
-            {
-                inputRotation.y += 360;
-            }
-            else if (inputRotation.y >= 360)
-            {
-                inputRotation.y -= 360;
-            }
+            inputRotation = Quaternion.Euler(inputRotation).eulerAngles;
+           
             motor.setFaceDirection(inputRotation);
             motor.setMoveDirection(Vector3.forward);
         }
