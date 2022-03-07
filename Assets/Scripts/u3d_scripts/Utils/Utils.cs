@@ -21,13 +21,27 @@ namespace KBEngine
         {
             return Time.realtimeSinceStartup;
         }
-
         public static Vector3 directAngleLerp(Vector3 v_1, Vector3 v_2, float persentage)
         {
             Quaternion t_1 = Quaternion.Euler(v_1);
             Quaternion t_2 = Quaternion.Euler(v_2);
             Quaternion ans = Quaternion.Lerp(t_1, t_2, persentage);
             return ans.eulerAngles;
+        }
+        //循环范围计算最小距离
+        public static float cycleMin(float min, float max, float old, float _new){
+            float len = max - min;
+            float halfLen = len / 2.0f;
+            if (_new - old < -halfLen)
+            {
+                _new = len + _new ;
+            }
+            else if (_new - old >= halfLen)
+            {
+                _new = _new - len;
+            }
+            float y_delter = _new - old;
+            return y_delter;
         }
 
     }

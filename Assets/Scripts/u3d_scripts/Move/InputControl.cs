@@ -41,7 +41,7 @@ public class InputControl : MonoBehaviour
         bool jump = Input.GetKeyDown(KeyCode.Space);
         bool equip = Input.GetKeyDown(KeyCode.E);
 
-
+       
         //非持续输入的处理
         if (equip)
         {
@@ -59,6 +59,8 @@ public class InputControl : MonoBehaviour
         }
 
         //持续输入的处理
+
+        bool canSetFaceDirection = true;
         if (directionVector.magnitude >= 0.2 && acc == false)
         {
             KBEngine.Event.fireIn("playerWalk");
@@ -70,6 +72,7 @@ public class InputControl : MonoBehaviour
         else
         {
             KBEngine.Event.fireIn("playerIdle");
+            canSetFaceDirection = false;
         }
 
         if (!motor.inBattle)
@@ -77,8 +80,11 @@ public class InputControl : MonoBehaviour
             float rotateAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg;
             Vector3 inputRotation = new Vector3(0, Camera.main.transform.rotation.eulerAngles.y + rotateAngle, 0);
             inputRotation = Quaternion.Euler(inputRotation).eulerAngles;
-           
-            motor.setFaceDirection(inputRotation);
+
+            if (canSetFaceDirection)
+            {
+                motor.setFaceDirection(inputRotation);
+            }
             motor.setMoveDirection(Vector3.forward);
         }
         else

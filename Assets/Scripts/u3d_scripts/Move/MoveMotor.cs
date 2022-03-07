@@ -47,6 +47,7 @@ public class MoveMotor : MonoBehaviour
 
     //计算的值（控制动画状态机的参数）
     public float moveSpeed = 0.0f;                               //当前个水平方向的移速
+    public float faceDiectionSpeed = 0.0f;                               //面朝方向转向速度（+向右）
     public float moveVerticalSpeed = 0.0f;                         //当前个竖直方向的移速
 
     public float stopMoveBlend = 0.0f;                               //停止混合参数
@@ -175,6 +176,8 @@ public class MoveMotor : MonoBehaviour
     public void setFaceDirection(Vector3 direction)
     {
         Debug.Log("setFaceDirection: " + direction );
+        faceDiectionSpeed = Utils.cycleMin(0, 360, faceDirection.y, direction.y);
+        Debug.Log("setFaceDirection: " + direction + " ::" + faceDiectionSpeed);
         faceDirection = direction;
     }
 
@@ -361,15 +364,16 @@ public class MoveMotor : MonoBehaviour
         float delterTimer = r.Item1 - secend.Item1;
         var y_recent = r.Item2.faceDirection.y;
         var y_secend = secend.Item2.faceDirection.y;
-        if (y_recent - y_secend < -180)
-        {
-            y_recent = 180 + y_recent + 180;
-        }
-        else if (y_recent - y_secend >= 180)
-        {
-            y_recent = y_recent - 180 - 180;
-        }
-        float y_delter = y_recent - y_secend;
+        //if (y_recent - y_secend < -180)
+        //{
+        //    y_recent = 180 + y_recent + 180;
+        //}
+        //else if (y_recent - y_secend >= 180)
+        //{
+        //    y_recent = y_recent - 180 - 180;
+        //}
+        //float y_delter = y_recent - y_secend;
+        float y_delter = Utils.cycleMin(-180, 180, y_secend, y_recent);
 
         if (delterTimer < 0.008)
         {
@@ -519,6 +523,7 @@ public class MoveMotor : MonoBehaviour
 
         animator.SetInteger("moveType", (int)setedMoveType);
         animator.SetFloat("moveSpeed", this.moveSpeed);
+        animator.SetFloat("rotationAngle", faceDiectionSpeed * 10);
         animator.SetFloat("stopMoveBlend", this.stopMoveBlend);
 
         animator.SetFloat("X", this.moveDirection.x);
