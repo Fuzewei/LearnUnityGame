@@ -15,6 +15,8 @@
 
 		}
 
+
+
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
 		{
 			// Dbg.DEBUG_MSG(className + "::recvDamage: attackerID=" + attackerID + ", skillID=" + skillID + ", damageType=" + damageType + ", damage=" + damage);
@@ -40,30 +42,21 @@
 
 		public void requestUseSkill(int skillid)
 		{
-			skillTimeLine line = new skillTimeLine(this);
-			NodeBase NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
-			line.addNode(NodeBase1);
-			NodeBase NodeBase2 = new CommonAttack(0.3f);
-			line.addNode(NodeBase2);
-			NodeBase NodeBase3 = new TimeLineEndNode(1.5f);
-			line.addNode(NodeBase3);
+			skillTimeLine line = SkillFactory.getTimeLineById(this, skillid);
 			var uuid = timeLineManager.getUUid();
+			line.setUUID(uuid);
 			timeLineManager.addTimeLine(uuid, line);
 			cellEntityCall.clientRequestUseSkill(uuid, skillid);
 		}
 
+		public void onTimeLineFinish(UUID uuid)
+		{
+			
+		}
+
 		public override void serverRequestUseSkill(uint UUid, Int32 skillId)
 		{
-			skillTimeLine line = new skillTimeLine(this);
-			PlayerAnimationNode NodeBase1 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack01");
-			NodeBase1.nodeType = SkillNodeType.P3;
-			line.addNode(NodeBase1);
-			CommonAttack NodeBase2 = new CommonAttack(0.3f);
-			NodeBase2.nodeType = SkillNodeType.P3;
-			line.addNode(NodeBase2);
-			TimeLineEndNode NodeBase3 = new TimeLineEndNode(1.5f);
-			NodeBase3.nodeType = SkillNodeType.P3;
-			line.addNode(NodeBase3);
+			skillTimeLine line = SkillFactory.getTimeLineById(this, skillId, SkillNodeType.P3);
 			timeLineManager.addTimeLine(UUid, line);
 		}
 

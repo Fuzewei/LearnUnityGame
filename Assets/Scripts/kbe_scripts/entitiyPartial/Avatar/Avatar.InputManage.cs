@@ -45,7 +45,7 @@
 			Dbg.DEBUG_MSG("useSkill:" + skillid);
 			preUseSkillId = skillid;
 			renderEntity.setEntityInUseSkill(skillid);
-			//requestUseSkill(skillid);
+			requestUseSkill(skillid);
 		}
 
 		public virtual void skillFinish(int skillid)

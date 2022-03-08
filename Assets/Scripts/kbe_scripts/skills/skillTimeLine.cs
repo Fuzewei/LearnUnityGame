@@ -9,10 +9,16 @@ namespace KBEngine
     public class skillTimeLine: TimeLineBase
     {
         public Entity ownerEntity;
-        
+        public uint uuid;
+
         public skillTimeLine(Entity ownerEntity) :base()
         {
             this.ownerEntity = ownerEntity;
+        }
+
+        public void  setUUID(uint uuid)
+        {
+            this.uuid = uuid;
         }
 
         public override void start()

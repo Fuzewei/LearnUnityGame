@@ -260,8 +260,6 @@ public class GameEntity : MonoBehaviour
 		moveMotor.setMoveType(moveType);
 	}
 
-
-
 	public void setEnitiyInbattle(bool inBattle)
 	{
 		moveMotor.setInBattle(inBattle);
