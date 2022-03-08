@@ -28,7 +28,7 @@ namespace KBEngine
             Quaternion ans = Quaternion.Lerp(t_1, t_2, persentage);
             return ans.eulerAngles;
         }
-        //循环范围计算最小距离
+        //循环范围计算最两者的距离
         public static float cycleMin(float min, float max, float old, float _new){
             float len = max - min;
             float halfLen = len / 2.0f;

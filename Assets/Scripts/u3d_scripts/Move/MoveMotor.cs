@@ -175,9 +175,9 @@ public class MoveMotor : MonoBehaviour
 
     public void setFaceDirection(Vector3 direction)
     {
-        Debug.Log("setFaceDirection: " + direction );
+        //Debug.Log("setFaceDirection: " + direction );
         faceDiectionSpeed = Utils.cycleMin(0, 360, faceDirection.y, direction.y);
-        Debug.Log("setFaceDirection: " + direction + " ::" + faceDiectionSpeed);
+        //Debug.Log("setFaceDirection: " + direction + " ::" + faceDiectionSpeed);
         faceDirection = direction;
     }
 
@@ -364,15 +364,6 @@ public class MoveMotor : MonoBehaviour
         float delterTimer = r.Item1 - secend.Item1;
         var y_recent = r.Item2.faceDirection.y;
         var y_secend = secend.Item2.faceDirection.y;
-        //if (y_recent - y_secend < -180)
-        //{
-        //    y_recent = 180 + y_recent + 180;
-        //}
-        //else if (y_recent - y_secend >= 180)
-        //{
-        //    y_recent = y_recent - 180 - 180;
-        //}
-        //float y_delter = y_recent - y_secend;
         float y_delter = Utils.cycleMin(-180, 180, y_secend, y_recent);
 
         if (delterTimer < 0.008)
@@ -383,7 +374,7 @@ public class MoveMotor : MonoBehaviour
         {
             faceDirectionSpeed = y_delter / delterTimer;
         }
-        if (faceDirectionSpeed < 20)
+        if (faceDirectionSpeed < 40)
         {
             faceDirectionSpeed = 0;
         }
@@ -431,8 +422,8 @@ public class MoveMotor : MonoBehaviour
         if (positionDiff.magnitude >= 0.01)
         {
             //positionDiff /= 2;
-            delterMove += positionDiff * Time.deltaTime;
-            positionDiff -= positionDiff * Time.deltaTime;
+            delterMove += positionDiff * Mathf.Min(0.9f, Time.deltaTime);
+            positionDiff -= positionDiff * Mathf.Min(0.9f, Time.deltaTime);
         }
 
         if (forcePosition.HasValue)

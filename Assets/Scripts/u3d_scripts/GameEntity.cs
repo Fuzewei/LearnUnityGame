@@ -267,14 +267,24 @@ public class GameEntity : MonoBehaviour
 		moveMotor.setInBattle(inBattle);
 	}
 
-	public void setEnitiyInUseSkill(int skillid)
+	public void setEntityInUseSkill(int skillid)
 	{
 		moveMotor.setInUseSkill(skillid);
 	}
 
-	public void setEnitiyFinishSkill(int skillid)
+	public void setEntityFinishSkill(int skillid)
 	{
 		moveMotor.setFinishSkill(skillid);
+	}
+
+	public void setEntityFaceDirection(VECTOR3 faceDirection)
+	{
+		moveMotor.setFaceDirection(faceDirection);
+	}
+
+	public void setEntityMoveDirection(VECTOR3 moveDirection)
+	{
+		moveMotor.setMoveDirection(moveDirection);
 	}
 
 	public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 direction, Vector3 moveDirection, bool inBattle)
