@@ -53,9 +53,9 @@
 			renderEntity.setEntityInUseSkill(skillid);
 		}
 
-		public void skillFinish(int skillid)
+		public void onSkillFinish(int skillid)
 		{
-			Dbg.DEBUG_MSG("skillFinish:" + skillid);
+			Dbg.DEBUG_MSG("onSkillFinish:" + skillid);
 			preUseSkill = null;
 			renderEntity.setEntityFinishSkill(skillid);
 		}

@@ -56,7 +56,7 @@ namespace KBEngine
 
 		public void onFininsh()
 		{
-			avatar.skillFinish(skillId);
+			avatar.onSkillFinish(skillId);
 		}
 
 
