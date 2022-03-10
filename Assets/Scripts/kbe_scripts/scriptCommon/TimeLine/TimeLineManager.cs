@@ -21,18 +21,39 @@ namespace GameLogic
             timeLine.setManager(this);
             timeLine.start();
             timeLines.Add(_id, timeLine);
-            if (timeLine.getNextDelterTime() < nextDelterTime)
+
+            if (updateTimerId > 0)
             {
+                TimerUtils.cancelTimer(updateTimerId);
+            }
+
+            nextDelterTime = timeLine.getNextDelterTime();
+            updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
+
+
+            return _id;
+        }
+
+        public bool delTimeLine(uint uuid)
+        {
+            TimeLineBase timeLine = getTimeLine(uuid);
+            if (timeLine!=null)
+            {
+                timeLine.onEnd();
+                timeLines.Remove(uuid);
                 if (updateTimerId > 0)
                 {
                     TimerUtils.cancelTimer(updateTimerId);
                 }
-
-                nextDelterTime = timeLine.getNextDelterTime(); 
-                updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
+                nextDelterTime = timeLine.getNextDelterTime();
+                if (nextDelterTime < float.MaxValue)
+                {
+                    updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
+                }
+                return true;
             }
-            
-            return _id;
+           
+            return false;
         }
 
         public TimeLineBase getTimeLine(uint uuid)
@@ -43,7 +64,7 @@ namespace GameLogic
                 return ans;
             }
             else
-                return null;       
+                return null;
         }
 
         public void onTime(params object[] args)

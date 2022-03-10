@@ -34,9 +34,9 @@ namespace KBEngine
 		{
 			for(int i=0; i<skills.Count; i++)
 			{
-				if(skills[i].id == skill.id)
+				if(skills[i].skillId == skill.skillId)
 				{
-					Dbg.DEBUG_MSG("SkillBox::add: " + skill.id  + " is exist!");
+					Dbg.DEBUG_MSG("SkillBox::add: " + skill.skillId  + " is exist!");
 					return;
 				}
 			}
@@ -48,7 +48,7 @@ namespace KBEngine
 		{
 			for(int i=0; i<skills.Count; i++)
 			{
-				if(skills[i].id == id)
+				if(skills[i].skillId == id)
 				{
 					skills.RemoveAt(i);
 					return;
@@ -60,7 +60,7 @@ namespace KBEngine
 		{
 			for(int i=0; i<skills.Count; i++)
 			{
-				if(skills[i].id == id)
+				if(skills[i].skillId == id)
 				{
 					return skills[i];
 				}

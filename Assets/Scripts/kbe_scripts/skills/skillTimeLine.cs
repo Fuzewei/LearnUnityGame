@@ -16,7 +16,7 @@ namespace KBEngine
             this.ownerEntity = ownerEntity;
         }
 
-        public void  setUUID(uint uuid)
+        public void setUUID(uint uuid)
         {
             this.uuid = uuid;
         }
@@ -39,7 +39,10 @@ namespace KBEngine
             {
                 item.OnDestory();
             }
+
+            ((Avatar)ownerEntity).onTimeLineFinish(uuid);
         }
+
         public void callServer(uint nodeId, TABLE arg)
         {
             Dbg.DEBUG_MSG("skillTimeLine:callServer");

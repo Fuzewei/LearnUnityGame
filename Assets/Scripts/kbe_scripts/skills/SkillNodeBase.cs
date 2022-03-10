@@ -44,17 +44,17 @@ namespace KBEngine
             Dbg.DEBUG_MSG("SkillNodeBase.Run" + this.GetType().Name);
 
             switch (nodeType)
-           {
-               case SkillNodeType.P1:
+            {
+                case SkillNodeType.P1:
                     runP1();
                     break;
                 case SkillNodeType.P3:
                     runP3();
                     break;
-               default:
+                default:
                     Dbg.DEBUG_MSG("error");
                     break;
-           }
+            }
         }
 
     }

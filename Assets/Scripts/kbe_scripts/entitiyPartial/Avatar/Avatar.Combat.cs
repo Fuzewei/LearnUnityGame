@@ -7,12 +7,13 @@
 	using Const;
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
-		private TimeLineManager timeLineManager;
+		public TimeLineManager timeLineManager;
+
+		public Skill preUseSkill;
+
 		private void __init__Combat()
 		{
-
 			timeLineManager = new TimeLineManager();
-
 		}
 
 
@@ -42,21 +43,31 @@
 
 		public void requestUseSkill(int skillid)
 		{
-			skillTimeLine line = SkillFactory.getTimeLineById(this, skillid);
-			var uuid = timeLineManager.getUUid();
-			line.setUUID(uuid);
-			timeLineManager.addTimeLine(uuid, line);
+			if (preUseSkill != null)
+			{
+				return;
+			}
+			preUseSkill = new Skill(skillid, this);
+			var uuid = preUseSkill.use();
 			cellEntityCall.clientRequestUseSkill(uuid, skillid);
+			renderEntity.setEntityInUseSkill(skillid);
+		}
+
+		public void skillFinish(int skillid)
+		{
+			Dbg.DEBUG_MSG("skillFinish:" + skillid);
+			preUseSkill = null;
+			renderEntity.setEntityFinishSkill(skillid);
 		}
 
 		public void onTimeLineFinish(UUID uuid)
 		{
-			
+			preUseSkill?.onTimeLineFinish(uuid);
 		}
 
-		public override void serverRequestUseSkill(uint UUid, Int32 skillId)
+		public override void serverRequestUseSkill(uint UUid, Int32 timeLineId)
 		{
-			skillTimeLine line = SkillFactory.getTimeLineById(this, skillId, SkillNodeType.P3);
+			skillTimeLine line = SkillFactory.getTimeLineById(this, timeLineId, SkillNodeType.P3);
 			timeLineManager.addTimeLine(UUid, line);
 		}
 

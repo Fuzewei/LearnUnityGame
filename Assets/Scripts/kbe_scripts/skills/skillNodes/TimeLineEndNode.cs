@@ -15,7 +15,11 @@ namespace KBEngine
 
         public override void runP1()
         {
-            avatarOwner.skillFinish(1);
+            
+        }
+
+        public override void OnDestory()
+        {
         }
     }
 }

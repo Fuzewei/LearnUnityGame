@@ -8,7 +8,7 @@
 	//和玩家控制相关的，包括玩家主动输入和程序输入(不一定移动是引擎的Event通知)
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
-		private int preUseSkillId = 0;
+		
 		private MoveConst preMoveState = MoveConst.Idel;
 		private bool preInbattle = false;
 
@@ -39,26 +39,15 @@
 			renderEntity.setEnitiyInbattle(settedInBattle);
 		}
 
-
 		public virtual void useSkill(int skillid)
 		{
-			Dbg.DEBUG_MSG("useSkill:" + skillid);
-			preUseSkillId = skillid;
-			renderEntity.setEntityInUseSkill(skillid);
+			Dbg.DEBUG_MSG("useSkill:" + skillid );
 			requestUseSkill(skillid);
-		}
-
-		public virtual void skillFinish(int skillid)
-		{
-			Dbg.DEBUG_MSG("skillFinish:" + skillid);
-			preUseSkillId = 0;
-			renderEntity.setEntityFinishSkill(skillid);
-			//requestUseSkill(skillid);
 		}
 
 		public virtual void playerJump()
 		{
-			if (preUseSkillId > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (preUseSkill != null || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
@@ -78,7 +67,7 @@
 
 		public virtual void playerWalk()
 		{
-			if (preUseSkillId > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (preUseSkill != null || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
@@ -92,7 +81,7 @@
 
 		public virtual void playerRun()
 		{
-			if (preUseSkillId > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (preUseSkill != null || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
@@ -106,7 +95,7 @@
 
 		public virtual void playerIdle()
 		{
-			if (preUseSkillId > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (preUseSkill != null || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
