@@ -35,7 +35,7 @@
                     CommonAttack NodeBase7 = new CommonAttack(0.3f);
                     NodeBase7.nodeType = nodeType;
                     line.addNode(NodeBase7);
-                    StartNewTimeLine NodeBase8 = new StartNewTimeLine(0.8f, 0.2f, 2);
+                    StartNewTimeLine NodeBase8 = new StartNewTimeLine(0.8f, 0.4f, 3);
                     NodeBase8.nodeType = nodeType;
                     line.addNode(NodeBase8);
                     TimeLineEndNode NodeBase9 = new TimeLineEndNode(1.5f);
@@ -46,7 +46,7 @@
                     PlayerAnimationNode NodeBase10 = new PlayerAnimationNode(0.0f, "Attack.GreatSword_Attack03");
                     NodeBase10.nodeType = nodeType;
                     line.addNode(NodeBase10);
-                    CommonAttack NodeBase11 = new CommonAttack(0.3f);
+                    CommonAttack NodeBase11 = new CommonAttack(0.6f);
                     NodeBase11.nodeType = nodeType;
                     line.addNode(NodeBase11);
                     //StartNewTimeLine NodeBase12 = new StartNewTimeLine(1.0f, 0.4f, 3);
