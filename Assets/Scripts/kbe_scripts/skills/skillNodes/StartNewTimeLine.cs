@@ -10,7 +10,6 @@ namespace KBEngine
     {
         public float durationTime;
         public int newTimeLineId;
-        private Action<int> useSkillCb;
         private float beginRegisterTimer;
 
         public StartNewTimeLine(float timeStamp, float _durationTime, int timeLineId) : base(timeStamp)
@@ -21,8 +20,7 @@ namespace KBEngine
 
         public override void runP1()
         {
-            useSkillCb = new Action<int>(useSkill);
-            Event.registerIn("useSkill", useSkillCb);//使用技能
+            Event.registerIn("useSkill", new Action<int>(useSkill));//使用技能
             beginRegisterTimer = Utils.localTime();
         }
 
@@ -43,18 +41,17 @@ namespace KBEngine
             {
                 return;
             }
-            if (skillid == 1)
-            {
-                Event.deregisterIn(this);
-                TABLE arg = new TABLE();
-                arg.dictOrlist = 0;
+            
+             Event.deregisterIn(this);
+             TABLE arg = new TABLE();
+             arg.dictOrlist = 0;
 
-                var uuid = avatarOwner.timeLineManager.getUUid();
-                avatarOwner.preUseSkill.startTimeLine(newTimeLineId, uuid);
-                arg.values.Add(newTimeLineId);
-                arg.values.Add(uuid);
-                ((skillTimeLine)owneTimeLine).callServer(2, arg);
-            }
+             var uuid = avatarOwner.timeLineManager.getUUid();
+             avatarOwner.preUseSkill.startTimeLine(newTimeLineId, uuid);
+             arg.values.Add(newTimeLineId);
+             arg.values.Add(uuid);
+             ((skillTimeLine)owneTimeLine).callServer(2, arg);
+            
         }
 
         public override void serverCall(TABLE args)
