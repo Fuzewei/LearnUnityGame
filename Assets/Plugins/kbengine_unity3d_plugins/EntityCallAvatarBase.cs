@@ -54,6 +54,26 @@ namespace KBEngine
 			sendCall(null);
 		}
 
+		public void clientSkillFinish(Int32 arg1)
+		{
+			Bundle pBundle = newCall("clientSkillFinish", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeInt32(arg1);
+			sendCall(null);
+		}
+
+		public void clientTimeLineFinish(UInt32 arg1)
+		{
+			Bundle pBundle = newCall("clientTimeLineFinish", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeUint32(arg1);
+			sendCall(null);
+		}
+
 		public void dialog(Int32 arg1, UInt32 arg2)
 		{
 			Bundle pBundle = newCall("dialog", 0);

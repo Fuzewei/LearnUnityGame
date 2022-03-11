@@ -83,5 +83,8 @@ namespace KBEngine
 		{ 
 		}
 
+		public override void serverSkillFinish(Int32 arg1) { }
+		public override void serverTimeLineFinish(UInt32 arg1) { }
+
 	}
 } 

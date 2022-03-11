@@ -486,7 +486,7 @@ public class MoveMotor : MonoBehaviour
         serverOpQueue.push(newSample, timeStamp);
         forecastOpQueue.push(newSample, timeStamp);
         forecastOpQueue.popBeforePosition(timeStamp - 3);
-        Debug.Log("confirmMoveTimeStamp" + faceDirection);
+        //Debug.Log("confirmMoveTimeStamp" + faceDirection);
     }
 
     //刷新状态机参数

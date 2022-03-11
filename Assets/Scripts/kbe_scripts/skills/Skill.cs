@@ -27,11 +27,6 @@ namespace KBEngine
 			nodeType = _nodeType;
 		}
 
-		public uint use()
-		{
-			return startTimeLine(initTimeLineId, avatar.timeLineManager.getUUid());
-		}
-
 		public uint startTimeLine(int timeLineId, uint uuid )
 		{
 			skillTimeLine line = SkillFactory.getTimeLineById(avatar, timeLineId, nodeType);
@@ -56,7 +51,11 @@ namespace KBEngine
 
 		public void onFininsh()
 		{
-			avatar.onSkillFinish(skillId);
+            if (nodeType == SkillNodeType.P1)
+            {
+				avatar.onSkillFinish(skillId);
+			}
+
 		}
 
 

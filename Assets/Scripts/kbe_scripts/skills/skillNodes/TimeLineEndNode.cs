@@ -15,7 +15,7 @@ namespace KBEngine
 
         public override void runP1()
         {
-            
+            avatarOwner.onTimeLineFinish(owneTimeLine.uuid);
         }
 
         public override void OnDestory()

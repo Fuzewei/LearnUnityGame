@@ -109,7 +109,7 @@
 
 		public virtual void setFaceDirection(VECTOR3 faceDirection)
 		{
-			Dbg.DEBUG_MSG("setFaceDirection:" + faceDirection);
+			//Dbg.DEBUG_MSG("setFaceDirection:" + faceDirection);
 			if (preMoveState != MoveConst.Idel)
 			{
 				renderEntity.setEntityFaceDirection(faceDirection);

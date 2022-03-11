@@ -72,6 +72,8 @@ namespace KBEngine
 		public abstract void onRemoveSkill(Int32 arg1); 
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
 		public abstract void serverRequestUseSkill(UInt32 arg1, Int32 arg2); 
+		public abstract void serverSkillFinish(Int32 arg1); 
+		public abstract void serverTimeLineFinish(UInt32 arg1); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
 
 		public AvatarBase()
@@ -267,7 +269,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 35:
+				case 39:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -299,19 +301,27 @@ namespace KBEngine
 					Int32 onRemoveSkill_arg1 = stream.readInt32();
 					onRemoveSkill(onRemoveSkill_arg1);
 					break;
-				case 18:
+				case 20:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
 					break;
-				case 20:
+				case 22:
 					UInt32 serverRequestUseSkill_arg1 = stream.readUint32();
 					Int32 serverRequestUseSkill_arg2 = stream.readInt32();
 					serverRequestUseSkill(serverRequestUseSkill_arg1, serverRequestUseSkill_arg2);
 					break;
-				case 19:
+				case 23:
+					Int32 serverSkillFinish_arg1 = stream.readInt32();
+					serverSkillFinish(serverSkillFinish_arg1);
+					break;
+				case 24:
+					UInt32 serverTimeLineFinish_arg1 = stream.readUint32();
+					serverTimeLineFinish(serverTimeLineFinish_arg1);
+					break;
+				case 21:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);

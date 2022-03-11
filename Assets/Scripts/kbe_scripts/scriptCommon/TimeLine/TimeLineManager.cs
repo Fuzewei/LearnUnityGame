@@ -6,6 +6,8 @@ namespace GameLogic
     public class TimeLineManager
     {
         private uint nodeUUid = 1;
+        private Dictionary<uint, TimeLineBase> onTimeTimeLines = new Dictionary<uint, TimeLineBase>(); //已经到时间的timeline，等待服务器的信息才能删除
+
         private Dictionary<uint, TimeLineBase> timeLines = new Dictionary<uint, TimeLineBase>();
         private Dictionary<uint, Dictionary<int, object>> timeLinesData = new Dictionary<uint, Dictionary<int, object>>();
 
@@ -41,18 +43,19 @@ namespace GameLogic
             {
                 timeLine.onEnd();
                 timeLines.Remove(uuid);
+                onTimeTimeLines.Remove(uuid);
                 if (updateTimerId > 0)
                 {
                     TimerUtils.cancelTimer(updateTimerId);
                 }
-                nextDelterTime = timeLine.getNextDelterTime();
+                nextDelterTime = getNextTimer();
                 if (nextDelterTime < float.MaxValue)
                 {
                     updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
                 }
                 return true;
             }
-           
+
             return false;
         }
 
@@ -63,8 +66,12 @@ namespace GameLogic
             {
                 return ans;
             }
+            else if (onTimeTimeLines.TryGetValue(uuid, out ans))
+            {
+                return ans;
+            }
             else
-                return null;
+            { return null; }
         }
 
         public void onTime(params object[] args)
@@ -82,6 +89,7 @@ namespace GameLogic
             foreach (var item in delete)
             {
                 timeLines[item].onEnd();
+                onTimeTimeLines.Add(item, timeLines[item]);
                 timeLines.Remove(item);
             }
             nextDelterTime = getNextTimer();

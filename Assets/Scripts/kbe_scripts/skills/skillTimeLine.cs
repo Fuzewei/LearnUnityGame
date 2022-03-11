@@ -39,8 +39,6 @@ namespace KBEngine
             {
                 item.OnDestory();
             }
-
-            ((Avatar)ownerEntity).onTimeLineFinish(uuid);
         }
 
         public void callServer(uint nodeId, TABLE arg)
