@@ -1,13 +1,46 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using KBEngine;
 using UnityEngine;
 using KBEngine.Const;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 
 namespace SwordMaster
 {
+    [System.Serializable]
+    public class rootMotionInfo
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float timeStamp;
+        public rootMotionInfo(float x, float y, float z, float timeStamp)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.timeStamp = timeStamp;
+
+        }
+        public rootMotionInfo()
+        {
+        }
+    }
     public class MoveControlersBase
     {
+        public static Dictionary<string, List<rootMotionInfo>> rootMotion;
+
+        static MoveControlersBase()
+        {
+            FileStream file = File.OpenRead("Assets/GreatSword_Animset/Animation/MotionInfo" + "/data.da");
+            BinaryFormatter bf = new BinaryFormatter();
+            rootMotion =  bf.Deserialize(file) as Dictionary<string, List<rootMotionInfo>>;
+            file.Close();
+        }
+
+
+
         public MoveMotor montor;
         public float beginTime;
         public float deltaTime;
@@ -203,12 +236,23 @@ namespace SwordMaster
     //使用技能移动
     class NormalUseSkillControler : MoveControlersBase
     {
+        string aniClipName = null;
+        float timeStamp = 0;
+        List<rootMotionInfo> clipInfo;
+        // skill的加速度
+        public float acc = 5.5f;
+
+
         public NormalUseSkillControler(MoveMotor _montor) : base(_montor)
         {
 
         }
-        // skill的加速度
-        public float acc = 5.5f;
+        public override void onReset()
+        {
+            aniClipName = null;
+            clipInfo = null;
+            timeStamp = 0;
+        }
         public override void UpdateMoveSpeed()
         {
             this.xzMoveSpeed = this.xzMoveSpeed - acc * deltaTime;
@@ -218,8 +262,33 @@ namespace SwordMaster
 
         public override Vector3 calcuteDelterPosition()
         {
-            Vector3 delta = montor.animator.deltaPosition;
+            var clips = montor.animator.GetCurrentAnimatorClipInfo(0);
+            foreach (var item in clips)
+            {
+                if (item.clip.name != aniClipName)
+                {
+                    aniClipName = item.clip.name;
+                    clipInfo = rootMotion[aniClipName];
+                    timeStamp = 0;
+                }
+                timeStamp = timeStamp / item.clip.length;
+                Dbg.DEBUG_MSG("NormalUseSkillControler: " + item.clip.name);
+            }
+            rootMotionInfo left = new rootMotionInfo();
+           
+            rootMotionInfo right = new rootMotionInfo();
+            foreach (var item in clipInfo)
+            {
+                if (timeStamp <= item.timeStamp)
+                {
+
+                }
+            }
+            //Vector3 delta = montor.animator.deltaPosition;
+            Vector3 delta = new Vector3(0, 0, 0.5f);
             delta.y += yMoveSpeed * Time.deltaTime;
+            timeStamp += Time.deltaTime;
+            
             return delta;
         }
     }
