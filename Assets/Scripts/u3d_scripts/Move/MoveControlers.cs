@@ -239,6 +239,7 @@ namespace SwordMaster
         string aniClipName = null;
         float timeStamp = 0;
         List<rootMotionInfo> clipInfo;
+        Vector3 _recent;
         // skill的加速度
         public float acc = 5.5f;
 
@@ -270,22 +271,33 @@ namespace SwordMaster
                     aniClipName = item.clip.name;
                     clipInfo = rootMotion[aniClipName];
                     timeStamp = 0;
+                    _recent = Vector3.zero;
+                    Dbg.DEBUG_MSG("NormalUseSkillControler: " + item.clip.name + item.clip.length);
                 }
-                timeStamp = timeStamp / item.clip.length;
-                Dbg.DEBUG_MSG("NormalUseSkillControler: " + item.clip.name);
+                timeStamp = timeStamp > item.clip.length ?  timeStamp - item.clip.length : timeStamp;
+               
             }
-            rootMotionInfo left = new rootMotionInfo();
-           
-            rootMotionInfo right = new rootMotionInfo();
+            rootMotionInfo left = null;
+      
+            rootMotionInfo right = null;
             foreach (var item in clipInfo)
             {
+                if (timeStamp >= item.timeStamp)
+                {
+                    left = item;
+                }
+
                 if (timeStamp <= item.timeStamp)
                 {
-
+                    right = item;
+                    break;
                 }
             }
             //Vector3 delta = montor.animator.deltaPosition;
-            Vector3 delta = new Vector3(0, 0, 0.5f);
+            //Dbg.DEBUG_MSG("NormalUseSkillControler: timeStamp" + timeStamp);
+            Vector3 _new = new Vector3(left.x, 0, left.z);
+            Vector3 delta = _new - _recent;
+            _recent = _new;
             delta.y += yMoveSpeed * Time.deltaTime;
             timeStamp += Time.deltaTime;
             
