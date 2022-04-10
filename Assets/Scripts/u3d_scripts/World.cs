@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections; 
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public partial class World : MonoBehaviour 
 {
@@ -79,10 +80,23 @@ public partial class World : MonoBehaviour
 		Debug.Log("loading scene(" + respath + ")...");
 
 		UI.inst.info("scene(" + respath + "), spaceID=" + KBEngineApp.app.spaceID);
-		if(terrain == null)
-			terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
+        if (KBEngineApp.app.spaceID == 4)
+        {
+			
+			SceneManager.LoadScene("Scenes/fight1", LoadSceneMode.Additive);
+			terrain = null;
+			Destroy(terrain);
+		}
 
-		if(player)
+		if (KBEngineApp.app.spaceID == 3)
+		{
+			terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
+		}
+
+		//if (terrain == null)
+		//	terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
+
+		if(player && !player.GetComponent<GameEntity>().entityEnabled)
 			player.GetComponent<GameEntity>().entityEnable((KBEngine.Avatar)KBEngineApp.app.player());
 	}	
 	
@@ -157,7 +171,8 @@ public partial class World : MonoBehaviour
 	
 	public void onEnterWorld(KBEngine.Entity entity)
 	{
-		if(entity.isPlayer())
+		Debug.Log("onEnterWorld");
+		if (entity.isPlayer())
 			return;
 		
 		float y = entity.position.y;
@@ -180,7 +195,8 @@ public partial class World : MonoBehaviour
 	
 	public void onLeaveWorld(KBEngine.Entity entity)
 	{
-		if(entity.renderObj == null)
+		Debug.Log("onLeaveWorld");
+		if (entity.renderObj == null)
 			return;
 		
 		UnityEngine.GameObject.Destroy((UnityEngine.GameObject)entity.renderObj);
@@ -189,7 +205,7 @@ public partial class World : MonoBehaviour
 
 	public void set_position(KBEngine.Entity entity)
 	{
-		Debug.Log("set_position");
+		Debug.Log("set_position"+ entity.position);
 		if (entity.renderObj == null)
 			return;
 

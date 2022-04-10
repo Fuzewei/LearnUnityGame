@@ -84,11 +84,11 @@ public class MoveMotor : MonoBehaviour
     float faceDirectionSpeed = 0; // 朝向y轴的转动速度（用来预测的）
     public SampleQueue forecastOpQueue; //预测的队列
 
-    public Vector3 globalmoveDirection
+    public Vector3 globalMoveDirection
     {
         get
         {
-            return (gameObject.transform.rotation * moveDirection).normalized;
+            return (Quaternion.Euler(faceDirection) * moveDirection).normalized;
         }
     }
 
@@ -170,6 +170,7 @@ public class MoveMotor : MonoBehaviour
 
     public void setMoveDirection(Vector3 dir)
     {
+        //Debug.Log("setMoveDirection" + dir);
         moveDirection = dir;
     }
 

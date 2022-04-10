@@ -74,6 +74,7 @@ namespace KBEngine
 		public abstract void serverRequestUseSkill(UInt32 arg1, Int32 arg2); 
 		public abstract void serverSkillFinish(Int32 arg1); 
 		public abstract void serverTimeLineFinish(UInt32 arg1); 
+		public abstract void setPositionRotation(UInt32 arg1, Vector3 arg2, Vector3 arg3); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
 
 		public AvatarBase()
@@ -269,7 +270,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 39:
+				case 40:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -320,6 +321,12 @@ namespace KBEngine
 				case 24:
 					UInt32 serverTimeLineFinish_arg1 = stream.readUint32();
 					serverTimeLineFinish(serverTimeLineFinish_arg1);
+					break;
+				case 34:
+					UInt32 setPositionRotation_arg1 = stream.readUint32();
+					Vector3 setPositionRotation_arg2 = stream.readVector3();
+					Vector3 setPositionRotation_arg3 = stream.readVector3();
+					setPositionRotation(setPositionRotation_arg1, setPositionRotation_arg2, setPositionRotation_arg3);
 					break;
 				case 21:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();

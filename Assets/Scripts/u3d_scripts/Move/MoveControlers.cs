@@ -26,6 +26,11 @@ namespace SwordMaster
         public rootMotionInfo()
         {
         }
+
+        public static rootMotionInfo operator - (rootMotionInfo a, rootMotionInfo b)
+        {
+            return new rootMotionInfo(a.x - b.x, a.y - b.y, a.z - b.z, a.timeStamp - b.timeStamp);
+        }
     }
     public class MoveControlersBase
     {
@@ -128,6 +133,13 @@ namespace SwordMaster
             this.xzMoveSpeed = this.xzMoveSpeed < maxForwardSpeed ? this.xzMoveSpeed + acc * deltaTime : this.xzMoveSpeed - acc * Time.deltaTime;
             this.yMoveSpeed = -100;
         }
+
+        public override Vector3 calcuteDelterPosition()
+        {
+            Vector3 delta = montor.animator.deltaPosition;
+            delta.y += yMoveSpeed * Time.deltaTime;
+            return delta;
+        }
     }
 
     class NormalRunControler : MoveControlersBase
@@ -151,10 +163,6 @@ namespace SwordMaster
     class NormalJumpControler : MoveControlersBase
     {
         public Vector3 jumpDirection ;
-        public NormalJumpControler(MoveMotor _montor) : base(_montor)
-        {
-            jumpDirection = _montor.globalmoveDirection;
-        }
         // 向上的速度
         public float UpSpeed = 5.5f;
         // 水平空中的减速
@@ -165,10 +173,15 @@ namespace SwordMaster
         public int jumpStage = 0; //0是没有收到起跳指令，1准备起跳，2是起跳成功
 
         public float nextSteteTime; //进入下一阶段的时间
-       
 
+        public NormalJumpControler(MoveMotor _montor) : base(_montor)
+        {
+            jumpDirection = montor.globalMoveDirection;
+
+        }
         public override void onReset() {
             jumpStage = 0;
+            jumpDirection = montor.globalMoveDirection;
         }
 
         public override void UpdateMoveSpeed()
@@ -238,8 +251,7 @@ namespace SwordMaster
     {
         string aniClipName = null;
         float timeStamp = 0;
-        List<rootMotionInfo> clipInfo;
-        Vector3 _recent;
+        MotionCurve currentCurve;
         // skill的加速度
         public float acc = 5.5f;
 
@@ -251,7 +263,6 @@ namespace SwordMaster
         public override void onReset()
         {
             aniClipName = null;
-            clipInfo = null;
             timeStamp = 0;
         }
         public override void UpdateMoveSpeed()
@@ -269,39 +280,17 @@ namespace SwordMaster
                 if (item.clip.name != aniClipName)
                 {
                     aniClipName = item.clip.name;
-                    clipInfo = rootMotion[aniClipName];
+                    currentCurve = new MotionCurve(rootMotion[aniClipName], item.clip.length);
                     timeStamp = 0;
-                    _recent = Vector3.zero;
                     Dbg.DEBUG_MSG("NormalUseSkillControler: " + item.clip.name + item.clip.length);
                 }
-                timeStamp = timeStamp > item.clip.length ?  timeStamp - item.clip.length : timeStamp;
-               
             }
-            rootMotionInfo left = null;
-      
-            rootMotionInfo right = null;
-            foreach (var item in clipInfo)
-            {
-                if (timeStamp >= item.timeStamp)
-                {
-                    left = item;
-                }
 
-                if (timeStamp <= item.timeStamp)
-                {
-                    right = item;
-                    break;
-                }
-            }
-            //Vector3 delta = montor.animator.deltaPosition;
-            //Dbg.DEBUG_MSG("NormalUseSkillControler: timeStamp" + timeStamp);
-            Vector3 _new = new Vector3(left.x, 0, left.z);
-            Vector3 delta = _new - _recent;
-            _recent = _new;
+            Vector3 delta = currentCurve.deltaPosition(timeStamp, timeStamp + Time.deltaTime);
             delta.y += yMoveSpeed * Time.deltaTime;
+
             timeStamp += Time.deltaTime;
-            
-            return delta;
+            return Quaternion.Euler(montor.faceDirection) * delta;
         }
     }
 

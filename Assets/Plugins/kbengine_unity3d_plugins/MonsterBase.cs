@@ -146,27 +146,27 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 52:
+				case 53:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
 					break;
-				case 54:
+				case 55:
 					UInt32 serverRequestUseSkill_arg1 = stream.readUint32();
 					Int32 serverRequestUseSkill_arg2 = stream.readInt32();
 					serverRequestUseSkill(serverRequestUseSkill_arg1, serverRequestUseSkill_arg2);
 					break;
-				case 55:
+				case 56:
 					Int32 serverSkillFinish_arg1 = stream.readInt32();
 					serverSkillFinish(serverSkillFinish_arg1);
 					break;
-				case 56:
+				case 57:
 					UInt32 serverTimeLineFinish_arg1 = stream.readUint32();
 					serverTimeLineFinish(serverTimeLineFinish_arg1);
 					break;
-				case 53:
+				case 54:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
