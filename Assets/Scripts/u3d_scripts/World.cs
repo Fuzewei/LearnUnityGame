@@ -16,7 +16,11 @@ public partial class World : MonoBehaviour
 	private UnityEngine.GameObject player = null;
 	public UnityEngine.GameObject entityPerfab;
 	public UnityEngine.GameObject avatarPerfab;
+
+	public UnityEngine.GameObject monsterPerfab;
 	public UnityEngine.GameObject cameraPerfab;
+
+	private uint curSpaceId = 0;
 
 	void Awake() 
 	 {
@@ -83,20 +87,32 @@ public partial class World : MonoBehaviour
         if (KBEngineApp.app.spaceID == 4)
         {
 			
-			SceneManager.LoadScene("Scenes/fight1", LoadSceneMode.Additive);
-			terrain = null;
-			Destroy(terrain);
+			SceneManager.LoadScene("Scenes/fight1", LoadSceneMode.Single);
+            if (curSpaceId == 3)
+            {
+				SceneManager.UnloadSceneAsync("Scenes/world");
+				Destroy(terrain);
+				terrain = null;
+			}
+			
 		}
 
 		if (KBEngineApp.app.spaceID == 3)
 		{
 			terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
+            if (curSpaceId == 4)
+            {
+				SceneManager.UnloadSceneAsync("Scenes/fight1");
+
+			}
 		}
+
+		curSpaceId = KBEngineApp.app.spaceID;
 
 		//if (terrain == null)
 		//	terrain = Instantiate(terrainPerfab) as UnityEngine.GameObject;
 
-		if(player && !player.GetComponent<GameEntity>().entityEnabled)
+		if (player && !player.GetComponent<GameEntity>().entityEnabled)
 			player.GetComponent<GameEntity>().entityEnable((KBEngine.Avatar)KBEngineApp.app.player());
 	}	
 	
@@ -130,7 +146,7 @@ public partial class World : MonoBehaviour
 		// 需要等场景加载完毕再显示玩家
 		if (player != null)
 		{
-			if (terrain != null && !player.GetComponent<GameEntity>().entityEnabled)
+			if (curSpaceId > 0 && !player.GetComponent<GameEntity>().entityEnabled)
 			{
 				player.GetComponent<GameEntity>().entityEnable(avatar);
 			}
@@ -169,6 +185,7 @@ public partial class World : MonoBehaviour
 		Debug.Log("onAddSkill");
 	}
 	
+
 	public void onEnterWorld(KBEngine.Entity entity)
 	{
 		Debug.Log("onEnterWorld");
@@ -179,18 +196,28 @@ public partial class World : MonoBehaviour
 		if(entity.isOnGround)
 			y = 1.3f;
 		
-		entity.renderObj = Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z), 
+
+        if (entity is KBEngine.Avatar)
+        {
+			var p3 = entity as KBEngine.Avatar;
+			entity.renderObj = Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z),
 			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
 
-		var p3 = entity as KBEngine.Avatar;
+			var renderEntity = entity.renderObj as UnityEngine.GameObject;
+			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
+			gameEntity.entityEnable((KBEngine.Avatar)entity);
+			renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
+			p3.renderEntity = gameEntity;
 
-		var renderEntity = entity.renderObj as UnityEngine.GameObject;
-		GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
-		gameEntity.entityEnable((KBEngine.Avatar)entity);
-		renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
-		p3.renderEntity = gameEntity;
-
-		((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
+			((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
+		}
+        if (entity is KBEngine.Monster)
+        {
+			var monster = entity as KBEngine.Monster;
+			monster.renderObj = Instantiate(monsterPerfab, new Vector3(entity.position.x, y, entity.position.z),
+			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
+		}
+		
 	}
 	
 	public void onLeaveWorld(KBEngine.Entity entity)
@@ -223,6 +250,7 @@ public partial class World : MonoBehaviour
 		
 		GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
 		gameEntity.destPosition = entity.position;
+		gameEntity.position = entity.position;
 		gameEntity.isOnGround = entity.isOnGround;
 		gameEntity.spaceID = KBEngineApp.app.spaceID;
 	}

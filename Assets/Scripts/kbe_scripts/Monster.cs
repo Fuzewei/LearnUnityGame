@@ -86,5 +86,22 @@ namespace KBEngine
 		public override void serverSkillFinish(Int32 arg1) { }
 		public override void serverTimeLineFinish(UInt32 arg1) { }
 
+		public override void onPositionChanged(Vector3 oldValue)
+		{
+			Dbg.DEBUG_MSG(className + "::set_position: " + oldValue + " => " ); 
+			base.onPositionChanged(oldValue);
+			World.world.set_position(this);
+			
+		}
+
+
+		public override void onDirectionChanged(Vector3 oldValue)
+		{
+			Dbg.DEBUG_MSG(className + "::set_direction: " + oldValue + " => " ); 
+			base.onDirectionChanged(oldValue);
+			World.world.set_direction(this);
+		}
+
+
 	}
 } 
