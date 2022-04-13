@@ -135,7 +135,8 @@ public class ExportScene : EditorWindow
     private static string GetSavePath(bool autoCut, GameObject selectObject)
     {
         string dataPath = Application.dataPath;
-        string dir = dataPath.Substring(0, dataPath.LastIndexOf("/"));
+        //string dir = dataPath.Substring(0, dataPath.LastIndexOf("/"));
+        string dir = "C:/Users/Admin/Desktop/recastNavigation/RecastDemo/Bin/Meshes";
         string sceneName = SceneManager.GetActiveScene().name;
         string defaultName = "";
         if (selectObject == null)
@@ -195,7 +196,7 @@ public class ExportScene : EditorWindow
         {
             Vector3 v = obj.transform.TransformPoint(vertice);
             UpdateAutoCutRect(v);
-            sb.AppendFormat("v {0} {1} {2}\n", -v.x, v.y, v.z);
+            sb.AppendFormat("v {0} {1} {2}\n", v.x, v.y, v.z);
         }
         foreach (Vector3 nn in mesh.normals)
         {
@@ -211,7 +212,7 @@ public class ExportScene : EditorWindow
             int[] triangles = mesh.GetTriangles(i);
             for (int j = 0; j < triangles.Length; j += 3)
             {
-                sb.AppendFormat("f {1} {0} {2}\n",
+                sb.AppendFormat("f {0} {1} {2}\n",
                     triangles[j] + 1 + vertexOffset,
                     triangles[j + 1] + 1 + vertexOffset,
                     triangles[j + 2] + 1 + vertexOffset);
@@ -267,7 +268,7 @@ public class ExportScene : EditorWindow
         {
             for (int x = 0; x < w; x++)
             {
-                Vector3 pos = new Vector3(-(startY + y), tData[startX + x, startY + y], (startX + x));
+                Vector3 pos = new Vector3((startY + y), tData[startX + x, startY + y], (startX + x));
                 tVertices[y * w + x] = Vector3.Scale(meshScale, pos) + terrainPos;
                 tUV[y * w + x] = Vector2.Scale(new Vector2(x, y), uvScale);
             }
@@ -310,7 +311,7 @@ public class ExportScene : EditorWindow
             int y = tPolys[i + 1] + 1 + vertexOffset;
             int z = tPolys[i + 2] + 1 + vertexOffset;
             StringBuilder sb = new StringBuilder(30);
-            sb.AppendFormat("f {0} {1} {2}\n", x, y, z);
+            sb.AppendFormat("f {1} {0} {2}\n", x, y, z);
             writer.Write(sb.ToString());
         }
         vertexOffset += tVertices.Length;

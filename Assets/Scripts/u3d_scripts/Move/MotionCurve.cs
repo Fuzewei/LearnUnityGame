@@ -11,30 +11,17 @@ public class MotionCurve
     float totalTime = 0;  //片段总时间
     List<rootMotionInfo> motionInfo;
     bool isLoop; //是否循环
-    float endTimeStamp;
-    float lastTimeStamp;
+
     rootMotionInfo lastPosition;
     public MotionCurve(List<rootMotionInfo> info , float total, bool loop = false)
     {
-        lastTimeStamp = 0;
         motionInfo = info;
         totalTime = total;
         isLoop = loop;
-        var lastmotion = motionInfo.Last();
-        endTimeStamp = lastmotion.timeStamp;
     }
 
     public Vector3 deltaPosition(float oldT, float newT)
     {
-        while (oldT >= totalTime)
-        {
-            oldT -= totalTime;
-        }
-        while (newT >= totalTime)
-        {
-            newT -= totalTime;
-        }
-
         var oldM = lerpMotion(oldT);
         var newM = lerpMotion(newT);
 
@@ -45,12 +32,26 @@ public class MotionCurve
     {
         rootMotionInfo left = default;
         rootMotionInfo right = default;
-        if (timeStamp >= endTimeStamp)
+        rootMotionInfo ans = new rootMotionInfo();
+        rootMotionInfo accPosition = new rootMotionInfo();
+        if (isLoop)
         {
-            return motionInfo.Last();
+            while (timeStamp >= totalTime)
+            {
+                accPosition = accPosition + motionInfo.Last();
+                timeStamp -= totalTime;
+            }
         }
-
-        foreach (var item in motionInfo)
+        else
+        {
+            if (timeStamp >= totalTime)
+            {
+                ans = motionInfo.Last();
+                ans.timeStamp = timeStamp;
+                return ans;
+            }
+        }
+        foreach (var item in motionInfo) //查找左右位置
         {
             if (timeStamp >= item.timeStamp)
             {
@@ -64,12 +65,27 @@ public class MotionCurve
                 break;
             }
         }
-        if (left == null)//比最小的还小
-        {
-            return new rootMotionInfo(0, 0, 0, timeStamp);
+
+        if (left == null)//时间点左边没有
+        { 
+            return accPosition ;
         }
-        float percent = (timeStamp - left.timeStamp) / (right.timeStamp - left.timeStamp);
-        return new rootMotionInfo(Mathf.Lerp(left.x, right.x, percent), Mathf.Lerp(left.y, right.y, percent), Mathf.Lerp(left.z, right.z, percent), timeStamp);
+        if(right.timeStamp == left.timeStamp) //时间点右边没了
+        {
+            ans = accPosition + left;
+            ans.timeStamp = timeStamp;
+            return ans;
+        }
+        else
+        {
+            float percent = (timeStamp - left.timeStamp) / (right.timeStamp - left.timeStamp);
+            var _t = new rootMotionInfo(Mathf.Lerp(left.x, right.x, percent), Mathf.Lerp(left.y, right.y, percent), Mathf.Lerp(left.z, right.z, percent), timeStamp);
+            ans = accPosition + _t;
+            ans.timeStamp = timeStamp;
+            return ans;
+        }
+
+        
     }
 
 }

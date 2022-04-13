@@ -21,7 +21,6 @@ namespace SwordMaster
             this.y = y;
             this.z = z;
             this.timeStamp = timeStamp;
-
         }
         public rootMotionInfo()
         {
@@ -30,6 +29,11 @@ namespace SwordMaster
         public static rootMotionInfo operator - (rootMotionInfo a, rootMotionInfo b)
         {
             return new rootMotionInfo(a.x - b.x, a.y - b.y, a.z - b.z, a.timeStamp - b.timeStamp);
+        }
+
+        public static rootMotionInfo operator +(rootMotionInfo a, rootMotionInfo b)
+        {
+            return new rootMotionInfo(a.x + b.x, a.y + b.y, a.z + b.z, a.timeStamp + b.timeStamp);
         }
     }
     public class MoveControlersBase
@@ -116,6 +120,15 @@ namespace SwordMaster
         {
             return false;
         }
+
+        public override Vector3 calcuteDelterPosition()
+        {
+            Vector3 delta = new Vector3(0, 0, this.xzMoveSpeed * Time.deltaTime);
+            delta.y += yMoveSpeed * Time.deltaTime;
+
+
+            return Quaternion.Euler(montor.faceDirection) * delta;
+        }
     }
 
     class NormalWalkControler: MoveControlersBase
@@ -136,9 +149,11 @@ namespace SwordMaster
 
         public override Vector3 calcuteDelterPosition()
         {
-            Vector3 delta = montor.animator.deltaPosition;
+            Vector3 delta = new Vector3(0,0, this.xzMoveSpeed * Time.deltaTime);
             delta.y += yMoveSpeed * Time.deltaTime;
-            return delta;
+
+           
+            return Quaternion.Euler(montor.faceDirection) * delta;
         }
     }
 
@@ -246,7 +261,7 @@ namespace SwordMaster
         }
     }
 
-    //使用技能移动
+    //使用技能的移动
     class NormalUseSkillControler : MoveControlersBase
     {
         string aniClipName = null;
