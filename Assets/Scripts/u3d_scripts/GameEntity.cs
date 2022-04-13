@@ -247,7 +247,11 @@ public class GameEntity : MonoBehaviour
 		    }
 
 		}
-		
+		KBEngine.Monster mon = logicEntity as KBEngine.Monster;
+        if (mon != null)
+        {
+			isOnGround = mon.isOnGround;
+		}
 	}
 
 	public SampleBase getMoveSample()

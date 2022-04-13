@@ -151,9 +151,7 @@ namespace SwordMaster
         {
             Vector3 delta = new Vector3(0,0, this.xzMoveSpeed * Time.deltaTime);
             delta.y += yMoveSpeed * Time.deltaTime;
-
-           
-            return Quaternion.Euler(montor.faceDirection) * delta;
+            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
         }
     }
 
