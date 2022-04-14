@@ -24,6 +24,11 @@ public class MotionCurve
     {
         var oldM = lerpMotion(oldT);
         var newM = lerpMotion(newT);
+        var ans = new Vector3(newM.x - oldM.x, 0, newM.z - oldM.z);
+        if (ans.magnitude > 1)
+        {
+            Debug.Log("NormalUseSkillControler: " + oldT);
+        }
 
         return new Vector3(newM.x - oldM.x, 0, newM.z - oldM.z);
     }

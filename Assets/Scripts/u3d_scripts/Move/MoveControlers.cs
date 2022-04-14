@@ -133,9 +133,12 @@ namespace SwordMaster
 
     class NormalWalkControler: MoveControlersBase
     {
+        MotionCurve currentCurve;
+        float timeStamp = 0;
         public NormalWalkControler(MoveMotor _montor) : base(_montor)
         {
-
+            currentCurve = new MotionCurve(rootMotion["GreatSword_Common_Walk_Loop"], 1.0f, true);
+            timeStamp = 0;
         }
         // The maximum horizontal speed when moving
         public float maxForwardSpeed = 2.21f;
@@ -143,7 +146,7 @@ namespace SwordMaster
 
         override public void UpdateMoveSpeed()
         {
-            this.xzMoveSpeed = this.xzMoveSpeed < maxForwardSpeed ? this.xzMoveSpeed + acc * deltaTime : this.xzMoveSpeed - acc * Time.deltaTime;
+            this.xzMoveSpeed = this.xzMoveSpeed < maxForwardSpeed ? this.xzMoveSpeed + acc * deltaTime : maxForwardSpeed;
             this.yMoveSpeed = -100;
         }
 
@@ -151,6 +154,12 @@ namespace SwordMaster
         {
             Vector3 delta = new Vector3(0,0, this.xzMoveSpeed * Time.deltaTime);
             delta.y += yMoveSpeed * Time.deltaTime;
+            if (this.xzMoveSpeed == maxForwardSpeed)
+            {
+                delta = currentCurve.deltaPosition(timeStamp, timeStamp + Time.deltaTime);
+                
+                timeStamp += Time.deltaTime;
+            }
             return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
         }
     }
