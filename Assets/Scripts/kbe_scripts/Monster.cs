@@ -4,11 +4,17 @@ namespace KBEngine
 	using System; 
 	using System.Collections; 
 	using System.Collections.Generic;
-	
-    public class Monster : MonsterBase
-    {
+
+	public partial class Monster : MonsterBase, IServerEntity
+	{
 		public Monster() : base()
 		{
+		}
+
+		//äÖÈ¾²ã×¼±¸¾ÍÐ÷
+		public void onRenderObjectCreate(GameEntity render)
+		{
+			
 		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
@@ -56,7 +62,7 @@ namespace KBEngine
 			Event.fireOut("set_state", new object[]{this, state});
 		}
 
-		public override void onMoveSpeedChanged(Byte oldValue)
+		public override void onMoveSpeedChanged(float oldValue)
 		{
 			// Dbg.DEBUG_MSG(className + "::set_moveSpeed: " + old + " => " + v); 
 			Event.fireOut("set_moveSpeed", new object[]{this, moveSpeed});

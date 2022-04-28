@@ -4,6 +4,7 @@ using UnityEngine;
 using KBEngine.Const;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System;
 
 
 namespace SwordMaster
@@ -42,10 +43,33 @@ namespace SwordMaster
 
         static MoveControlersBase()
         {
-            FileStream file = File.OpenRead("Assets/GreatSword_Animset/Animation/MotionInfo" + "/data.da");
-            BinaryFormatter bf = new BinaryFormatter();
-            rootMotion =  bf.Deserialize(file) as Dictionary<string, List<rootMotionInfo>>;
-            file.Close();
+            rootMotion = new Dictionary<string, List<rootMotionInfo>>();
+            using (StreamReader streamReader = new StreamReader("Assets/GreatSword_Animset/Animation/MotionInfo" + "/data.json"))
+            {
+                while (true)
+                {
+                    string name = streamReader.ReadLine();
+                    if (name == null ||name.Length == 0)
+                    {
+                        break;
+                    }
+                    string[] clipInfo = streamReader.ReadLine().Split(' ');
+                    List<rootMotionInfo> lInfo = new List<rootMotionInfo>();
+                    for (int i = 0; i < clipInfo.Length - 1; i += 4)
+                    {
+                        float x = Convert.ToSingle(clipInfo[i]);
+                        float y = Convert.ToSingle(clipInfo[i + 1]);
+                        float z = Convert.ToSingle(clipInfo[i + 2]);
+                        float timeStamp = Convert.ToSingle(clipInfo[i + 3]);
+                        rootMotionInfo item = new rootMotionInfo(x, y, z, timeStamp);
+                        lInfo.Add(item);
+                    }
+                    rootMotion[name] = lInfo;
+                }
+               
+               
+            }
+
         }
 
 
@@ -82,7 +106,9 @@ namespace SwordMaster
             beginTime = Utils.localTime();
             onReset();
         }
+
         public virtual void onReset(){}
+
         public void tick(float _deltaTime) {
             deltaTime = _deltaTime;
         }
@@ -97,7 +123,7 @@ namespace SwordMaster
         public virtual void BeforeSwitchMoveControl() { }
         public virtual Vector3 calcuteDelterPosition() {   
             Vector3 delta = montor.animator.deltaPosition;
-            delta.y += yMoveSpeed * Time.deltaTime;
+            delta.y += yMoveSpeed * deltaTime;
             return delta;
         }
     }
@@ -123,43 +149,50 @@ namespace SwordMaster
 
         public override Vector3 calcuteDelterPosition()
         {
-            Vector3 delta = new Vector3(0, 0, this.xzMoveSpeed * Time.deltaTime);
-            delta.y += yMoveSpeed * Time.deltaTime;
+            float accTime = Mathf.Abs(this.xzMoveSpeed) / acc;
+            accTime = Mathf.Min(accTime, deltaTime);
+            float l = this.xzMoveSpeed * deltaTime - 0.5f * acc * accTime * accTime;
+
+            Vector3 delta = new Vector3(0, 0, l);
+            delta.y += yMoveSpeed * deltaTime;
 
 
-            return Quaternion.Euler(montor.faceDirection) * delta;
+            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
         }
     }
 
     class NormalWalkControler: MoveControlersBase
     {
-        MotionCurve currentCurve;
-        float timeStamp = 0;
+        
         public NormalWalkControler(MoveMotor _montor) : base(_montor)
         {
-            currentCurve = new MotionCurve(rootMotion["GreatSword_Common_Walk_Loop"], 1.0f, true);
-            timeStamp = 0;
+           
         }
         // The maximum horizontal speed when moving
         public float maxForwardSpeed = 2.21f;
-        public float acc = 2.76f;
+        public float acc = 3.76f;
 
         override public void UpdateMoveSpeed()
         {
-            this.xzMoveSpeed = this.xzMoveSpeed < maxForwardSpeed ? this.xzMoveSpeed + acc * deltaTime : maxForwardSpeed;
+            if (this.xzMoveSpeed <= maxForwardSpeed)
+            {
+                this.xzMoveSpeed = Mathf.Min(this.xzMoveSpeed + acc * deltaTime, maxForwardSpeed);
+            }
+            else
+            {
+                this.xzMoveSpeed = Mathf.Max(this.xzMoveSpeed - acc * deltaTime, maxForwardSpeed);
+            }
             this.yMoveSpeed = -100;
         }
 
         public override Vector3 calcuteDelterPosition()
         {
-            Vector3 delta = new Vector3(0,0, this.xzMoveSpeed * Time.deltaTime);
-            delta.y += yMoveSpeed * Time.deltaTime;
-            if (this.xzMoveSpeed == maxForwardSpeed)
-            {
-                delta = currentCurve.deltaPosition(timeStamp, timeStamp + Time.deltaTime);
-                
-                timeStamp += Time.deltaTime;
-            }
+            float accTime = Mathf.Abs(maxForwardSpeed - this.xzMoveSpeed) / acc;
+            accTime = Mathf.Min(accTime , deltaTime);
+            float l = this.xzMoveSpeed * deltaTime + 0.5f * acc * accTime * accTime;
+            
+            Vector3 delta = new Vector3(0, 0, l);
+            delta.y += yMoveSpeed * deltaTime;
             return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
         }
     }
@@ -178,6 +211,17 @@ namespace SwordMaster
             this.xzMoveSpeed = this.xzMoveSpeed +acc * deltaTime;
             this.xzMoveSpeed = Mathf.Min(this.xzMoveSpeed, maxForwardSpeed);
             this.yMoveSpeed = -100;
+        }
+
+        public override Vector3 calcuteDelterPosition()
+        {
+            float accTime = Mathf.Abs(maxForwardSpeed - this.xzMoveSpeed) / acc;
+            accTime = Mathf.Min(accTime, deltaTime);
+            float l = this.xzMoveSpeed * deltaTime + 0.5f * acc * accTime * accTime;
+
+            Vector3 delta = new Vector3(0, 0, l);
+            delta.y += yMoveSpeed * deltaTime;
+            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
         }
     }
 
@@ -263,7 +307,7 @@ namespace SwordMaster
         public override Vector3 calcuteDelterPosition()
         {
             Vector3 delta = this.xzMoveSpeed * deltaTime * jumpDirection;
-            delta.y += yMoveSpeed * Time.deltaTime;
+            delta.y += yMoveSpeed * deltaTime;
             return delta;
         }
     }
@@ -308,10 +352,10 @@ namespace SwordMaster
                 }
             }
 
-            Vector3 delta = currentCurve.deltaPosition(timeStamp, timeStamp + Time.deltaTime);
-            delta.y += yMoveSpeed * Time.deltaTime;
+            Vector3 delta = currentCurve.deltaPosition(timeStamp, timeStamp + deltaTime);
+            delta.y += yMoveSpeed * deltaTime;
 
-            timeStamp += Time.deltaTime;
+            timeStamp += deltaTime;
             return Quaternion.Euler(montor.faceDirection) * delta;
         }
     }
@@ -326,7 +370,7 @@ namespace SwordMaster
         public override Vector3 calcuteDelterPosition()
         {
             Vector3 delta = montor.animator.deltaPosition;
-            delta.y += yMoveSpeed * Time.deltaTime;
+            delta.y += yMoveSpeed * deltaTime;
             return delta;
         }
     }

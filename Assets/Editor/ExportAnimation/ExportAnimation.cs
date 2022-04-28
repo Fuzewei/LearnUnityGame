@@ -40,6 +40,7 @@ public class ExportAnimation : EditorWindow
 
         var _t = new Dictionary<string, List<rootMotionInfo>>();
 
+
         foreach (var item in rootMotion)
         {
             var key = item.Key;
@@ -48,10 +49,24 @@ public class ExportAnimation : EditorWindow
             _t[fileNameWithoutExtension] = value;
         }
 
-        FileStream file = File.Create(anim_motion_PATH + "/data.da");
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(file, _t);
-        file.Close();
+
+        using (StreamWriter streamWriter = new StreamWriter(anim_motion_PATH + "/data.json", false))
+        {
+            foreach (var item in _t)
+            {
+                streamWriter.Write(item.Key);
+                streamWriter.WriteLine();
+                foreach (var info in item.Value)
+                {
+                    streamWriter.Write("{0} ", info.x);
+                    streamWriter.Write("{0} ", info.y);
+                    streamWriter.Write("{0} ", info.z);
+                    streamWriter.Write("{0} ", info.timeStamp);
+                }
+                streamWriter.WriteLine();
+            }
+        }
+       
     }
 
     public static void ExportThisDir(string dirPath)

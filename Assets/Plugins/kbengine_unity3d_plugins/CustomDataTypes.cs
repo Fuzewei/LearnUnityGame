@@ -69,6 +69,34 @@ namespace KBEngine
 
 
 
+	public class DATATYPE_PATH_POINTS : DATATYPE_BASE
+	{
+		public PATH_POINTS createFromStreamEx(MemoryStream stream)
+		{
+			UInt32 size = stream.readUint32();
+			PATH_POINTS datas = new PATH_POINTS();
+
+			while(size > 0)
+			{
+				--size;
+				datas.Add(stream.readVector3());
+			};
+
+			return datas;
+		}
+
+		public void addToStreamEx(Bundle stream, PATH_POINTS v)
+		{
+			stream.writeUint32((UInt32)v.Count);
+			for(int i=0; i<v.Count; ++i)
+			{
+				stream.writeVector3(v[i]);
+			};
+		}
+	}
+
+
+
 	public class DATATYPE_AVATAR_DATA : DATATYPE_BASE
 	{
 		public AVATAR_DATA createFromStreamEx(MemoryStream stream)
@@ -347,7 +375,7 @@ namespace KBEngine
 
 
 
-	public class DATATYPE_AnonymousArray_36 : DATATYPE_BASE
+	public class DATATYPE_AnonymousArray_37 : DATATYPE_BASE
 	{
 		public List<Int32> createFromStreamEx(MemoryStream stream)
 		{

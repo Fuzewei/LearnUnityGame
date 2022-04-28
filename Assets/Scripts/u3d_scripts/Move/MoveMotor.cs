@@ -417,8 +417,8 @@ public class MoveMotor : MonoBehaviour
     void OnAnimatorMove()
     {
         currentMoveControler.tick(Time.deltaTime);
-        currentMoveControler.UpdateMoveSpeed();
         var delterMove = getDelterMove();
+        currentMoveControler.UpdateMoveSpeed();
         //Debug.Log("moveTest2: " + currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
         if (positionDiff.magnitude >= 0.01)
         {

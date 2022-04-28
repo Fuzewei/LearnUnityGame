@@ -203,7 +203,7 @@ public class GameEntity : MonoBehaviour
 	{
 		entityEnabled = true;
 		logicEntity = entity;
-		logicEntity.onRenderObjectCreat(this);
+		logicEntity.onRenderObjectCreate(this);
 	}
 
 	public void entityDisable()

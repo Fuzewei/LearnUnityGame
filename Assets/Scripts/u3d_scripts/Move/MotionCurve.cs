@@ -30,7 +30,7 @@ public class MotionCurve
             Debug.Log("NormalUseSkillControler: " + oldT);
         }
 
-        return new Vector3(newM.x - oldM.x, 0, newM.z - oldM.z);
+        return ans;
     }
 
     public rootMotionInfo lerpMotion(float timeStamp)

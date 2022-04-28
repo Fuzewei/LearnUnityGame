@@ -1,14 +1,12 @@
 ﻿namespace KBEngine
 {
-	using UnityEngine;
+	using GameLogic;
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
 	using Const;
-
-	public interface IServerEntity
+	public partial class Monster : MonsterBase, IServerEntity
 	{
-		public void onRenderObjectCreate(GameEntity render);
 		
 
 	}

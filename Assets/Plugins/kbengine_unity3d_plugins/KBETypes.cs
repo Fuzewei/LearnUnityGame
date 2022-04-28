@@ -1713,6 +1713,11 @@ namespace KBEngine
 
 	}
 
+	public class PATH_POINTS : List<Vector3>
+	{
+
+	}
+
 	public class AVATAR_DATA
 	{
 		public SByte param1 = 0;

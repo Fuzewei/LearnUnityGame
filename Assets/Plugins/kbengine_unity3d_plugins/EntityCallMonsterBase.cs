@@ -70,7 +70,7 @@ namespace KBEngine
 
 			bundle.writeUint32(arg1);
 			bundle.writeInt32(arg2);
-			((DATATYPE_TABLE)EntityDef.id2datatypes[33]).addToStreamEx(bundle, arg3);
+			((DATATYPE_TABLE)EntityDef.id2datatypes[34]).addToStreamEx(bundle, arg3);
 			sendCall(null);
 		}
 

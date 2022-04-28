@@ -17,7 +17,7 @@ namespace KBEngine
 			Event.fireOut("set_name", new object[]{this, name});
 		}
 
-		public override void onMoveSpeedChanged(Byte oldValue)
+		public override void onMoveSpeedChanged(float oldValue)
 		{
 			// Dbg.DEBUG_MSG(className + "::set_moveSpeed: " + old + " => " + v); 
 			Event.fireOut("set_moveSpeed", new object[]{this, moveSpeed});

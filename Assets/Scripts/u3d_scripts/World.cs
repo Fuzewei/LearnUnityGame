@@ -330,13 +330,11 @@ public partial class World : MonoBehaviour
 		}
 	}
 
-	public void set_moveSpeed(KBEngine.Entity entity, Byte v)
+	public void set_moveSpeed(KBEngine.Entity entity, float v)
 	{
-		float fspeed = ((float)(Byte)v) / 10f;
-		
 		if(entity.renderObj != null)
 		{
-			((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = fspeed;
+			((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = v;
 		}
 	}
 	
