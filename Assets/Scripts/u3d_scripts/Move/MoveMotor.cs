@@ -19,7 +19,6 @@ class MotorSettingParam
 [RequireComponent(typeof(Animator))]
 public class MoveMotor : MonoBehaviour
 {
-    private MotorSettingParam moveParam = new MotorSettingParam();
     //操作队列相关
     public SampleQueue localOpQueue; //本地的操作队列
     public SampleQueue serverOpQueue; //收到的服务端操作队列
