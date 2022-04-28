@@ -39,7 +39,7 @@ public class MoveMotor : MonoBehaviour
     public MoveConst nowMoveType = MoveConst.Idel;                   //当前移动类型
     public MoveConst setedMoveType = MoveConst.Idel;                   //设置的移动类型
     public Vector3 moveDirection = Vector3.forward;               //移动方向(局部,向量)
-    public Vector3 faceDirection = Vector3.zero;                  //面朝方向(全局,欧拉角)
+    public Vector3 faceDirection = Vector3.forward;                  //面朝方向(全局,欧拉角)
 
     public Vector3? forcePosition;                  //面朝方向(全局,欧拉角)
     //设定将要干的事情 end
@@ -87,11 +87,11 @@ public class MoveMotor : MonoBehaviour
     {
         get
         {
-            return (Quaternion.Euler(faceDirection) * moveDirection).normalized;
+            return moveDirection;
         }
     }
 
-    void Awake()
+    protected void Awake()
     {
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -169,7 +169,7 @@ public class MoveMotor : MonoBehaviour
 
     public void setMoveDirection(Vector3 dir)
     {
-        //Debug.Log("setMoveDirection" + dir);
+       // Debug.Log("setMoveDirection" + dir + dir.magnitude);
         moveDirection = dir;
     }
 
@@ -215,7 +215,7 @@ public class MoveMotor : MonoBehaviour
         return ans;
     }
 
-    private MoveControlersBase getMoveControl(MoveConst moveType)
+    protected virtual MoveControlersBase getMoveControl(MoveConst moveType)
     {
         MoveControlersBase ans = null;
         switch (moveType)
@@ -242,7 +242,7 @@ public class MoveMotor : MonoBehaviour
         return ans;
     }
 
-    private void Update()
+    protected void Update()
     {
         currentTimeStamp += Time.deltaTime;
 
@@ -415,7 +415,7 @@ public class MoveMotor : MonoBehaviour
     }
     void OnAnimatorMove()
     {
-        currentMoveControler.tick(Time.deltaTime);
+        currentMoveControler.tick();
         var delterMove = getDelterMove();
         currentMoveControler.UpdateMoveSpeed();
         //Debug.Log("moveTest2: " + currentTimeStamp + "delterMove" + animator.deltaPosition.magnitude);
@@ -516,9 +516,10 @@ public class MoveMotor : MonoBehaviour
         animator.SetFloat("moveSpeed", this.moveSpeed);
         animator.SetFloat("rotationAngle", faceDiectionSpeed * 10);
         animator.SetFloat("stopMoveBlend", this.stopMoveBlend);
-
-        animator.SetFloat("X", this.moveDirection.x);
-        animator.SetFloat("Z", this.moveDirection.z);
+      
+        Vector3 localDirection = Quaternion.Inverse(Quaternion.Euler(faceDirection)) * moveDirection;
+        animator.SetFloat("X", localDirection.x);
+        animator.SetFloat("Z", localDirection.z);
 
         animator.SetBool("isGrounded", this.isOnGrounded);
         animator.SetBool("InBattle", this.inBattle);

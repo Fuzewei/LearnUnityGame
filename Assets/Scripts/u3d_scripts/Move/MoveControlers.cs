@@ -77,6 +77,7 @@ namespace SwordMaster
         public MoveMotor montor;
         public float beginTime;
         public float deltaTime;
+        public float _lastTickTime;
         public float xzMoveSpeed
         {
             get {
@@ -104,13 +105,15 @@ namespace SwordMaster
     
         public virtual void reset() {
             beginTime = Utils.localTime();
+            _lastTickTime = Utils.localTime();
             onReset();
         }
 
         public virtual void onReset(){}
 
-        public void tick(float _deltaTime) {
-            deltaTime = _deltaTime;
+        public void tick() {
+            deltaTime = Utils.localTime() - _lastTickTime;
+            _lastTickTime = Utils.localTime();
         }
 
         public virtual bool canSetFaceDirection(ref Vector3 rotation)
@@ -147,18 +150,18 @@ namespace SwordMaster
             return false;
         }
 
-        public override Vector3 calcuteDelterPosition()
-        {
-            float accTime = Mathf.Abs(this.xzMoveSpeed) / acc;
-            accTime = Mathf.Min(accTime, deltaTime);
-            float l = this.xzMoveSpeed * deltaTime - 0.5f * acc * accTime * accTime;
+        //public override Vector3 calcuteDelterPosition()
+        //{
+        //    float accTime = Mathf.Abs(this.xzMoveSpeed) / acc;
+        //    accTime = Mathf.Min(accTime, deltaTime);
+        //    float l = this.xzMoveSpeed * deltaTime - 0.5f * acc * accTime * accTime;
 
-            Vector3 delta = new Vector3(0, 0, l);
-            delta.y += yMoveSpeed * deltaTime;
+        //    Vector3 delta = new Vector3(0, 0, l);
+        //    delta.y += yMoveSpeed * deltaTime;
 
 
-            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
-        }
+        //    return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
+        //}
     }
 
     class NormalWalkControler: MoveControlersBase
@@ -185,16 +188,16 @@ namespace SwordMaster
             this.yMoveSpeed = -100;
         }
 
-        public override Vector3 calcuteDelterPosition()
-        {
-            float accTime = Mathf.Abs(maxForwardSpeed - this.xzMoveSpeed) / acc;
-            accTime = Mathf.Min(accTime , deltaTime);
-            float l = this.xzMoveSpeed * deltaTime + 0.5f * acc * accTime * accTime;
+        //public override Vector3 calcuteDelterPosition()
+        //{
+        //    float accTime = Mathf.Abs(maxForwardSpeed - this.xzMoveSpeed) / acc;
+        //    accTime = Mathf.Min(accTime , deltaTime);
+        //    float l = this.xzMoveSpeed * deltaTime + 0.5f * acc * accTime * accTime;
             
-            Vector3 delta = new Vector3(0, 0, l);
-            delta.y += yMoveSpeed * deltaTime;
-            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
-        }
+        //    Vector3 delta = new Vector3(0, 0, l);
+        //    delta.y += yMoveSpeed * deltaTime;
+        //    return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
+        //}
     }
 
     class NormalRunControler : MoveControlersBase
@@ -379,6 +382,15 @@ namespace SwordMaster
     class NormalPreMove : MoveControlersBase
     {
         public NormalPreMove(MoveMotor _montor) : base(_montor)
+        {
+
+        }
+    }
+
+    //给路点的移动
+    class PathMoveWalk : NormalWalkControler
+    {
+        public PathMoveWalk(MoveMotor _montor) : base(_montor)
         {
 
         }

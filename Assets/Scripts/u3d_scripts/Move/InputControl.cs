@@ -78,14 +78,15 @@ public class InputControl : MonoBehaviour
             float rotateAngle = Mathf.Atan2(directionVector.x, directionVector.z) * Mathf.Rad2Deg;
             Vector3 inputRotation = new Vector3(0, Camera.main.transform.rotation.eulerAngles.y + rotateAngle, 0);
             inputRotation = Quaternion.Euler(inputRotation).eulerAngles;
-            KBEngine.Event.fireIn("setFaceDirection", (VECTOR3)inputRotation);
-            KBEngine.Event.fireIn("setMoveDirection", (VECTOR3)Vector3.forward);
+            KBEngine.Event.fireIn("setFaceDirection", (VECTOR3)inputRotation);//面朝方向
+            KBEngine.Event.fireIn("setMoveDirection", (VECTOR3)(Quaternion.Euler(inputRotation) * Vector3.forward).normalized);//移动方向
         }
         else
         {
             Vector3 cameraFace = new Vector3(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-            KBEngine.Event.fireIn("setFaceDirection", (VECTOR3)cameraFace);
-            KBEngine.Event.fireIn("setMoveDirection", (VECTOR3)directionVector);
+
+            KBEngine.Event.fireIn("setFaceDirection", (VECTOR3)cameraFace);//面朝方向
+            KBEngine.Event.fireIn("setMoveDirection", (VECTOR3)(Quaternion.Euler(cameraFace) * directionVector).normalized);//移动方向
         }
     }
 
