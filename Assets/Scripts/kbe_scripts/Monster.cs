@@ -7,6 +7,7 @@ namespace KBEngine
 
 	public partial class Monster : MonsterBase, IServerEntity
 	{
+		public GameEntity renderEntity; //和渲染层交互的接口对象
 		public Monster() : base()
 		{
 		}
@@ -14,7 +15,8 @@ namespace KBEngine
 		//渲染层准备就绪
 		public void onRenderObjectCreate(GameEntity render)
 		{
-			
+			renderEntity = render;
+			Event.fireOut("onRenderObjectCreat", this);
 		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)

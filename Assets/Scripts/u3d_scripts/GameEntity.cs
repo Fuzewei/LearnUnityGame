@@ -199,7 +199,7 @@ public class GameEntity : MonoBehaviour
 
 
 
-	public void entityEnable(KBEngine.Avatar entity)
+	public void entityEnable(KBEngine.IServerEntity entity)
 	{
 		entityEnabled = true;
 		logicEntity = entity;

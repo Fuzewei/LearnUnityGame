@@ -207,7 +207,7 @@ public partial class World : MonoBehaviour
 			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
 			gameEntity.entityEnable((KBEngine.Avatar)entity);
 			renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
-			p3.renderEntity = gameEntity;
+			//p3.renderEntity = gameEntity;
 
 			((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
 		}
@@ -216,6 +216,11 @@ public partial class World : MonoBehaviour
 			var monster = entity as KBEngine.Monster;
 			monster.renderObj = Instantiate(monsterPerfab, new Vector3(entity.position.x, y, entity.position.z),
 			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
+			var renderEntity = entity.renderObj as UnityEngine.GameObject;
+			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
+			gameEntity.entityEnable((KBEngine.Monster)entity);
+			renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
+			((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
 		}
 		
 	}
