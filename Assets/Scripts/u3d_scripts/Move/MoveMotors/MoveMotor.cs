@@ -92,8 +92,6 @@ public class MoveMotor : MonoBehaviour
         animator.SetFloat("moveSpeed", moveSpeed);
 
 
-
-
         walkMove = new NormalWalkControler(this);
         runMove = new NormalRunControler(this);
         idle = new NormalIdleControler(this);

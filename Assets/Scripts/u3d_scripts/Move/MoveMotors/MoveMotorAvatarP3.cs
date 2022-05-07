@@ -19,6 +19,19 @@ public class MoveMotorAvatarP3 : MoveMotorServerFix
     public override void onUpdate()
     {
         base.onUpdate();
+        if (serverOpQueue.lenth() == 0)
+        {
+            return;
+        }
+
+        Tuple<float, SampleBase> tuple = serverOpQueue[-1];
+        float serverTimer = tuple.Item1;
+        SampleBase serverSample = tuple.Item2;
+        serverOpQueue.popBeforePosition(serverTimer - 5);
+        setMoveType(serverSample.moveType);
+        setInBattle(serverSample.inBattle);
+        setMoveDirection(serverSample.moveDirection);
+        setFaceDirection(serverSample.faceDirection);
 
     }
 
