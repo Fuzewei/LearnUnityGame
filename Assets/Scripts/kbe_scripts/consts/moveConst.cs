@@ -11,7 +11,6 @@ namespace KBEngine
             Rush = 4,//冲刺
             Skill = 5,//技能
             ServerMove = 6,//服务端控制的移动（技能击飞等）
-            //PreMove,//p3的预移动
         }
 
         public enum EntityStage //其他状态

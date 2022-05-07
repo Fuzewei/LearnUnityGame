@@ -370,21 +370,6 @@ namespace SwordMaster
         {
 
         }
-        public override Vector3 calcuteDelterPosition()
-        {
-            Vector3 delta = montor.animator.deltaPosition;
-            delta.y += yMoveSpeed * deltaTime;
-            return delta;
-        }
-    }
-
-    //被动移动的预表现
-    public class NormalPreMove : MoveControlersBase
-    {
-        public NormalPreMove(MoveMotor _montor) : base(_montor)
-        {
-
-        }
     }
 
 
