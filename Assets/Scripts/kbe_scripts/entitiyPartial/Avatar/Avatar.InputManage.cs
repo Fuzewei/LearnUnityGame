@@ -73,7 +73,7 @@
 			{
 				return;
 			}
-			if (preMoveState == MoveConst.Jump)
+			if (preMoveState == MoveConst.Walk)
 			{
 				return;
 			}
@@ -88,11 +88,12 @@
 			{
 				return;
 			}
-			if (preMoveState == MoveConst.Jump)
+			if (preMoveState == MoveConst.Run)
 			{
 				return;
 			}
 			preMoveState = MoveConst.Run;
+			uploadMovetype(preMoveState);
 			renderEntity.setMoveType(MoveConst.Run);
 		}
 
@@ -102,7 +103,7 @@
 			{
 				return;
 			}
-			if (preMoveState == MoveConst.Jump)
+			if (preMoveState == MoveConst.Idel)
 			{
 				return;
 			}

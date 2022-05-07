@@ -16,7 +16,7 @@ using UnityEngine.SceneManagement;
 public class ExportAnimation : EditorWindow
 {
     private const string anim_PATH = "Assets/GreatSword_Animset/Animation/Root/";
-    private const string anim_motion_PATH = "Assets/GreatSword_Animset/Animation/MotionInfo";
+    static string anim_motion_PATH = Application.streamingAssetsPath;
     static Dictionary<string, List<rootMotionInfo>> rootMotion = new Dictionary<string, List<rootMotionInfo>>();
 
     [MenuItem("ExportScene/导出rootmotion信息")]

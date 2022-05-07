@@ -44,7 +44,7 @@ namespace SwordMaster
         static MoveControlersBase()
         {
             rootMotion = new Dictionary<string, List<rootMotionInfo>>();
-            using (StreamReader streamReader = new StreamReader("Assets/GreatSword_Animset/Animation/MotionInfo" + "/data.json"))
+            using (StreamReader streamReader = new StreamReader(Application.streamingAssetsPath + "/data.json"))
             {
                 while (true)
                 {
