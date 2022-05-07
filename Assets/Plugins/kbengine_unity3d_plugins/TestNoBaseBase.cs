@@ -98,7 +98,7 @@ namespace KBEngine
 
 				switch(prop.properUtype)
 				{
-					case 29:
+					case 28:
 						Int32 oldval_own = own;
 						own = stream.readInt32();
 
@@ -114,7 +114,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 28:
+					case 27:
 						Int32 oldval_state = state;
 						state = stream.readInt32();
 

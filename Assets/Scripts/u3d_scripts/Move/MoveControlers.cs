@@ -131,7 +131,7 @@ namespace SwordMaster
         }
     }
 
-    class NormalIdleControler : MoveControlersBase
+    public class NormalIdleControler : MoveControlersBase
     {
         // idle的加速度
         public float acc = 5.5f;
@@ -164,7 +164,7 @@ namespace SwordMaster
         //}
     }
 
-    class NormalWalkControler: MoveControlersBase
+    public class NormalWalkControler: MoveControlersBase
     {
         
         public NormalWalkControler(MoveMotor _montor) : base(_montor)
@@ -200,7 +200,7 @@ namespace SwordMaster
         //}
     }
 
-    class NormalRunControler : MoveControlersBase
+    public class NormalRunControler : MoveControlersBase
     {
         public NormalRunControler(MoveMotor _montor) : base(_montor)
         {
@@ -224,12 +224,12 @@ namespace SwordMaster
 
             Vector3 delta = new Vector3(0, 0, l);
             delta.y += yMoveSpeed * deltaTime;
-            return Quaternion.LookRotation(montor.globalMoveDirection) * delta;
+            return Quaternion.LookRotation(montor.moveDirection) * delta;
         }
     }
 
 
-    class NormalJumpControler : MoveControlersBase
+    public class NormalJumpControler : MoveControlersBase
     {
         public Vector3 jumpDirection ;
         // 向上的速度
@@ -245,12 +245,12 @@ namespace SwordMaster
 
         public NormalJumpControler(MoveMotor _montor) : base(_montor)
         {
-            jumpDirection = montor.globalMoveDirection;
+            jumpDirection = montor.moveDirection;
 
         }
         public override void onReset() {
             jumpStage = 0;
-            jumpDirection = montor.globalMoveDirection;
+            jumpDirection = montor.moveDirection;
         }
 
         public override void UpdateMoveSpeed()
@@ -316,7 +316,7 @@ namespace SwordMaster
     }
 
     //使用技能的移动
-    class NormalUseSkillControler : MoveControlersBase
+    public class NormalUseSkillControler : MoveControlersBase
     {
         string aniClipName = null;
         float timeStamp = 0;
@@ -364,7 +364,7 @@ namespace SwordMaster
     }
 
     //服务端驱动的移动
-    class NormalServerMove : MoveControlersBase
+    public class NormalServerMove : MoveControlersBase
     {
         public NormalServerMove(MoveMotor _montor) : base(_montor)
         {
@@ -379,7 +379,7 @@ namespace SwordMaster
     }
 
     //被动移动的预表现
-    class NormalPreMove : MoveControlersBase
+    public class NormalPreMove : MoveControlersBase
     {
         public NormalPreMove(MoveMotor _montor) : base(_montor)
         {
@@ -387,13 +387,5 @@ namespace SwordMaster
         }
     }
 
-    //给路点的移动
-    class PathMoveWalk : NormalWalkControler
-    {
-        public PathMoveWalk(MoveMotor _montor) : base(_montor)
-        {
-
-        }
-    }
 
 }

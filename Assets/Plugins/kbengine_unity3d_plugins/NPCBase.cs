@@ -19,16 +19,12 @@ namespace KBEngine
 		public EntityBaseEntityCall_NPCBase baseEntityCall = null;
 		public EntityCellEntityCall_NPCBase cellEntityCall = null;
 
-		public Vector3 T_direction = new Vector3(0f, 0f, 0f);
-		public virtual void onT_directionChanged(Vector3 oldValue) {}
 		public UInt32 entityNO = 0;
 		public virtual void onEntityNOChanged(UInt32 oldValue) {}
 		public UInt32 modelID = 0;
 		public virtual void onModelIDChanged(UInt32 oldValue) {}
 		public Byte modelScale = 30;
 		public virtual void onModelScaleChanged(Byte oldValue) {}
-		public float moveSpeed = 0f;
-		public virtual void onMoveSpeedChanged(float oldValue) {}
 		public string name = "";
 		public virtual void onNameChanged(string oldValue) {}
 		public UInt32 uid = 0;
@@ -175,22 +171,6 @@ namespace KBEngine
 
 				switch(prop.properUtype)
 				{
-					case 53:
-						Vector3 oldval_T_direction = T_direction;
-						T_direction = stream.readVector3();
-
-						if(prop.isBase())
-						{
-							if(inited)
-								onT_directionChanged(oldval_T_direction);
-						}
-						else
-						{
-							if(inWorld)
-								onT_directionChanged(oldval_T_direction);
-						}
-
-						break;
 					case 40001:
 						Vector3 oldval_direction = direction;
 						direction = stream.readVector3();
@@ -252,22 +232,6 @@ namespace KBEngine
 						{
 							if(inWorld)
 								onModelScaleChanged(oldval_modelScale);
-						}
-
-						break;
-					case 50:
-						float oldval_moveSpeed = moveSpeed;
-						moveSpeed = stream.readFloat();
-
-						if(prop.isBase())
-						{
-							if(inited)
-								onMoveSpeedChanged(oldval_moveSpeed);
-						}
-						else
-						{
-							if(inWorld)
-								onMoveSpeedChanged(oldval_moveSpeed);
 						}
 
 						break;
@@ -349,27 +313,6 @@ namespace KBEngine
 			ScriptModule sm = EntityDef.moduledefs["NPC"];
 			Dictionary<UInt16, Property> pdatas = sm.idpropertys;
 
-			Vector3 oldval_T_direction = T_direction;
-			Property prop_T_direction = pdatas[4];
-			if(prop_T_direction.isBase())
-			{
-				if(inited && !inWorld)
-					onT_directionChanged(oldval_T_direction);
-			}
-			else
-			{
-				if(inWorld)
-				{
-					if(prop_T_direction.isOwnerOnly() && !isPlayer())
-					{
-					}
-					else
-					{
-						onT_directionChanged(oldval_T_direction);
-					}
-				}
-			}
-
 			Vector3 oldval_direction = direction;
 			Property prop_direction = pdatas[2];
 			if(prop_direction.isBase())
@@ -392,7 +335,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_entityNO = entityNO;
-			Property prop_entityNO = pdatas[5];
+			Property prop_entityNO = pdatas[4];
 			if(prop_entityNO.isBase())
 			{
 				if(inited && !inWorld)
@@ -413,7 +356,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_modelID = modelID;
-			Property prop_modelID = pdatas[6];
+			Property prop_modelID = pdatas[5];
 			if(prop_modelID.isBase())
 			{
 				if(inited && !inWorld)
@@ -434,7 +377,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_modelScale = modelScale;
-			Property prop_modelScale = pdatas[7];
+			Property prop_modelScale = pdatas[6];
 			if(prop_modelScale.isBase())
 			{
 				if(inited && !inWorld)
@@ -454,29 +397,8 @@ namespace KBEngine
 				}
 			}
 
-			float oldval_moveSpeed = moveSpeed;
-			Property prop_moveSpeed = pdatas[8];
-			if(prop_moveSpeed.isBase())
-			{
-				if(inited && !inWorld)
-					onMoveSpeedChanged(oldval_moveSpeed);
-			}
-			else
-			{
-				if(inWorld)
-				{
-					if(prop_moveSpeed.isOwnerOnly() && !isPlayer())
-					{
-					}
-					else
-					{
-						onMoveSpeedChanged(oldval_moveSpeed);
-					}
-				}
-			}
-
 			string oldval_name = name;
-			Property prop_name = pdatas[9];
+			Property prop_name = pdatas[7];
 			if(prop_name.isBase())
 			{
 				if(inited && !inWorld)
@@ -518,7 +440,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_uid = uid;
-			Property prop_uid = pdatas[10];
+			Property prop_uid = pdatas[8];
 			if(prop_uid.isBase())
 			{
 				if(inited && !inWorld)
@@ -539,7 +461,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_utype = utype;
-			Property prop_utype = pdatas[11];
+			Property prop_utype = pdatas[9];
 			if(prop_utype.isBase())
 			{
 				if(inited && !inWorld)

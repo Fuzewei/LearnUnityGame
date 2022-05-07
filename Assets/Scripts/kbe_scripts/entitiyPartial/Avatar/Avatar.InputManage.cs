@@ -37,6 +37,7 @@
 
 			Event.fireOut("setEnitiyInbattle", new object[] { this, settedInBattle });  //通知表现层，p1设置进入战斗状态
 			renderEntity.setEnitiyInbattle(settedInBattle);
+			uploadInbattle(settedInBattle);
 		}
 
 		public virtual void useSkill(int skillid)
@@ -56,6 +57,7 @@
 				return;
 			}
 			preMoveState = MoveConst.Jump;
+			uploadMovetype(preMoveState);
 			renderEntity.setMoveType(MoveConst.Jump);
 		}
 
@@ -76,6 +78,7 @@
 				return;
 			}
 			preMoveState = MoveConst.Walk;
+			uploadMovetype(preMoveState);
 			renderEntity.setMoveType(MoveConst.Walk);
 		}
 
@@ -104,6 +107,7 @@
 				return;
 			}
 			preMoveState = MoveConst.Idel;
+			uploadMovetype(preMoveState);
 			renderEntity.setMoveType(MoveConst.Idel);
 		}
 

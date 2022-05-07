@@ -254,14 +254,15 @@ public class GameEntity : MonoBehaviour
 		}
 	}
 
-	public SampleBase getMoveSample()
-	{
-		return moveMotor.localOpQueue.end().Item2;
-	}
 
 	public void setMoveType(MoveConst moveType)
 	{
 		moveMotor.setMoveType(moveType);
+	}
+
+	public void setMoveParam(object param)
+	{
+		moveMotor.setMoveParam(param);
 	}
 
 	public void setEnitiyInbattle(bool inBattle)

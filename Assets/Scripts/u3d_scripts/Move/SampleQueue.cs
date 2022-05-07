@@ -45,25 +45,32 @@ public class SampleQueue
         positionQueue = new List<float>();
     }
 
-    public float recentPosition()
+    public Tuple<float, SampleBase> this[int index]
     {
-        return positionQueue[positionQueue.Count - 1];
+        get{
+            if (lenth() == 0)
+            {
+                throw new Exception();
+            }
+            while (index < 0)
+            {
+                index = lenth() + index;
+            }
+            return _getSampleByIndex(index);
+        }
+    }
+
+
+    private Tuple<float, SampleBase> _getSampleByIndex(int index)
+    {
+        return new Tuple<float, SampleBase>(positionQueue[index], opQueue[index]);
     }
 
     public Tuple<float, SampleBase> getSampleByPosition(float position)
     {
         Tuple<Int32, Int32> leftAndRight = getLeftAndRight(position);
         Int32 left = leftAndRight.Item1;
-       
-        SampleBase leftSample = opQueue[left];
-
-        return new Tuple<float, SampleBase>(positionQueue[left], opQueue[left]);
-    }
-
-    public Tuple<float, SampleBase> getSampleByIndex(int index)
-    {
-        float position = positionQueue[index];
-        return new Tuple<float, SampleBase>(positionQueue[index], opQueue[index]);
+        return _getSampleByIndex(left);
     }
 
     public Tuple<Int32, Int32> getLeftAndRight(float position)
@@ -103,17 +110,6 @@ public class SampleQueue
     public void push(SampleBase sample, float position) {
         opQueue.Insert(opQueue.Count, sample);
         positionQueue.Insert(positionQueue.Count, position);
-    }
-
-    public Tuple<float, SampleBase> end()
-    {
-        var a = new Tuple<float, SampleBase>(positionQueue[positionQueue.Count - 1], opQueue[opQueue.Count - 1]);
-        return a;
-    }
-
-    public Tuple<float, SampleBase> fromt()
-    {
-        return new Tuple<float, SampleBase>(positionQueue[0], opQueue[0]);
     }
 
     public void popBeforePosition(float position)

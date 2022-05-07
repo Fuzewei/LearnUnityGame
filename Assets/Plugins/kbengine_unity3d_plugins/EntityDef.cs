@@ -370,61 +370,47 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(MP_Max / 47004).");
 
-			Property pAvatar_T_direction = new Property();
-			pAvatar_T_direction.name = "T_direction";
-			pAvatar_T_direction.properUtype = 14;
-			pAvatar_T_direction.properFlags = 4;
-			pAvatar_T_direction.aliasID = 8;
-			Vector3 Avatar_T_direction_defval = new Vector3();
-			pAvatar_T_direction.defaultVal = Avatar_T_direction_defval;
-			pAvatarModule.propertys["T_direction"] = pAvatar_T_direction; 
-
-			pAvatarModule.usePropertyDescrAlias = true;
-			pAvatarModule.idpropertys[(UInt16)pAvatar_T_direction.aliasID] = pAvatar_T_direction;
-
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(T_direction / 14).");
-
 			Property pAvatar_component1 = new Property();
 			pAvatar_component1.name = "component1";
-			pAvatar_component1.properUtype = 21;
+			pAvatar_component1.properUtype = 20;
 			pAvatar_component1.properFlags = 253;
-			pAvatar_component1.aliasID = 9;
+			pAvatar_component1.aliasID = 8;
 			pAvatarModule.propertys["component1"] = pAvatar_component1; 
 
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_component1.aliasID] = pAvatar_component1;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component1 / 21).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component1 / 20).");
 
 			Property pAvatar_component2 = new Property();
 			pAvatar_component2.name = "component2";
-			pAvatar_component2.properUtype = 26;
+			pAvatar_component2.properUtype = 25;
 			pAvatar_component2.properFlags = 97;
-			pAvatar_component2.aliasID = 10;
+			pAvatar_component2.aliasID = 9;
 			pAvatarModule.propertys["component2"] = pAvatar_component2; 
 
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_component2.aliasID] = pAvatar_component2;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component2 / 26).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component2 / 25).");
 
 			Property pAvatar_component3 = new Property();
 			pAvatar_component3.name = "component3";
-			pAvatar_component3.properUtype = 27;
+			pAvatar_component3.properUtype = 26;
 			pAvatar_component3.properFlags = 157;
-			pAvatar_component3.aliasID = 11;
+			pAvatar_component3.aliasID = 10;
 			pAvatarModule.propertys["component3"] = pAvatar_component3; 
 
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_component3.aliasID] = pAvatar_component3;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component3 / 27).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(component3 / 26).");
 
 			Property pAvatar_forbids = new Property();
 			pAvatar_forbids.name = "forbids";
 			pAvatar_forbids.properUtype = 47005;
 			pAvatar_forbids.properFlags = 4;
-			pAvatar_forbids.aliasID = 12;
+			pAvatar_forbids.aliasID = 11;
 			Int32 Avatar_forbids_defval;
 			Int32.TryParse("0", out Avatar_forbids_defval);
 			pAvatar_forbids.defaultVal = Avatar_forbids_defval;
@@ -437,9 +423,9 @@ namespace KBEngine
 
 			Property pAvatar_inBattle = new Property();
 			pAvatar_inBattle.name = "inBattle";
-			pAvatar_inBattle.properUtype = 16;
+			pAvatar_inBattle.properUtype = 12;
 			pAvatar_inBattle.properFlags = 4;
-			pAvatar_inBattle.aliasID = 13;
+			pAvatar_inBattle.aliasID = 12;
 			Byte Avatar_inBattle_defval;
 			Byte.TryParse("0", out Avatar_inBattle_defval);
 			pAvatar_inBattle.defaultVal = Avatar_inBattle_defval;
@@ -448,13 +434,13 @@ namespace KBEngine
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_inBattle.aliasID] = pAvatar_inBattle;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(inBattle / 16).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(inBattle / 12).");
 
 			Property pAvatar_level = new Property();
 			pAvatar_level.name = "level";
 			pAvatar_level.properUtype = 41002;
 			pAvatar_level.properFlags = 8;
-			pAvatar_level.aliasID = 14;
+			pAvatar_level.aliasID = 13;
 			UInt16 Avatar_level_defval;
 			UInt16.TryParse("", out Avatar_level_defval);
 			pAvatar_level.defaultVal = Avatar_level_defval;
@@ -469,7 +455,7 @@ namespace KBEngine
 			pAvatar_modelID.name = "modelID";
 			pAvatar_modelID.properUtype = 41006;
 			pAvatar_modelID.properFlags = 4;
-			pAvatar_modelID.aliasID = 15;
+			pAvatar_modelID.aliasID = 14;
 			UInt32 Avatar_modelID_defval;
 			UInt32.TryParse("0", out Avatar_modelID_defval);
 			pAvatar_modelID.defaultVal = Avatar_modelID_defval;
@@ -484,7 +470,7 @@ namespace KBEngine
 			pAvatar_modelScale.name = "modelScale";
 			pAvatar_modelScale.properUtype = 41007;
 			pAvatar_modelScale.properFlags = 4;
-			pAvatar_modelScale.aliasID = 16;
+			pAvatar_modelScale.aliasID = 15;
 			Byte Avatar_modelScale_defval;
 			Byte.TryParse("30", out Avatar_modelScale_defval);
 			pAvatar_modelScale.defaultVal = Avatar_modelScale_defval;
@@ -497,9 +483,9 @@ namespace KBEngine
 
 			Property pAvatar_moveDirection = new Property();
 			pAvatar_moveDirection.name = "moveDirection";
-			pAvatar_moveDirection.properUtype = 19;
+			pAvatar_moveDirection.properUtype = 15;
 			pAvatar_moveDirection.properFlags = 4;
-			pAvatar_moveDirection.aliasID = 17;
+			pAvatar_moveDirection.aliasID = 16;
 			Vector3 Avatar_moveDirection_defval = new Vector3();
 			pAvatar_moveDirection.defaultVal = Avatar_moveDirection_defval;
 			pAvatarModule.propertys["moveDirection"] = pAvatar_moveDirection; 
@@ -507,26 +493,26 @@ namespace KBEngine
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_moveDirection.aliasID] = pAvatar_moveDirection;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveDirection / 19).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveDirection / 15).");
 
 			Property pAvatar_moveInfo = new Property();
 			pAvatar_moveInfo.name = "moveInfo";
-			pAvatar_moveInfo.properUtype = 20;
+			pAvatar_moveInfo.properUtype = 16;
 			pAvatar_moveInfo.properFlags = 4;
-			pAvatar_moveInfo.aliasID = 18;
+			pAvatar_moveInfo.aliasID = 17;
 			pAvatar_moveInfo.defaultVal = EntityDef.id2datatypes[33].parseDefaultValStr("");
 			pAvatarModule.propertys["moveInfo"] = pAvatar_moveInfo; 
 
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_moveInfo.aliasID] = pAvatar_moveInfo;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveInfo / 20).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveInfo / 16).");
 
 			Property pAvatar_moveSpeed = new Property();
 			pAvatar_moveSpeed.name = "moveSpeed";
-			pAvatar_moveSpeed.properUtype = 11;
+			pAvatar_moveSpeed.properUtype = 17;
 			pAvatar_moveSpeed.properFlags = 4;
-			pAvatar_moveSpeed.aliasID = 19;
+			pAvatar_moveSpeed.aliasID = 18;
 			float Avatar_moveSpeed_defval;
 			float.TryParse("0", out Avatar_moveSpeed_defval);
 			pAvatar_moveSpeed.defaultVal = Avatar_moveSpeed_defval;
@@ -535,13 +521,13 @@ namespace KBEngine
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_moveSpeed.aliasID] = pAvatar_moveSpeed;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveSpeed / 11).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveSpeed / 17).");
 
 			Property pAvatar_moveType = new Property();
 			pAvatar_moveType.name = "moveType";
-			pAvatar_moveType.properUtype = 18;
+			pAvatar_moveType.properUtype = 14;
 			pAvatar_moveType.properFlags = 4;
-			pAvatar_moveType.aliasID = 20;
+			pAvatar_moveType.aliasID = 19;
 			UInt32 Avatar_moveType_defval;
 			UInt32.TryParse("0", out Avatar_moveType_defval);
 			pAvatar_moveType.defaultVal = Avatar_moveType_defval;
@@ -550,13 +536,13 @@ namespace KBEngine
 			pAvatarModule.usePropertyDescrAlias = true;
 			pAvatarModule.idpropertys[(UInt16)pAvatar_moveType.aliasID] = pAvatar_moveType;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveType / 18).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Avatar), property(moveType / 14).");
 
 			Property pAvatar_name = new Property();
 			pAvatar_name.name = "name";
 			pAvatar_name.properUtype = 41003;
 			pAvatar_name.properFlags = 4;
-			pAvatar_name.aliasID = 21;
+			pAvatar_name.aliasID = 20;
 			string Avatar_name_defval = "";
 			pAvatar_name.defaultVal = Avatar_name_defval;
 			pAvatarModule.propertys["name"] = pAvatar_name; 
@@ -570,7 +556,7 @@ namespace KBEngine
 			pAvatar_own_val.name = "own_val";
 			pAvatar_own_val.properUtype = 6;
 			pAvatar_own_val.properFlags = 16;
-			pAvatar_own_val.aliasID = 22;
+			pAvatar_own_val.aliasID = 21;
 			UInt16 Avatar_own_val_defval;
 			UInt16.TryParse("", out Avatar_own_val_defval);
 			pAvatar_own_val.defaultVal = Avatar_own_val_defval;
@@ -585,7 +571,7 @@ namespace KBEngine
 			pAvatar_spaceUType.name = "spaceUType";
 			pAvatar_spaceUType.properUtype = 41001;
 			pAvatar_spaceUType.properFlags = 8;
-			pAvatar_spaceUType.aliasID = 23;
+			pAvatar_spaceUType.aliasID = 22;
 			UInt32 Avatar_spaceUType_defval;
 			UInt32.TryParse("", out Avatar_spaceUType_defval);
 			pAvatar_spaceUType.defaultVal = Avatar_spaceUType_defval;
@@ -600,7 +586,7 @@ namespace KBEngine
 			pAvatar_state.name = "state";
 			pAvatar_state.properUtype = 47006;
 			pAvatar_state.properFlags = 4;
-			pAvatar_state.aliasID = 24;
+			pAvatar_state.aliasID = 23;
 			SByte Avatar_state_defval;
 			SByte.TryParse("0", out Avatar_state_defval);
 			pAvatar_state.defaultVal = Avatar_state_defval;
@@ -615,7 +601,7 @@ namespace KBEngine
 			pAvatar_subState.name = "subState";
 			pAvatar_subState.properUtype = 47007;
 			pAvatar_subState.properFlags = 4;
-			pAvatar_subState.aliasID = 25;
+			pAvatar_subState.aliasID = 24;
 			Byte Avatar_subState_defval;
 			Byte.TryParse("", out Avatar_subState_defval);
 			pAvatar_subState.defaultVal = Avatar_subState_defval;
@@ -630,7 +616,7 @@ namespace KBEngine
 			pAvatar_uid.name = "uid";
 			pAvatar_uid.properUtype = 41004;
 			pAvatar_uid.properFlags = 4;
-			pAvatar_uid.aliasID = 26;
+			pAvatar_uid.aliasID = 25;
 			UInt32 Avatar_uid_defval;
 			UInt32.TryParse("0", out Avatar_uid_defval);
 			pAvatar_uid.defaultVal = Avatar_uid_defval;
@@ -645,7 +631,7 @@ namespace KBEngine
 			pAvatar_utype.name = "utype";
 			pAvatar_utype.properUtype = 41005;
 			pAvatar_utype.properFlags = 4;
-			pAvatar_utype.aliasID = 27;
+			pAvatar_utype.aliasID = 26;
 			UInt32 Avatar_utype_defval;
 			UInt32.TryParse("0", out Avatar_utype_defval);
 			pAvatar_utype.defaultVal = Avatar_utype_defval;
@@ -1151,7 +1137,7 @@ namespace KBEngine
 
 			Property pTest_own = new Property();
 			pTest_own.name = "own";
-			pTest_own.properUtype = 23;
+			pTest_own.properUtype = 22;
 			pTest_own.properFlags = 8;
 			pTest_own.aliasID = 4;
 			Int32 Test_own_defval;
@@ -1162,11 +1148,11 @@ namespace KBEngine
 			pTestModule.usePropertyDescrAlias = true;
 			pTestModule.idpropertys[(UInt16)pTest_own.aliasID] = pTest_own;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), property(own / 23).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), property(own / 22).");
 
 			Property pTest_state = new Property();
 			pTest_state.name = "state";
-			pTest_state.properUtype = 22;
+			pTest_state.properUtype = 21;
 			pTest_state.properFlags = 4;
 			pTest_state.aliasID = 5;
 			Int32 Test_state_defval;
@@ -1177,7 +1163,7 @@ namespace KBEngine
 			pTestModule.usePropertyDescrAlias = true;
 			pTestModule.idpropertys[(UInt16)pTest_state.aliasID] = pTest_state;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), property(state / 22).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Test), property(state / 21).");
 
 			List<DATATYPE_BASE> pTest_helloCB_args = new List<DATATYPE_BASE>();
 			pTest_helloCB_args.Add(EntityDef.id2datatypes[8]);
@@ -1275,7 +1261,7 @@ namespace KBEngine
 
 			Property pTestNoBase_own = new Property();
 			pTestNoBase_own.name = "own";
-			pTestNoBase_own.properUtype = 29;
+			pTestNoBase_own.properUtype = 28;
 			pTestNoBase_own.properFlags = 8;
 			pTestNoBase_own.aliasID = 4;
 			Int32 TestNoBase_own_defval;
@@ -1286,11 +1272,11 @@ namespace KBEngine
 			pTestNoBaseModule.usePropertyDescrAlias = true;
 			pTestNoBaseModule.idpropertys[(UInt16)pTestNoBase_own.aliasID] = pTestNoBase_own;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), property(own / 29).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), property(own / 28).");
 
 			Property pTestNoBase_state = new Property();
 			pTestNoBase_state.name = "state";
-			pTestNoBase_state.properUtype = 28;
+			pTestNoBase_state.properUtype = 27;
 			pTestNoBase_state.properFlags = 4;
 			pTestNoBase_state.aliasID = 5;
 			Int32 TestNoBase_state_defval;
@@ -1301,7 +1287,7 @@ namespace KBEngine
 			pTestNoBaseModule.usePropertyDescrAlias = true;
 			pTestNoBaseModule.idpropertys[(UInt16)pTestNoBase_state.aliasID] = pTestNoBase_state;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), property(state / 28).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(TestNoBase), property(state / 27).");
 
 			List<DATATYPE_BASE> pTestNoBase_helloCB_args = new List<DATATYPE_BASE>();
 			pTestNoBase_helloCB_args.Add(EntityDef.id2datatypes[8]);
@@ -1441,25 +1427,11 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(MP_Max / 47004).");
 
-			Property pMonster_T_direction = new Property();
-			pMonster_T_direction.name = "T_direction";
-			pMonster_T_direction.properUtype = 40;
-			pMonster_T_direction.properFlags = 4;
-			pMonster_T_direction.aliasID = 8;
-			Vector3 Monster_T_direction_defval = new Vector3();
-			pMonster_T_direction.defaultVal = Monster_T_direction_defval;
-			pMonsterModule.propertys["T_direction"] = pMonster_T_direction; 
-
-			pMonsterModule.usePropertyDescrAlias = true;
-			pMonsterModule.idpropertys[(UInt16)pMonster_T_direction.aliasID] = pMonster_T_direction;
-
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(T_direction / 40).");
-
 			Property pMonster_entityNO = new Property();
 			pMonster_entityNO.name = "entityNO";
 			pMonster_entityNO.properUtype = 51007;
 			pMonster_entityNO.properFlags = 4;
-			pMonster_entityNO.aliasID = 9;
+			pMonster_entityNO.aliasID = 8;
 			UInt32 Monster_entityNO_defval;
 			UInt32.TryParse("0", out Monster_entityNO_defval);
 			pMonster_entityNO.defaultVal = Monster_entityNO_defval;
@@ -1474,7 +1446,7 @@ namespace KBEngine
 			pMonster_forbids.name = "forbids";
 			pMonster_forbids.properUtype = 47005;
 			pMonster_forbids.properFlags = 4;
-			pMonster_forbids.aliasID = 10;
+			pMonster_forbids.aliasID = 9;
 			Int32 Monster_forbids_defval;
 			Int32.TryParse("0", out Monster_forbids_defval);
 			pMonster_forbids.defaultVal = Monster_forbids_defval;
@@ -1487,9 +1459,9 @@ namespace KBEngine
 
 			Property pMonster_inBattle = new Property();
 			pMonster_inBattle.name = "inBattle";
-			pMonster_inBattle.properUtype = 41;
+			pMonster_inBattle.properUtype = 36;
 			pMonster_inBattle.properFlags = 4;
-			pMonster_inBattle.aliasID = 11;
+			pMonster_inBattle.aliasID = 10;
 			Byte Monster_inBattle_defval;
 			Byte.TryParse("0", out Monster_inBattle_defval);
 			pMonster_inBattle.defaultVal = Monster_inBattle_defval;
@@ -1498,13 +1470,13 @@ namespace KBEngine
 			pMonsterModule.usePropertyDescrAlias = true;
 			pMonsterModule.idpropertys[(UInt16)pMonster_inBattle.aliasID] = pMonster_inBattle;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(inBattle / 41).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(inBattle / 36).");
 
 			Property pMonster_modelID = new Property();
 			pMonster_modelID.name = "modelID";
 			pMonster_modelID.properUtype = 41006;
 			pMonster_modelID.properFlags = 4;
-			pMonster_modelID.aliasID = 12;
+			pMonster_modelID.aliasID = 11;
 			UInt32 Monster_modelID_defval;
 			UInt32.TryParse("0", out Monster_modelID_defval);
 			pMonster_modelID.defaultVal = Monster_modelID_defval;
@@ -1519,7 +1491,7 @@ namespace KBEngine
 			pMonster_modelScale.name = "modelScale";
 			pMonster_modelScale.properUtype = 41007;
 			pMonster_modelScale.properFlags = 4;
-			pMonster_modelScale.aliasID = 13;
+			pMonster_modelScale.aliasID = 12;
 			Byte Monster_modelScale_defval;
 			Byte.TryParse("30", out Monster_modelScale_defval);
 			pMonster_modelScale.defaultVal = Monster_modelScale_defval;
@@ -1530,11 +1502,38 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(modelScale / 41007).");
 
+			Property pMonster_moveDirection = new Property();
+			pMonster_moveDirection.name = "moveDirection";
+			pMonster_moveDirection.properUtype = 42;
+			pMonster_moveDirection.properFlags = 4;
+			pMonster_moveDirection.aliasID = 13;
+			Vector3 Monster_moveDirection_defval = new Vector3();
+			pMonster_moveDirection.defaultVal = Monster_moveDirection_defval;
+			pMonsterModule.propertys["moveDirection"] = pMonster_moveDirection; 
+
+			pMonsterModule.usePropertyDescrAlias = true;
+			pMonsterModule.idpropertys[(UInt16)pMonster_moveDirection.aliasID] = pMonster_moveDirection;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(moveDirection / 42).");
+
+			Property pMonster_moveInfo = new Property();
+			pMonster_moveInfo.name = "moveInfo";
+			pMonster_moveInfo.properUtype = 43;
+			pMonster_moveInfo.properFlags = 4;
+			pMonster_moveInfo.aliasID = 14;
+			pMonster_moveInfo.defaultVal = EntityDef.id2datatypes[33].parseDefaultValStr("");
+			pMonsterModule.propertys["moveInfo"] = pMonster_moveInfo; 
+
+			pMonsterModule.usePropertyDescrAlias = true;
+			pMonsterModule.idpropertys[(UInt16)pMonster_moveInfo.aliasID] = pMonster_moveInfo;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(moveInfo / 43).");
+
 			Property pMonster_moveSpeed = new Property();
 			pMonster_moveSpeed.name = "moveSpeed";
-			pMonster_moveSpeed.properUtype = 37;
+			pMonster_moveSpeed.properUtype = 44;
 			pMonster_moveSpeed.properFlags = 4;
-			pMonster_moveSpeed.aliasID = 14;
+			pMonster_moveSpeed.aliasID = 15;
 			float Monster_moveSpeed_defval;
 			float.TryParse("0", out Monster_moveSpeed_defval);
 			pMonster_moveSpeed.defaultVal = Monster_moveSpeed_defval;
@@ -1543,13 +1542,28 @@ namespace KBEngine
 			pMonsterModule.usePropertyDescrAlias = true;
 			pMonsterModule.idpropertys[(UInt16)pMonster_moveSpeed.aliasID] = pMonster_moveSpeed;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(moveSpeed / 37).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(moveSpeed / 44).");
+
+			Property pMonster_moveType = new Property();
+			pMonster_moveType.name = "moveType";
+			pMonster_moveType.properUtype = 41;
+			pMonster_moveType.properFlags = 4;
+			pMonster_moveType.aliasID = 16;
+			UInt32 Monster_moveType_defval;
+			UInt32.TryParse("0", out Monster_moveType_defval);
+			pMonster_moveType.defaultVal = Monster_moveType_defval;
+			pMonsterModule.propertys["moveType"] = pMonster_moveType; 
+
+			pMonsterModule.usePropertyDescrAlias = true;
+			pMonsterModule.idpropertys[(UInt16)pMonster_moveType.aliasID] = pMonster_moveType;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(moveType / 41).");
 
 			Property pMonster_name = new Property();
 			pMonster_name.name = "name";
 			pMonster_name.properUtype = 41003;
 			pMonster_name.properFlags = 4;
-			pMonster_name.aliasID = 15;
+			pMonster_name.aliasID = 17;
 			string Monster_name_defval = "";
 			pMonster_name.defaultVal = Monster_name_defval;
 			pMonsterModule.propertys["name"] = pMonster_name; 
@@ -1563,7 +1577,7 @@ namespace KBEngine
 			pMonster_state.name = "state";
 			pMonster_state.properUtype = 47006;
 			pMonster_state.properFlags = 4;
-			pMonster_state.aliasID = 16;
+			pMonster_state.aliasID = 18;
 			SByte Monster_state_defval;
 			SByte.TryParse("0", out Monster_state_defval);
 			pMonster_state.defaultVal = Monster_state_defval;
@@ -1578,7 +1592,7 @@ namespace KBEngine
 			pMonster_subState.name = "subState";
 			pMonster_subState.properUtype = 47007;
 			pMonster_subState.properFlags = 4;
-			pMonster_subState.aliasID = 17;
+			pMonster_subState.aliasID = 19;
 			Byte Monster_subState_defval;
 			Byte.TryParse("", out Monster_subState_defval);
 			pMonster_subState.defaultVal = Monster_subState_defval;
@@ -1593,7 +1607,7 @@ namespace KBEngine
 			pMonster_uid.name = "uid";
 			pMonster_uid.properUtype = 41004;
 			pMonster_uid.properFlags = 4;
-			pMonster_uid.aliasID = 18;
+			pMonster_uid.aliasID = 20;
 			UInt32 Monster_uid_defval;
 			UInt32.TryParse("0", out Monster_uid_defval);
 			pMonster_uid.defaultVal = Monster_uid_defval;
@@ -1608,7 +1622,7 @@ namespace KBEngine
 			pMonster_utype.name = "utype";
 			pMonster_utype.properUtype = 41005;
 			pMonster_utype.properFlags = 4;
-			pMonster_utype.aliasID = 19;
+			pMonster_utype.aliasID = 21;
 			UInt32 Monster_utype_defval;
 			UInt32.TryParse("0", out Monster_utype_defval);
 			pMonster_utype.defaultVal = Monster_utype_defval;
@@ -1619,13 +1633,28 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(utype / 41005).");
 
+			List<DATATYPE_BASE> pMonster_confirmMoveTimeStamp_args = new List<DATATYPE_BASE>();
+			pMonster_confirmMoveTimeStamp_args.Add(EntityDef.id2datatypes[13]);
+
+			Method pMonster_confirmMoveTimeStamp = new Method();
+			pMonster_confirmMoveTimeStamp.name = "confirmMoveTimeStamp";
+			pMonster_confirmMoveTimeStamp.methodUtype = 71;
+			pMonster_confirmMoveTimeStamp.aliasID = 1;
+			pMonster_confirmMoveTimeStamp.args = pMonster_confirmMoveTimeStamp_args;
+
+			pMonsterModule.methods["confirmMoveTimeStamp"] = pMonster_confirmMoveTimeStamp; 
+			pMonsterModule.useMethodDescrAlias = true;
+			pMonsterModule.idmethods[(UInt16)pMonster_confirmMoveTimeStamp.aliasID] = pMonster_confirmMoveTimeStamp;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(confirmMoveTimeStamp / 71).");
+
 			List<DATATYPE_BASE> pMonster_randomWalk_args = new List<DATATYPE_BASE>();
 			pMonster_randomWalk_args.Add(EntityDef.id2datatypes[24]);
 
 			Method pMonster_randomWalk = new Method();
 			pMonster_randomWalk.name = "randomWalk";
 			pMonster_randomWalk.methodUtype = 65;
-			pMonster_randomWalk.aliasID = 1;
+			pMonster_randomWalk.aliasID = 2;
 			pMonster_randomWalk.args = pMonster_randomWalk_args;
 
 			pMonsterModule.methods["randomWalk"] = pMonster_randomWalk; 
@@ -1643,7 +1672,7 @@ namespace KBEngine
 			Method pMonster_recvDamage = new Method();
 			pMonster_recvDamage.name = "recvDamage";
 			pMonster_recvDamage.methodUtype = 53;
-			pMonster_recvDamage.aliasID = 2;
+			pMonster_recvDamage.aliasID = 3;
 			pMonster_recvDamage.args = pMonster_recvDamage_args;
 
 			pMonsterModule.methods["recvDamage"] = pMonster_recvDamage; 
@@ -1659,7 +1688,7 @@ namespace KBEngine
 			Method pMonster_serverRequestUseSkill = new Method();
 			pMonster_serverRequestUseSkill.name = "serverRequestUseSkill";
 			pMonster_serverRequestUseSkill.methodUtype = 55;
-			pMonster_serverRequestUseSkill.aliasID = 3;
+			pMonster_serverRequestUseSkill.aliasID = 4;
 			pMonster_serverRequestUseSkill.args = pMonster_serverRequestUseSkill_args;
 
 			pMonsterModule.methods["serverRequestUseSkill"] = pMonster_serverRequestUseSkill; 
@@ -1674,7 +1703,7 @@ namespace KBEngine
 			Method pMonster_serverSkillFinish = new Method();
 			pMonster_serverSkillFinish.name = "serverSkillFinish";
 			pMonster_serverSkillFinish.methodUtype = 56;
-			pMonster_serverSkillFinish.aliasID = 4;
+			pMonster_serverSkillFinish.aliasID = 5;
 			pMonster_serverSkillFinish.args = pMonster_serverSkillFinish_args;
 
 			pMonsterModule.methods["serverSkillFinish"] = pMonster_serverSkillFinish; 
@@ -1689,7 +1718,7 @@ namespace KBEngine
 			Method pMonster_serverTimeLineFinish = new Method();
 			pMonster_serverTimeLineFinish.name = "serverTimeLineFinish";
 			pMonster_serverTimeLineFinish.methodUtype = 57;
-			pMonster_serverTimeLineFinish.aliasID = 5;
+			pMonster_serverTimeLineFinish.aliasID = 6;
 			pMonster_serverTimeLineFinish.args = pMonster_serverTimeLineFinish_args;
 
 			pMonsterModule.methods["serverTimeLineFinish"] = pMonster_serverTimeLineFinish; 
@@ -1706,7 +1735,7 @@ namespace KBEngine
 			Method pMonster_skillNodeCallClient = new Method();
 			pMonster_skillNodeCallClient.name = "skillNodeCallClient";
 			pMonster_skillNodeCallClient.methodUtype = 54;
-			pMonster_skillNodeCallClient.aliasID = 6;
+			pMonster_skillNodeCallClient.aliasID = 7;
 			pMonster_skillNodeCallClient.args = pMonster_skillNodeCallClient_args;
 
 			pMonsterModule.methods["skillNodeCallClient"] = pMonster_skillNodeCallClient; 
@@ -1764,6 +1793,41 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(clientTimeLineFinish / 49).");
 
+			List<DATATYPE_BASE> pMonster_setInBattle_args = new List<DATATYPE_BASE>();
+			pMonster_setInBattle_args.Add(EntityDef.id2datatypes[13]);
+			pMonster_setInBattle_args.Add(EntityDef.id2datatypes[2]);
+
+			Method pMonster_setInBattle = new Method();
+			pMonster_setInBattle.name = "setInBattle";
+			pMonster_setInBattle.methodUtype = 69;
+			pMonster_setInBattle.aliasID = -1;
+			pMonster_setInBattle.args = pMonster_setInBattle_args;
+
+			pMonsterModule.methods["setInBattle"] = pMonster_setInBattle; 
+			pMonsterModule.cell_methods["setInBattle"] = pMonster_setInBattle;
+
+			pMonsterModule.idcell_methods[pMonster_setInBattle.methodUtype] = pMonster_setInBattle;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setInBattle / 69).");
+
+			List<DATATYPE_BASE> pMonster_setPostionAndRotation_args = new List<DATATYPE_BASE>();
+			pMonster_setPostionAndRotation_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_setPostionAndRotation_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_setPostionAndRotation_args.Add(EntityDef.id2datatypes[16]);
+
+			Method pMonster_setPostionAndRotation = new Method();
+			pMonster_setPostionAndRotation.name = "setPostionAndRotation";
+			pMonster_setPostionAndRotation.methodUtype = 67;
+			pMonster_setPostionAndRotation.aliasID = -1;
+			pMonster_setPostionAndRotation.args = pMonster_setPostionAndRotation_args;
+
+			pMonsterModule.methods["setPostionAndRotation"] = pMonster_setPostionAndRotation; 
+			pMonsterModule.cell_methods["setPostionAndRotation"] = pMonster_setPostionAndRotation;
+
+			pMonsterModule.idcell_methods[pMonster_setPostionAndRotation.methodUtype] = pMonster_setPostionAndRotation;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setPostionAndRotation / 67).");
+
 			List<DATATYPE_BASE> pMonster_skillNodeCallServer_args = new List<DATATYPE_BASE>();
 			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[4]);
 			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[8]);
@@ -1781,6 +1845,63 @@ namespace KBEngine
 			pMonsterModule.idcell_methods[pMonster_skillNodeCallServer.methodUtype] = pMonster_skillNodeCallServer;
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(skillNodeCallServer / 50).");
+
+			List<DATATYPE_BASE> pMonster_updateAvatarMoveState_args = new List<DATATYPE_BASE>();
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[13]);
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[4]);
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_updateAvatarMoveState_args.Add(EntityDef.id2datatypes[2]);
+
+			Method pMonster_updateAvatarMoveState = new Method();
+			pMonster_updateAvatarMoveState.name = "updateAvatarMoveState";
+			pMonster_updateAvatarMoveState.methodUtype = 70;
+			pMonster_updateAvatarMoveState.aliasID = -1;
+			pMonster_updateAvatarMoveState.args = pMonster_updateAvatarMoveState_args;
+
+			pMonsterModule.methods["updateAvatarMoveState"] = pMonster_updateAvatarMoveState; 
+			pMonsterModule.cell_methods["updateAvatarMoveState"] = pMonster_updateAvatarMoveState;
+
+			pMonsterModule.idcell_methods[pMonster_updateAvatarMoveState.methodUtype] = pMonster_updateAvatarMoveState;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateAvatarMoveState / 70).");
+
+			List<DATATYPE_BASE> pMonster_updateMovetype_args = new List<DATATYPE_BASE>();
+			pMonster_updateMovetype_args.Add(EntityDef.id2datatypes[13]);
+			pMonster_updateMovetype_args.Add(EntityDef.id2datatypes[4]);
+
+			Method pMonster_updateMovetype = new Method();
+			pMonster_updateMovetype.name = "updateMovetype";
+			pMonster_updateMovetype.methodUtype = 68;
+			pMonster_updateMovetype.aliasID = -1;
+			pMonster_updateMovetype.args = pMonster_updateMovetype_args;
+
+			pMonsterModule.methods["updateMovetype"] = pMonster_updateMovetype; 
+			pMonsterModule.cell_methods["updateMovetype"] = pMonster_updateMovetype;
+
+			pMonsterModule.idcell_methods[pMonster_updateMovetype.methodUtype] = pMonster_updateMovetype;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateMovetype / 68).");
+
+			List<DATATYPE_BASE> pMonster_updatePosition_args = new List<DATATYPE_BASE>();
+			pMonster_updatePosition_args.Add(EntityDef.id2datatypes[13]);
+			pMonster_updatePosition_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_updatePosition_args.Add(EntityDef.id2datatypes[16]);
+			pMonster_updatePosition_args.Add(EntityDef.id2datatypes[16]);
+
+			Method pMonster_updatePosition = new Method();
+			pMonster_updatePosition.name = "updatePosition";
+			pMonster_updatePosition.methodUtype = 66;
+			pMonster_updatePosition.aliasID = -1;
+			pMonster_updatePosition.args = pMonster_updatePosition_args;
+
+			pMonsterModule.methods["updatePosition"] = pMonster_updatePosition; 
+			pMonsterModule.cell_methods["updatePosition"] = pMonster_updatePosition;
+
+			pMonsterModule.idcell_methods[pMonster_updatePosition.methodUtype] = pMonster_updatePosition;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updatePosition / 66).");
 
 			ScriptModule pNPCModule = new ScriptModule("NPC");
 			EntityDef.moduledefs["NPC"] = pNPCModule;
@@ -1829,25 +1950,11 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(NPC), property(spaceID / 40002).");
 
-			Property pNPC_T_direction = new Property();
-			pNPC_T_direction.name = "T_direction";
-			pNPC_T_direction.properUtype = 53;
-			pNPC_T_direction.properFlags = 4;
-			pNPC_T_direction.aliasID = 4;
-			Vector3 NPC_T_direction_defval = new Vector3();
-			pNPC_T_direction.defaultVal = NPC_T_direction_defval;
-			pNPCModule.propertys["T_direction"] = pNPC_T_direction; 
-
-			pNPCModule.usePropertyDescrAlias = true;
-			pNPCModule.idpropertys[(UInt16)pNPC_T_direction.aliasID] = pNPC_T_direction;
-
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(NPC), property(T_direction / 53).");
-
 			Property pNPC_entityNO = new Property();
 			pNPC_entityNO.name = "entityNO";
 			pNPC_entityNO.properUtype = 51007;
 			pNPC_entityNO.properFlags = 4;
-			pNPC_entityNO.aliasID = 5;
+			pNPC_entityNO.aliasID = 4;
 			UInt32 NPC_entityNO_defval;
 			UInt32.TryParse("0", out NPC_entityNO_defval);
 			pNPC_entityNO.defaultVal = NPC_entityNO_defval;
@@ -1862,7 +1969,7 @@ namespace KBEngine
 			pNPC_modelID.name = "modelID";
 			pNPC_modelID.properUtype = 41006;
 			pNPC_modelID.properFlags = 4;
-			pNPC_modelID.aliasID = 6;
+			pNPC_modelID.aliasID = 5;
 			UInt32 NPC_modelID_defval;
 			UInt32.TryParse("0", out NPC_modelID_defval);
 			pNPC_modelID.defaultVal = NPC_modelID_defval;
@@ -1877,7 +1984,7 @@ namespace KBEngine
 			pNPC_modelScale.name = "modelScale";
 			pNPC_modelScale.properUtype = 41007;
 			pNPC_modelScale.properFlags = 4;
-			pNPC_modelScale.aliasID = 7;
+			pNPC_modelScale.aliasID = 6;
 			Byte NPC_modelScale_defval;
 			Byte.TryParse("30", out NPC_modelScale_defval);
 			pNPC_modelScale.defaultVal = NPC_modelScale_defval;
@@ -1888,26 +1995,11 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(NPC), property(modelScale / 41007).");
 
-			Property pNPC_moveSpeed = new Property();
-			pNPC_moveSpeed.name = "moveSpeed";
-			pNPC_moveSpeed.properUtype = 50;
-			pNPC_moveSpeed.properFlags = 4;
-			pNPC_moveSpeed.aliasID = 8;
-			float NPC_moveSpeed_defval;
-			float.TryParse("0", out NPC_moveSpeed_defval);
-			pNPC_moveSpeed.defaultVal = NPC_moveSpeed_defval;
-			pNPCModule.propertys["moveSpeed"] = pNPC_moveSpeed; 
-
-			pNPCModule.usePropertyDescrAlias = true;
-			pNPCModule.idpropertys[(UInt16)pNPC_moveSpeed.aliasID] = pNPC_moveSpeed;
-
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(NPC), property(moveSpeed / 50).");
-
 			Property pNPC_name = new Property();
 			pNPC_name.name = "name";
 			pNPC_name.properUtype = 41003;
 			pNPC_name.properFlags = 4;
-			pNPC_name.aliasID = 9;
+			pNPC_name.aliasID = 7;
 			string NPC_name_defval = "";
 			pNPC_name.defaultVal = NPC_name_defval;
 			pNPCModule.propertys["name"] = pNPC_name; 
@@ -1921,7 +2013,7 @@ namespace KBEngine
 			pNPC_uid.name = "uid";
 			pNPC_uid.properUtype = 41004;
 			pNPC_uid.properFlags = 4;
-			pNPC_uid.aliasID = 10;
+			pNPC_uid.aliasID = 8;
 			UInt32 NPC_uid_defval;
 			UInt32.TryParse("0", out NPC_uid_defval);
 			pNPC_uid.defaultVal = NPC_uid_defval;
@@ -1936,7 +2028,7 @@ namespace KBEngine
 			pNPC_utype.name = "utype";
 			pNPC_utype.properUtype = 41005;
 			pNPC_utype.properFlags = 4;
-			pNPC_utype.aliasID = 11;
+			pNPC_utype.aliasID = 9;
 			UInt32 NPC_utype_defval;
 			UInt32.TryParse("0", out NPC_utype_defval);
 			pNPC_utype.defaultVal = NPC_utype_defval;

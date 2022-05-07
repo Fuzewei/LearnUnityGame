@@ -206,7 +206,7 @@ public partial class World : MonoBehaviour
 			var renderEntity = entity.renderObj as UnityEngine.GameObject;
 			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
 			gameEntity.entityEnable((KBEngine.Avatar)entity);
-			renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
+			
 			//p3.renderEntity = gameEntity;
 
 			((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
@@ -219,7 +219,7 @@ public partial class World : MonoBehaviour
 			var renderEntity = entity.renderObj as UnityEngine.GameObject;
 			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
 			gameEntity.entityEnable((KBEngine.Monster)entity);
-			renderEntity.GetComponent<MoveMotor>().isSyncSource = false;
+			
 			((UnityEngine.GameObject)entity.renderObj).name = entity.className + "_id:" + entity.id;
 		}
 		
@@ -247,15 +247,15 @@ public partial class World : MonoBehaviour
 		gameEntity.spaceID = KBEngineApp.app.spaceID;
 	}
 
-	public void updatePosition(KBEngine.Entity entity)
+	public void updatePosition(KBEngine.Entity entity)//设置了怪物的位置的回调
 	{
-		Debug.Log("updatePosition");
+		Debug.Log("updatePosition:"+ entity.className);
 		if(entity.renderObj == null)
 			return;
 		
 		GameEntity gameEntity = ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>();
-		gameEntity.destPosition = entity.position;
-		gameEntity.position = entity.position;
+		//gameEntity.destPosition = entity.position;
+		//gameEntity.position = entity.position;
 		gameEntity.isOnGround = entity.isOnGround;
 		gameEntity.spaceID = KBEngineApp.app.spaceID;
 	}

@@ -21,9 +21,9 @@ namespace KBEngine
 
 		public EntityBaseEntityCall_AvatarBase(Int32 eid, string ename) : base(eid, ename)
 		{
-			component1 = new EntityBaseEntityCall_TestBase(21, id);
-			component2 = new EntityBaseEntityCall_TestBase(26, id);
-			component3 = new EntityBaseEntityCall_TestNoBaseBase(27, id);
+			component1 = new EntityBaseEntityCall_TestBase(20, id);
+			component2 = new EntityBaseEntityCall_TestBase(25, id);
+			component3 = new EntityBaseEntityCall_TestNoBaseBase(26, id);
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_BASE;
 		}
 
@@ -37,9 +37,9 @@ namespace KBEngine
 
 		public EntityCellEntityCall_AvatarBase(Int32 eid, string ename) : base(eid, ename)
 		{
-			component1 = new EntityCellEntityCall_TestBase(21, id);
-			component2 = new EntityCellEntityCall_TestBase(26, id);
-			component3 = new EntityCellEntityCall_TestNoBaseBase(27, id);
+			component1 = new EntityCellEntityCall_TestBase(20, id);
+			component2 = new EntityCellEntityCall_TestBase(25, id);
+			component3 = new EntityCellEntityCall_TestNoBaseBase(26, id);
 			type = ENTITYCALL_TYPE.ENTITYCALL_TYPE_CELL;
 		}
 
