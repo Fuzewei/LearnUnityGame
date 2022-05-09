@@ -12,8 +12,10 @@
 		public override void randomWalk(PATH_POINTS arg1)
 		{
 			Dbg.DEBUG_MSG("randomWalk:" + arg1);
-			renderEntity.setMoveParam(arg1);
+			renderEntity.setAiMovePath(arg1);
+			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
 		}
+
 
 	}
 }

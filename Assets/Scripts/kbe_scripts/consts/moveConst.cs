@@ -13,6 +13,13 @@ namespace KBEngine
             ServerMove = 6,//服务端控制的移动（技能击飞等）
         }
 
+        public enum AiMoveConst //ai的移动类型
+        {
+            Idel = 0,//不动
+            RANDOM_MOVE= 1,
+            ROOTMOTION = 2
+        }
+
         public enum EntityStage //其他状态
         {
             InBattle = 0,//进战状态

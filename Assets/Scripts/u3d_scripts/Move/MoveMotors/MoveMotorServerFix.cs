@@ -59,7 +59,7 @@ public class MoveMotorServerFix : MoveMotor
     }
 
     //移动完成后根据服务端发来的数据修正位置
-    void clientUpdatePositionAfterServerUpdate()
+    protected virtual void clientUpdatePositionAfterServerUpdate()
     {
         if (forecastOpQueue.lenth() == 0)
         {
@@ -76,13 +76,14 @@ public class MoveMotorServerFix : MoveMotor
             transform.rotation = Quaternion.Euler(recentSample.faceDirection);
             return;
         }
-        else   //客户端比服务端快，
+        else   //客户端比服务端快
         {
             if (recentServerTime - confirmTimeStamp > float.Epsilon) //服务端新的数据到了才更新误差
             {
                 confirmTimeStamp = recentServerTime;
                 positionDiff = calculatePositionDiff();
             }
+           
             if (positionDiff.magnitude >= 0.01)
             {
                 transform.position += positionDiff * Mathf.Min(0.9f, Time.deltaTime);

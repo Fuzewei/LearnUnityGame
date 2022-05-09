@@ -62,7 +62,6 @@ public class MoveMotor : MonoBehaviour
     protected NormalUseSkillControler useSkill;
     protected NormalServerMove serverMove;
 
-    public object moveParam = null;
     #endregion
 
     /*
@@ -153,11 +152,6 @@ public class MoveMotor : MonoBehaviour
         return true;
     }
 
-    public virtual bool setMoveParam(object param)
-    {
-        moveParam = param;
-        return true;
-    }
 
     public void setMoveDirection(Vector3 dir)
     {
@@ -173,6 +167,21 @@ public class MoveMotor : MonoBehaviour
         faceDirection = direction;
     }
 
+
+    #endregion
+
+
+    #region 设置怪物移动的各种属性接口
+
+    public virtual bool setAiMovePath(PATH_POINTS _state)
+    {
+        return true;
+    }
+
+    public virtual bool setAiMovType(AiMoveConst aiMoveType)
+    {
+        return true;
+    }
 
     #endregion
 
@@ -319,7 +328,14 @@ public class MoveMotor : MonoBehaviour
     }
     void OnAnimatorMove()
     {
+        beforeMoveUpdate();
         onMoveUpdate();
+        afterMoveUpdate();
+    }
+
+    public virtual void beforeMoveUpdate()
+    {
+
     }
 
     public virtual void onMoveUpdate()
@@ -338,6 +354,10 @@ public class MoveMotor : MonoBehaviour
         }
         nowMoveType = setedMoveType;
         inBattle = setedInBattle;
+    }
+
+    public virtual void afterMoveUpdate()
+    {
     }
 
     public void _currentMoveTick()
