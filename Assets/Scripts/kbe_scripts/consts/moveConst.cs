@@ -16,8 +16,9 @@ namespace KBEngine
         public enum AiMoveConst //ai的移动类型
         {
             Idel = 0,//不动
-            RANDOM_MOVE= 1,
-            ROOTMOTION = 2
+            RANDOM_MOVE = 1,
+            ROOTMOTION = 2,
+            CHAST_RUN = 3
         }
 
         public enum EntityStage //其他状态
