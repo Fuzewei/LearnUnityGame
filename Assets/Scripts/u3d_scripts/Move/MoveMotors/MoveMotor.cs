@@ -178,6 +178,11 @@ public class MoveMotor : MonoBehaviour
         return true;
     }
 
+    public virtual bool setAiMoveTarget(Transform tr)
+    {
+        return true;
+    }
+
     public virtual bool setAiMovType(AiMoveConst aiMoveType)
     {
         return true;

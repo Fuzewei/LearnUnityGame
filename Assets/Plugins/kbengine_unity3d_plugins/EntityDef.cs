@@ -1648,20 +1648,35 @@ namespace KBEngine
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), property(utype / 41005).");
 
+			List<DATATYPE_BASE> pMonster_chaseTarget_args = new List<DATATYPE_BASE>();
+			pMonster_chaseTarget_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pMonster_chaseTarget = new Method();
+			pMonster_chaseTarget.name = "chaseTarget";
+			pMonster_chaseTarget.methodUtype = 66;
+			pMonster_chaseTarget.aliasID = 1;
+			pMonster_chaseTarget.args = pMonster_chaseTarget_args;
+
+			pMonsterModule.methods["chaseTarget"] = pMonster_chaseTarget; 
+			pMonsterModule.useMethodDescrAlias = true;
+			pMonsterModule.idmethods[(UInt16)pMonster_chaseTarget.aliasID] = pMonster_chaseTarget;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(chaseTarget / 66).");
+
 			List<DATATYPE_BASE> pMonster_confirmMoveTimeStamp_args = new List<DATATYPE_BASE>();
 			pMonster_confirmMoveTimeStamp_args.Add(EntityDef.id2datatypes[13]);
 
 			Method pMonster_confirmMoveTimeStamp = new Method();
 			pMonster_confirmMoveTimeStamp.name = "confirmMoveTimeStamp";
-			pMonster_confirmMoveTimeStamp.methodUtype = 71;
-			pMonster_confirmMoveTimeStamp.aliasID = 1;
+			pMonster_confirmMoveTimeStamp.methodUtype = 74;
+			pMonster_confirmMoveTimeStamp.aliasID = 2;
 			pMonster_confirmMoveTimeStamp.args = pMonster_confirmMoveTimeStamp_args;
 
 			pMonsterModule.methods["confirmMoveTimeStamp"] = pMonster_confirmMoveTimeStamp; 
 			pMonsterModule.useMethodDescrAlias = true;
 			pMonsterModule.idmethods[(UInt16)pMonster_confirmMoveTimeStamp.aliasID] = pMonster_confirmMoveTimeStamp;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(confirmMoveTimeStamp / 71).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(confirmMoveTimeStamp / 74).");
 
 			List<DATATYPE_BASE> pMonster_randomWalk_args = new List<DATATYPE_BASE>();
 			pMonster_randomWalk_args.Add(EntityDef.id2datatypes[24]);
@@ -1669,7 +1684,7 @@ namespace KBEngine
 			Method pMonster_randomWalk = new Method();
 			pMonster_randomWalk.name = "randomWalk";
 			pMonster_randomWalk.methodUtype = 65;
-			pMonster_randomWalk.aliasID = 2;
+			pMonster_randomWalk.aliasID = 3;
 			pMonster_randomWalk.args = pMonster_randomWalk_args;
 
 			pMonsterModule.methods["randomWalk"] = pMonster_randomWalk; 
@@ -1687,7 +1702,7 @@ namespace KBEngine
 			Method pMonster_recvDamage = new Method();
 			pMonster_recvDamage.name = "recvDamage";
 			pMonster_recvDamage.methodUtype = 53;
-			pMonster_recvDamage.aliasID = 3;
+			pMonster_recvDamage.aliasID = 4;
 			pMonster_recvDamage.args = pMonster_recvDamage_args;
 
 			pMonsterModule.methods["recvDamage"] = pMonster_recvDamage; 
@@ -1703,7 +1718,7 @@ namespace KBEngine
 			Method pMonster_serverRequestUseSkill = new Method();
 			pMonster_serverRequestUseSkill.name = "serverRequestUseSkill";
 			pMonster_serverRequestUseSkill.methodUtype = 55;
-			pMonster_serverRequestUseSkill.aliasID = 4;
+			pMonster_serverRequestUseSkill.aliasID = 5;
 			pMonster_serverRequestUseSkill.args = pMonster_serverRequestUseSkill_args;
 
 			pMonsterModule.methods["serverRequestUseSkill"] = pMonster_serverRequestUseSkill; 
@@ -1718,7 +1733,7 @@ namespace KBEngine
 			Method pMonster_serverSkillFinish = new Method();
 			pMonster_serverSkillFinish.name = "serverSkillFinish";
 			pMonster_serverSkillFinish.methodUtype = 56;
-			pMonster_serverSkillFinish.aliasID = 5;
+			pMonster_serverSkillFinish.aliasID = 6;
 			pMonster_serverSkillFinish.args = pMonster_serverSkillFinish_args;
 
 			pMonsterModule.methods["serverSkillFinish"] = pMonster_serverSkillFinish; 
@@ -1733,7 +1748,7 @@ namespace KBEngine
 			Method pMonster_serverTimeLineFinish = new Method();
 			pMonster_serverTimeLineFinish.name = "serverTimeLineFinish";
 			pMonster_serverTimeLineFinish.methodUtype = 57;
-			pMonster_serverTimeLineFinish.aliasID = 6;
+			pMonster_serverTimeLineFinish.aliasID = 7;
 			pMonster_serverTimeLineFinish.args = pMonster_serverTimeLineFinish_args;
 
 			pMonsterModule.methods["serverTimeLineFinish"] = pMonster_serverTimeLineFinish; 
@@ -1750,7 +1765,7 @@ namespace KBEngine
 			Method pMonster_skillNodeCallClient = new Method();
 			pMonster_skillNodeCallClient.name = "skillNodeCallClient";
 			pMonster_skillNodeCallClient.methodUtype = 54;
-			pMonster_skillNodeCallClient.aliasID = 7;
+			pMonster_skillNodeCallClient.aliasID = 8;
 			pMonster_skillNodeCallClient.args = pMonster_skillNodeCallClient_args;
 
 			pMonsterModule.methods["skillNodeCallClient"] = pMonster_skillNodeCallClient; 
@@ -1758,6 +1773,36 @@ namespace KBEngine
 			pMonsterModule.idmethods[(UInt16)pMonster_skillNodeCallClient.aliasID] = pMonster_skillNodeCallClient;
 
 			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(skillNodeCallClient / 54).");
+
+			List<DATATYPE_BASE> pMonster_stopMotion_args = new List<DATATYPE_BASE>();
+
+			Method pMonster_stopMotion = new Method();
+			pMonster_stopMotion.name = "stopMotion";
+			pMonster_stopMotion.methodUtype = 68;
+			pMonster_stopMotion.aliasID = 9;
+			pMonster_stopMotion.args = pMonster_stopMotion_args;
+
+			pMonsterModule.methods["stopMotion"] = pMonster_stopMotion; 
+			pMonsterModule.useMethodDescrAlias = true;
+			pMonsterModule.idmethods[(UInt16)pMonster_stopMotion.aliasID] = pMonster_stopMotion;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(stopMotion / 68).");
+
+			List<DATATYPE_BASE> pMonster_useSkill_args = new List<DATATYPE_BASE>();
+			pMonster_useSkill_args.Add(EntityDef.id2datatypes[8]);
+			pMonster_useSkill_args.Add(EntityDef.id2datatypes[8]);
+
+			Method pMonster_useSkill = new Method();
+			pMonster_useSkill.name = "useSkill";
+			pMonster_useSkill.methodUtype = 67;
+			pMonster_useSkill.aliasID = 10;
+			pMonster_useSkill.args = pMonster_useSkill_args;
+
+			pMonsterModule.methods["useSkill"] = pMonster_useSkill; 
+			pMonsterModule.useMethodDescrAlias = true;
+			pMonsterModule.idmethods[(UInt16)pMonster_useSkill.aliasID] = pMonster_useSkill;
+
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(useSkill / 67).");
 
 			List<DATATYPE_BASE> pMonster_clientRequestUseSkill_args = new List<DATATYPE_BASE>();
 			pMonster_clientRequestUseSkill_args.Add(EntityDef.id2datatypes[4]);
@@ -1814,7 +1859,7 @@ namespace KBEngine
 
 			Method pMonster_setInBattle = new Method();
 			pMonster_setInBattle.name = "setInBattle";
-			pMonster_setInBattle.methodUtype = 69;
+			pMonster_setInBattle.methodUtype = 72;
 			pMonster_setInBattle.aliasID = -1;
 			pMonster_setInBattle.args = pMonster_setInBattle_args;
 
@@ -1823,7 +1868,7 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_setInBattle.methodUtype] = pMonster_setInBattle;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setInBattle / 69).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setInBattle / 72).");
 
 			List<DATATYPE_BASE> pMonster_setPostionAndRotation_args = new List<DATATYPE_BASE>();
 			pMonster_setPostionAndRotation_args.Add(EntityDef.id2datatypes[16]);
@@ -1832,7 +1877,7 @@ namespace KBEngine
 
 			Method pMonster_setPostionAndRotation = new Method();
 			pMonster_setPostionAndRotation.name = "setPostionAndRotation";
-			pMonster_setPostionAndRotation.methodUtype = 67;
+			pMonster_setPostionAndRotation.methodUtype = 70;
 			pMonster_setPostionAndRotation.aliasID = -1;
 			pMonster_setPostionAndRotation.args = pMonster_setPostionAndRotation_args;
 
@@ -1841,7 +1886,7 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_setPostionAndRotation.methodUtype] = pMonster_setPostionAndRotation;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setPostionAndRotation / 67).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(setPostionAndRotation / 70).");
 
 			List<DATATYPE_BASE> pMonster_skillNodeCallServer_args = new List<DATATYPE_BASE>();
 			pMonster_skillNodeCallServer_args.Add(EntityDef.id2datatypes[4]);
@@ -1871,7 +1916,7 @@ namespace KBEngine
 
 			Method pMonster_updateAvatarMoveState = new Method();
 			pMonster_updateAvatarMoveState.name = "updateAvatarMoveState";
-			pMonster_updateAvatarMoveState.methodUtype = 70;
+			pMonster_updateAvatarMoveState.methodUtype = 73;
 			pMonster_updateAvatarMoveState.aliasID = -1;
 			pMonster_updateAvatarMoveState.args = pMonster_updateAvatarMoveState_args;
 
@@ -1880,7 +1925,7 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_updateAvatarMoveState.methodUtype] = pMonster_updateAvatarMoveState;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateAvatarMoveState / 70).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateAvatarMoveState / 73).");
 
 			List<DATATYPE_BASE> pMonster_updateMovetype_args = new List<DATATYPE_BASE>();
 			pMonster_updateMovetype_args.Add(EntityDef.id2datatypes[13]);
@@ -1888,7 +1933,7 @@ namespace KBEngine
 
 			Method pMonster_updateMovetype = new Method();
 			pMonster_updateMovetype.name = "updateMovetype";
-			pMonster_updateMovetype.methodUtype = 68;
+			pMonster_updateMovetype.methodUtype = 71;
 			pMonster_updateMovetype.aliasID = -1;
 			pMonster_updateMovetype.args = pMonster_updateMovetype_args;
 
@@ -1897,7 +1942,7 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_updateMovetype.methodUtype] = pMonster_updateMovetype;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateMovetype / 68).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updateMovetype / 71).");
 
 			List<DATATYPE_BASE> pMonster_updatePosition_args = new List<DATATYPE_BASE>();
 			pMonster_updatePosition_args.Add(EntityDef.id2datatypes[13]);
@@ -1907,7 +1952,7 @@ namespace KBEngine
 
 			Method pMonster_updatePosition = new Method();
 			pMonster_updatePosition.name = "updatePosition";
-			pMonster_updatePosition.methodUtype = 66;
+			pMonster_updatePosition.methodUtype = 69;
 			pMonster_updatePosition.aliasID = -1;
 			pMonster_updatePosition.args = pMonster_updatePosition_args;
 
@@ -1916,7 +1961,7 @@ namespace KBEngine
 
 			pMonsterModule.idcell_methods[pMonster_updatePosition.methodUtype] = pMonster_updatePosition;
 
-			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updatePosition / 66).");
+			//Dbg.DEBUG_MSG("EntityDef::initScriptModules: add(Monster), method(updatePosition / 69).");
 
 			ScriptModule pNPCModule = new ScriptModule("NPC");
 			EntityDef.moduledefs["NPC"] = pNPCModule;

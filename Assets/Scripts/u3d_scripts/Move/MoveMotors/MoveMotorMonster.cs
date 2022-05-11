@@ -9,6 +9,9 @@ class MoveMotorMonster : MoveMotorAvatarP3
 {
     public int pathIndex = 0;
     public List<Vector3> path = new List<Vector3>(); //怪物移动需要路点
+
+    public Transform moveTarget = null; //怪物移动目标对象
+
     public AiMoveConst aiMovingType = 0;   //服务端移动类型 
 
 
@@ -20,9 +23,43 @@ class MoveMotorMonster : MoveMotorAvatarP3
         return true;
     }
 
+    public override bool setAiMoveTarget(Transform tr)
+    {
+        moveTarget = tr;
+        return true;
+    }
+
     public override bool setAiMovType(AiMoveConst _aiMoveType)
     {
         aiMovingType = _aiMoveType;
+        return true;
+    }
+
+
+    public override void onUpdate()
+    {
+        base.onUpdate();
+
+    }
+
+    public override void beforeMoveUpdate()
+    {
+        if (aiMovingType == AiMoveConst.CHAST_RUN)
+        {
+            Vector3 _direction = moveTarget.position - transform.position;
+            float _dis = _direction.magnitude;
+            _direction = _direction.normalized;
+            setMoveDirection(_direction);
+
+            float rotateAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            Vector3 faceDirection = new Vector3(0, rotateAngle, 0);
+            setFaceDirection(faceDirection);
+
+        }
+    }
+
+    public override void afterMoveUpdate()
+    {
         if (aiMovingType == AiMoveConst.RANDOM_MOVE)
         {
             Vector3 pos = transform.position;
@@ -37,38 +74,17 @@ class MoveMotorMonster : MoveMotorAvatarP3
             setFaceDirection(faceDirection);
 
         }
-        return true;
-    }
 
-
-    public override void onUpdate()
-    {
-        base.onUpdate();
-
-    }
-
-    public override void beforeMoveUpdate()
-    {
-
-    }
-
-    public override void afterMoveUpdate()
-    {
-        if (setedMoveType == MoveConst.Walk)
+        if (aiMovingType == AiMoveConst.CHAST_RUN)
         {
-            if (pathIndex >= path.Count)
-            {
-                return;
-            }
-
-            Vector3 pos = transform.position;
-            Vector3 nextPoint = path[pathIndex];
-            Vector3 _direction = nextPoint - pos;
+            Vector3 _direction = moveTarget.position - transform.position;
             float _dis = _direction.magnitude;
-            if (_dis < 0.01)
-            {
-                pathIndex += 1;
-            }
+            _direction = _direction.normalized;
+            setMoveDirection(_direction);
+            float rotateAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            Vector3 faceDirection = new Vector3(0, rotateAngle, 0);
+            setFaceDirection(faceDirection);
+
         }
     }
 

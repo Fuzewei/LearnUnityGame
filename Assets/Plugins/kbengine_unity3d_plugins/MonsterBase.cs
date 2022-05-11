@@ -58,6 +58,7 @@ namespace KBEngine
 		public UInt32 utype = 0;
 		public virtual void onUtypeChanged(UInt32 oldValue) {}
 
+		public abstract void chaseTarget(Int32 arg1); 
 		public abstract void confirmMoveTimeStamp(float arg1); 
 		public abstract void randomWalk(PATH_POINTS arg1); 
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
@@ -65,6 +66,8 @@ namespace KBEngine
 		public abstract void serverSkillFinish(Int32 arg1); 
 		public abstract void serverTimeLineFinish(UInt32 arg1); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
+		public abstract void stopMotion(); 
+		public abstract void useSkill(Int32 arg1, Int32 arg2); 
 
 		public MonsterBase()
 		{
@@ -156,7 +159,11 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 71:
+				case 66:
+					Int32 chaseTarget_arg1 = stream.readInt32();
+					chaseTarget(chaseTarget_arg1);
+					break;
+				case 74:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -189,6 +196,14 @@ namespace KBEngine
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
 					skillNodeCallClient(skillNodeCallClient_arg1, skillNodeCallClient_arg2, skillNodeCallClient_arg3);
+					break;
+				case 68:
+					stopMotion();
+					break;
+				case 67:
+					Int32 useSkill_arg1 = stream.readInt32();
+					Int32 useSkill_arg2 = stream.readInt32();
+					useSkill(useSkill_arg1, useSkill_arg2);
 					break;
 				default:
 					break;

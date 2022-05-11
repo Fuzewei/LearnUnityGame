@@ -284,10 +284,20 @@ public class GameEntity : MonoBehaviour
 	{
 		moveMotor.setMoveDirection(moveDirection);
 	}
+
 	public void setAiMovePath(PATH_POINTS param)
 	{
 		moveMotor.setAiMovePath(param);
 	}
+
+	public void setAiMoveTarget(Int32 entityId)
+	{
+		KBEngineApp.app.findEntity(entityId);
+		var entity = KBEngineApp.app.findEntity(entityId);
+		var renderEntity = entity.renderObj as UnityEngine.GameObject;
+		moveMotor.setAiMoveTarget(renderEntity.transform);
+	}
+
 	public void setAiMovType(AiMoveConst aiMoveType)
 	{
 		moveMotor.setAiMovType(aiMoveType);
@@ -310,11 +320,11 @@ public class GameEntity : MonoBehaviour
 
 	public void createWeaponEvent(int tag)
 	{
-		KBEngine.Avatar a = (KBEngine.Avatar)logicEntity;
+		
 		GameObject Prefab = (GameObject)Resources.Load("Prefabs/Weapon/GreatSword_01");
 		GameObject weapon = Instantiate(Prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		weapon.transform.SetParent(hand_r.transform, false);
-		Debug.Log("CreateWeaponEvent:" + a.inBattle);
+		
 	}
 
 	public void removeWeaponEvent(int tag)

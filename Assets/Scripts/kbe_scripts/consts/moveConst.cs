@@ -18,7 +18,8 @@ namespace KBEngine
             Idel = 0,//不动
             RANDOM_MOVE = 1,
             ROOTMOTION = 2,
-            CHAST_RUN = 3
+            CHAST_RUN = 3,
+            USING_SKILL = 4
         }
 
         public enum EntityStage //其他状态
