@@ -41,13 +41,13 @@ namespace KBEngine
             }
         }
 
-        public void callServer(uint nodeId, TABLE arg)
+        public void callServer(int nodeId, TABLE arg)
         {
             Dbg.DEBUG_MSG("skillTimeLine:callServer");
             Avatar avatar = ownerEntity as Avatar;
             if (avatar!= null)
             {
-                avatar.cellEntityCall.skillNodeCallServer(uuid, (int)nodeId, arg);
+                avatar.cellEntityCall.skillNodeCallServer(uuid, nodeId, arg);
             }
         }
 

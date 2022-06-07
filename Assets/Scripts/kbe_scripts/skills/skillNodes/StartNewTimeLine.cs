@@ -50,7 +50,7 @@ namespace KBEngine
              avatarOwner.preUseSkill.startTimeLine(newTimeLineId, uuid);
              arg.values.Add(newTimeLineId);
              arg.values.Add(uuid);
-             ((skillTimeLine)owneTimeLine).callServer(2, arg);
+             ((skillTimeLine)owneTimeLine).callServer(nodeId, arg);
             
         }
 

@@ -62,6 +62,19 @@ namespace KBEngine
 			sendCall(null);
 		}
 
+		public void p3UpdatePosition(float arg1, Vector3 arg2, Vector3 arg3, Vector3 arg4)
+		{
+			Bundle pBundle = newCall("p3UpdatePosition", 0);
+			if(pBundle == null)
+				return;
+
+			bundle.writeFloat(arg1);
+			bundle.writeVector3(arg2);
+			bundle.writeVector3(arg3);
+			bundle.writeVector3(arg4);
+			sendCall(null);
+		}
+
 		public void setInBattle(float arg1, Byte arg2)
 		{
 			Bundle pBundle = newCall("setInBattle", 0);

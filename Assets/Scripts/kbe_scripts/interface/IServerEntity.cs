@@ -8,8 +8,11 @@
 
 	public interface IServerEntity
 	{
+		public GameEntity renderEntity { get; set; } //和渲染层交互的接口对象
+
 		public void onRenderObjectCreate(GameEntity render);
-		
+
+		public void uploadPositionAndRotation(params object[] args);
 
 	}
 }

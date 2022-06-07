@@ -10,7 +10,7 @@ namespace KBEngine
             Jump = 3,//跳
             Rush = 4,//冲刺
             Skill = 5,//技能
-            ServerMove = 6,//服务端控制的移动（技能击飞等）
+            ServerMove = 6,//服务端表示产生了突发的移动（技能击飞等,表示服务端触发的突发移动行为）
         }
 
         public enum AiMoveConst //ai的移动类型

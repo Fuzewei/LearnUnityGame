@@ -11,6 +11,7 @@ namespace KBEngine
     {
         P1,
         P3,
+        Monster,
     }
     public class SkillNodeBase : NodeBase
     {
@@ -25,6 +26,7 @@ namespace KBEngine
             avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar; ;
         }
 
+        //服务端发来的信息
         public virtual void serverCall(TABLE args)
         {
 
@@ -34,7 +36,13 @@ namespace KBEngine
         {
 
         }
+
         public virtual void runP3()
+        {
+
+        }
+
+        public virtual void runMonster()
         {
 
         }
@@ -50,6 +58,10 @@ namespace KBEngine
                     break;
                 case SkillNodeType.P3:
                     runP3();
+                    break;
+
+                case SkillNodeType.Monster:
+                    runMonster();
                     break;
                 default:
                     Dbg.DEBUG_MSG("error");

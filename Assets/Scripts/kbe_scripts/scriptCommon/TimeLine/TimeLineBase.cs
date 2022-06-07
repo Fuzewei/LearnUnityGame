@@ -112,6 +112,7 @@ namespace GameLogic
                     break;
                 }
             }
+            node.nodeId = i;
             nodesList.Insert(i, node);
         }
         

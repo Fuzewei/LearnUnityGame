@@ -76,6 +76,8 @@ namespace KBEngine
 		public abstract void serverTimeLineFinish(UInt32 arg1); 
 		public abstract void setPositionRotation(UInt32 arg1, Vector3 arg2, Vector3 arg3); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
+		public abstract void startP3ClientMove(float arg1, Int32 arg2); 
+		public abstract void stopP3ClientMove(float arg1); 
 
 		public AvatarBase()
 		{
@@ -270,7 +272,7 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 40:
+				case 41:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
@@ -333,6 +335,15 @@ namespace KBEngine
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
 					skillNodeCallClient(skillNodeCallClient_arg1, skillNodeCallClient_arg2, skillNodeCallClient_arg3);
+					break;
+				case 42:
+					float startP3ClientMove_arg1 = stream.readFloat();
+					Int32 startP3ClientMove_arg2 = stream.readInt32();
+					startP3ClientMove(startP3ClientMove_arg1, startP3ClientMove_arg2);
+					break;
+				case 43:
+					float stopP3ClientMove_arg1 = stream.readFloat();
+					stopP3ClientMove(stopP3ClientMove_arg1);
 					break;
 				default:
 					break;
