@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public class GameEntity : MonoBehaviour 
 {
 	public bool isPlayer = false;
-	private IServerEntity _logicEntity;
+	public IServerEntity _logicEntity;
 	
 	private Vector3 _position = Vector3.zero;
 	private Vector3 _eulerAngles = Vector3.zero;

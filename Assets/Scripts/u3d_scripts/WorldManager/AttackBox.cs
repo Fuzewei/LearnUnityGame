@@ -20,10 +20,11 @@ public class AttackBox : GameobjectHolderBase
         AttackBoxArges args = new AttackBoxArges();
         GameEntity ownerEntity = gameObject.GetComponentInParent<GameEntity>();
         args.type = 1;
+        
         if (ownerEntity != null && other.gameObject != ownerEntity.gameObject)
         {
             var showEntity = other.GetComponent<GameEntity>();
-            var avatar = showEntity.logicEntity as KBEngine.Avatar;
+            var avatar = showEntity.logicEntity as KBEngine.Entity;
             if (avatar != null)
             {
                 args.entityId = avatar.id;

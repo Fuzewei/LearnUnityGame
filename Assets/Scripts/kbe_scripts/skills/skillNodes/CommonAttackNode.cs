@@ -45,7 +45,8 @@ namespace KBEngine
             AttackBoxArges _r = arge as AttackBoxArges;
             INT32 attackeEntityId = _r.entityId;
            
-            var entity = KBEngineApp.app.findEntity(attackeEntityId) as Avatar;
+            var entity = KBEngineApp.app.findEntity(attackeEntityId) as Entity;
+            var entity_R = KBEngineApp.app.findEntity(attackeEntityId) as IServerEntity;
             Dbg.DEBUG_MSG("CommonAttack:onAttack" + _r.type);
             //entity.renderEntity.palyerAnimation("Attack.BeGreatSword_Attack01");
 
@@ -56,7 +57,7 @@ namespace KBEngine
             var hitTar = entity.position - avatarOwner.position;
             hitTar.y = 0;
             hitTar.Normalize();
-            var inverstRotation = Quaternion.Inverse(entity.renderEntity.rotation);
+            var inverstRotation = Quaternion.Inverse(entity_R.renderEntity.rotation);
             hitTar = inverstRotation * hitTar;
 
             arg.values.Add(hitTar.x);
