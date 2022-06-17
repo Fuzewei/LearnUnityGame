@@ -10,6 +10,7 @@ namespace KBEngine
     {
         public Entity ownerEntity;
         public uint uuid;
+        public int skillId;
 
         public skillTimeLine(Entity ownerEntity) :base()
         {
@@ -19,6 +20,11 @@ namespace KBEngine
         public void setUUID(uint uuid)
         {
             this.uuid = uuid;
+        }
+
+        public void setSkillId(int skillId)
+        {
+            this.skillId = skillId;
         }
 
         public override void start()

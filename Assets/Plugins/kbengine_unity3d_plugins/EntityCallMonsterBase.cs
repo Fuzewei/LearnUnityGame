@@ -42,26 +42,6 @@ namespace KBEngine
 			sendCall(null);
 		}
 
-		public void clientSkillFinish(Int32 arg1)
-		{
-			Bundle pBundle = newCall("clientSkillFinish", 0);
-			if(pBundle == null)
-				return;
-
-			bundle.writeInt32(arg1);
-			sendCall(null);
-		}
-
-		public void clientTimeLineFinish(UInt32 arg1)
-		{
-			Bundle pBundle = newCall("clientTimeLineFinish", 0);
-			if(pBundle == null)
-				return;
-
-			bundle.writeUint32(arg1);
-			sendCall(null);
-		}
-
 		public void p3UpdatePosition(float arg1, Vector3 arg2, Vector3 arg3, Vector3 arg4)
 		{
 			Bundle pBundle = newCall("p3UpdatePosition", 0);

@@ -25,6 +25,7 @@
 		public override void useSkill(Int32 entityId, Int32 skillId)
         {
 			Dbg.DEBUG_MSG("useSkill:" + entityId);
+
 			renderEntity.setAiMoveTarget(entityId);
 			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
 		}

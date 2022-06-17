@@ -64,7 +64,6 @@ namespace KBEngine
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
 		public abstract void serverRequestUseSkill(UInt32 arg1, Int32 arg2); 
 		public abstract void serverSkillFinish(Int32 arg1); 
-		public abstract void serverTimeLineFinish(UInt32 arg1); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
 		public abstract void startP3ClientMove(float arg1, Int32 arg2); 
 		public abstract void stopMotion(); 
@@ -161,57 +160,53 @@ namespace KBEngine
 
 			switch(method.methodUtype)
 			{
-				case 69:
+				case 63:
 					Int32 chaseTarget_arg1 = stream.readInt32();
 					chaseTarget(chaseTarget_arg1);
 					break;
-				case 78:
+				case 72:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
-				case 68:
+				case 62:
 					PATH_POINTS randomWalk_arg1 = ((DATATYPE_PATH_POINTS)method.args[0]).createFromStreamEx(stream);
 					randomWalk(randomWalk_arg1);
 					break;
-				case 56:
+				case 51:
 					Int32 recvDamage_arg1 = stream.readInt32();
 					Int32 recvDamage_arg2 = stream.readInt32();
 					Int32 recvDamage_arg3 = stream.readInt32();
 					Int32 recvDamage_arg4 = stream.readInt32();
 					recvDamage(recvDamage_arg1, recvDamage_arg2, recvDamage_arg3, recvDamage_arg4);
 					break;
-				case 58:
+				case 53:
 					UInt32 serverRequestUseSkill_arg1 = stream.readUint32();
 					Int32 serverRequestUseSkill_arg2 = stream.readInt32();
 					serverRequestUseSkill(serverRequestUseSkill_arg1, serverRequestUseSkill_arg2);
 					break;
-				case 59:
+				case 54:
 					Int32 serverSkillFinish_arg1 = stream.readInt32();
 					serverSkillFinish(serverSkillFinish_arg1);
 					break;
-				case 60:
-					UInt32 serverTimeLineFinish_arg1 = stream.readUint32();
-					serverTimeLineFinish(serverTimeLineFinish_arg1);
-					break;
-				case 57:
+				case 52:
 					UInt32 skillNodeCallClient_arg1 = stream.readUint32();
 					Int32 skillNodeCallClient_arg2 = stream.readInt32();
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
 					skillNodeCallClient(skillNodeCallClient_arg1, skillNodeCallClient_arg2, skillNodeCallClient_arg3);
 					break;
-				case 79:
+				case 73:
 					float startP3ClientMove_arg1 = stream.readFloat();
 					Int32 startP3ClientMove_arg2 = stream.readInt32();
 					startP3ClientMove(startP3ClientMove_arg1, startP3ClientMove_arg2);
 					break;
-				case 71:
+				case 65:
 					stopMotion();
 					break;
-				case 80:
+				case 74:
 					float stopP3ClientMove_arg1 = stream.readFloat();
 					stopP3ClientMove(stopP3ClientMove_arg1);
 					break;
-				case 70:
+				case 64:
 					Int32 useSkill_arg1 = stream.readInt32();
 					Int32 useSkill_arg2 = stream.readInt32();
 					useSkill(useSkill_arg1, useSkill_arg2);

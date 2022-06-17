@@ -8,9 +8,9 @@
 
     public static class SkillFactory
     {
-        public static skillTimeLine getTimeLineById(Entity entity, int timeLineId, SkillNodeType nodeType = SkillNodeType.P1)
+        public static skillTimeLine getTimeLineById(IServerEntity entity, int timeLineId, SkillNodeType nodeType = SkillNodeType.P1)
         {
-            skillTimeLine line = new skillTimeLine(entity);
+            skillTimeLine line = new skillTimeLine((Entity)entity);
             switch (timeLineId)
             {
                 case 1:
@@ -20,10 +20,10 @@
                     CommonAttack NodeBase2 = new CommonAttack(0.3f);
                     NodeBase2.nodeType = nodeType;
                     line.addNode(NodeBase2);
-                    StartNewTimeLine NodeBase3 = new StartNewTimeLine(1.0f, 0.4f, 2);
+                    StartNewSkill NodeBase3 = new StartNewSkill(1.0f, 0.4f, 2);
                     NodeBase3.nodeType = nodeType;
                     line.addNode(NodeBase3);
-                    TimeLineEndNode NodeBase4 = new TimeLineEndNode(1.5f);
+                    TimeLineEndNode NodeBase4 = new TimeLineEndNode(2.0f);
                     NodeBase4.nodeType = nodeType;
                     line.addNode(NodeBase4);
                     break;
@@ -35,10 +35,10 @@
                     CommonAttack NodeBase7 = new CommonAttack(0.3f);
                     NodeBase7.nodeType = nodeType;
                     line.addNode(NodeBase7);
-                    StartNewTimeLine NodeBase8 = new StartNewTimeLine(0.8f, 0.4f, 3);
+                    StartNewSkill NodeBase8 = new StartNewSkill(0.8f, 0.4f, 3);
                     NodeBase8.nodeType = nodeType;
                     line.addNode(NodeBase8);
-                    TimeLineEndNode NodeBase9 = new TimeLineEndNode(1.5f);
+                    TimeLineEndNode NodeBase9 = new TimeLineEndNode(2.0f);
                     NodeBase9.nodeType = nodeType;
                     line.addNode(NodeBase9);
                     break;
@@ -49,9 +49,6 @@
                     CommonAttack NodeBase11 = new CommonAttack(0.6f);
                     NodeBase11.nodeType = nodeType;
                     line.addNode(NodeBase11);
-                    //StartNewTimeLine NodeBase12 = new StartNewTimeLine(1.0f, 0.4f, 3);
-                    //NodeBase12.nodeType = nodeType;
-                    //line.addNode(NodeBase12);
                     TimeLineEndNode NodeBase13 = new TimeLineEndNode(1.5f);
                     NodeBase13.nodeType = nodeType;
                     line.addNode(NodeBase13);

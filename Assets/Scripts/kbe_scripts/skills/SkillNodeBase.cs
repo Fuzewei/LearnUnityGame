@@ -15,7 +15,7 @@ namespace KBEngine
     }
     public class SkillNodeBase : NodeBase
     {
-        protected Avatar avatarOwner;
+        protected IServerEntity avatarOwner;
         public SkillNodeType nodeType = SkillNodeType.P1;
         public SkillNodeBase(float timeStamp) : base(timeStamp)
         {

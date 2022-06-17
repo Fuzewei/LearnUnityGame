@@ -7,16 +7,22 @@
 	using Const;
 	public partial class Avatar : AvatarBase, IServerEntity
 	{
-		public TimeLineManager timeLineManager;
+		public TimeLineManager _timeLineManager;
 
-		public Skill preUseSkill;
+		public Dictionary<int, Skill> curUseSkills;//预记录一下
 
 		private void __init__Combat()
 		{
-			timeLineManager = new TimeLineManager();
+			_timeLineManager = new TimeLineManager();
+			curUseSkills = new Dictionary<int, Skill>();
 		}
 
-
+		public TimeLineManager timeLineManager { get {
+				return _timeLineManager;
+			} set {
+				_timeLineManager = value;
+			} 
+		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
 		{
@@ -41,52 +47,40 @@
 			cellEntityCall.setInBattle(Utils.localTime(), Convert.ToByte(Inbattle));
 		}
 
-		//客户端主动放技能
+		//客户端主动放技能(先行)
 		public void requestUseSkill(int skillid)
 		{
-			if (preUseSkill != null)
+			if (curUseSkills.ContainsKey(skillid))
 			{
 				return;
 			}
-			preUseSkill = new Skill(skillid, this);
+			Dbg.DEBUG_MSG("requestUseSkill:" + skillid);
+			var skill = new Skill(skillid, this, SkillNodeType.P1);
+			curUseSkills[skillid] = skill;
 			var uuid = timeLineManager.getUUid();
-			preUseSkill.startTimeLine(preUseSkill.initTimeLineId, uuid);
+			skill.startTimeLine(skill.initTimeLineId, uuid);
 			cellEntityCall.clientRequestUseSkill(uuid, skillid);
 			renderEntity.setEntityInUseSkill(skillid);
 		}
 
-
-		public void onSkillFinish(int skillid)
-		{
-			cellEntityCall.clientSkillFinish(skillid);
-		}
-
 		public override void serverSkillFinish(Int32 skillid)
 		{
+			var skill = curUseSkills[skillid];
+			curUseSkills.Remove(skillid);
+			skill.doFininsh();
+            if (curUseSkills.Count == 0)
+            {
+				renderEntity.setEntityFinishSkill(skillid);
+			}
 			Dbg.DEBUG_MSG("onSkillFinish:" + skillid);
-			preUseSkill = null;
-			renderEntity.setEntityFinishSkill(skillid);
-		}
-
-		public void onTimeLineFinish(UUID uuid)
-		{
-			Dbg.DEBUG_MSG("onSkillFinish123123:" + uuid);
-			cellEntityCall.clientTimeLineFinish(uuid);
-		}
-
-		public override void serverTimeLineFinish(UInt32 uuid)
-		{
-			preUseSkill?.onTimeLineFinish(uuid);
-			timeLineManager.delTimeLine(uuid);
 		}
 
 		public override void serverRequestUseSkill(uint UUid, Int32 skillId) //服务端通知p3放技能
 		{
-			preUseSkill = new Skill(skillId, this, SkillNodeType.P3);
-			preUseSkill.startTimeLine(preUseSkill.initTimeLineId, UUid);
-
-			//skillTimeLine line = SkillFactory.getTimeLineById(this, timeLineId, SkillNodeType.P3);
-			//timeLineManager.addTimeLine(UUid, line);
+			var skill = new Skill(skillId, this, SkillNodeType.P3);
+			curUseSkills[skillId] = skill;
+			skill.startTimeLine(skill.initTimeLineId, UUid);
+			renderEntity.setEntityInUseSkill(skillId);
 		}
 
 	}

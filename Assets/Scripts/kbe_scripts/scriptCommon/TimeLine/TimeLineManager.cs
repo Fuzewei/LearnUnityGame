@@ -36,10 +36,11 @@ namespace GameLogic
             return _id;
         }
 
-        public bool delTimeLine(uint uuid)
+        //主动删除timeline调用
+        public void delTimeLine(uint uuid)
         {
-            TimeLineBase timeLine = getTimeLine(uuid);
-            if (timeLine!=null)
+            TimeLineBase timeLine;
+            if (timeLines.TryGetValue(uuid, out timeLine))
             {
                 timeLine.onEnd();
                 timeLines.Remove(uuid);
@@ -53,10 +54,8 @@ namespace GameLogic
                 {
                     updateTimerId = TimerUtils.addTimer(nextDelterTime, 0, new TimerCallback(onTime));
                 }
-                return true;
             }
-
-            return false;
+            
         }
 
         public TimeLineBase getTimeLine(uint uuid)

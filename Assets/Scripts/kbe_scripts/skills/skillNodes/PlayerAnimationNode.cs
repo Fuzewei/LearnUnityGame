@@ -23,5 +23,10 @@ namespace KBEngine
         {
             runP1();
         }
+
+        public override void runMonster()
+        {
+            runP1();
+        }
     }
 }

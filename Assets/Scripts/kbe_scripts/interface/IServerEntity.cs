@@ -1,5 +1,6 @@
 ﻿namespace KBEngine
 {
+	using GameLogic;
 	using UnityEngine;
 	using System;
 	using System.Collections;
@@ -10,9 +11,13 @@
 	{
 		public GameEntity renderEntity { get; set; } //和渲染层交互的接口对象
 
+		public TimeLineManager timeLineManager { get; set; } //和渲染层交互的接口对象
+
 		public void onRenderObjectCreate(GameEntity render);
 
 		public void uploadPositionAndRotation(params object[] args);
+
+		public bool isBeControl();
 
 	}
 }

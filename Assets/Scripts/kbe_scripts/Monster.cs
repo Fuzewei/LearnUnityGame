@@ -19,6 +19,14 @@ namespace KBEngine
 		{
 		}
 
+		public override void __init__()
+		{
+			// 由于任何玩家被同步到该客户端都会使用这个模块创建，因此客户端可能存在很多这样的实体
+			// 但只有一个是自己的玩家实体，所以需要判断一下
+			__init__Combat();
+			__init__Motion();
+		}
+
 		//渲染层准备就绪
 		public void onRenderObjectCreate(GameEntity render)
 		{
@@ -94,12 +102,6 @@ namespace KBEngine
 		{
 
 		}
-		public override void serverRequestUseSkill(UInt32 arg1, Int32 arg2)
-		{
-		}
-
-		public override void serverSkillFinish(Int32 arg1) { }
-		public override void serverTimeLineFinish(UInt32 arg1) { }
 
 		public Vector3 renderPosition
 		{
@@ -130,39 +132,6 @@ namespace KBEngine
 
 		}
 
-
-
-
-
-
-
-		public void uploadPositionAndRotation(params object[] args)
-		{
-			float localBeginTimer = (float)args[0];
-			float serverStartTimer = (float)args[1];
-			float delter = Utils.localTime() - localBeginTimer;
-			Dbg.DEBUG_MSG("p3UpdatePosition:" + renderPosition + " ," + renderRotation);
-			cellEntityCall.p3UpdatePosition(serverStartTimer + delter, renderPosition, renderRotation, renderMoveDirection);
-		}
-
-		uint p3MoveTimer = 0;
-
-		public override void startP3ClientMove(float startTimer, Int32 controlId)
-		{
-            if (controlId == KBEngineApp.app.player().id)
-            {
-				p3MoveTimer = TimerUtils.addTimer(0.1f, 0.1f, new TimerCallback(uploadPositionAndRotation), Utils.localTime(), startTimer);
-			}
-		}
-
-		public override void stopP3ClientMove(float endTimer)
-		{
-            if (p3MoveTimer > 0)
-            {
-				TimerUtils.cancelTimer(p3MoveTimer);
-				p3MoveTimer = 0;
-			}
-		}
 
 	}
 } 

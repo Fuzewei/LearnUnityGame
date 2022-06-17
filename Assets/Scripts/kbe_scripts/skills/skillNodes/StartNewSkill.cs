@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace KBEngine
 {
-    public class StartNewTimeLine : SkillNodeBase
+    public class StartNewSkill : SkillNodeBase
     {
         public float durationTime;
-        public int newTimeLineId;
+        public int newSkillId;
         private float beginRegisterTimer;
 
-        public StartNewTimeLine(float timeStamp, float _durationTime, int timeLineId) : base(timeStamp)
+        public StartNewSkill(float timeStamp, float _durationTime, int newSkillId) : base(timeStamp)
         {
             durationTime = _durationTime;
-            newTimeLineId = timeLineId;
+            this.newSkillId = newSkillId;
         }
 
         public override void runP1()
         {
             Event.registerIn("useSkill", new Action<int>(useSkill));//使用技能
+            Dbg.DEBUG_MSG("StartNewSkill:runP1");
             beginRegisterTimer = Utils.localTime();
         }
 
@@ -31,12 +32,13 @@ namespace KBEngine
 
         public override void OnDestory()
         {
+            Dbg.DEBUG_MSG("StartNewSkill:OnDestory");
             Event.deregisterIn(this);
         }
 
         public void useSkill(int skillid)
         {
-            Dbg.DEBUG_MSG("StartNewTimeLine:" + skillid);
+            Dbg.DEBUG_MSG("StartNewSkill:useSkill" + skillid);
             if (Utils.localTime() - beginRegisterTimer > durationTime)
             {
                 return;
@@ -45,27 +47,13 @@ namespace KBEngine
              Event.deregisterIn(this);
              TABLE arg = new TABLE();
              arg.dictOrlist = 0;
-
-             var uuid = avatarOwner.timeLineManager.getUUid();
-             avatarOwner.preUseSkill.startTimeLine(newTimeLineId, uuid);
-             arg.values.Add(newTimeLineId);
-             arg.values.Add(uuid);
-             ((skillTimeLine)owneTimeLine).callServer(nodeId, arg);
-            
+            //客户端先行放技能
+             ((Avatar)avatarOwner).requestUseSkill(newSkillId);
         }
 
         public override void serverCall(TABLE args)
         {
-            if (nodeType == SkillNodeType.P1)
-            {
-                return;
-            }
-
-            int newTimeLineId = (int)args.values[0];
-            uint uuid = (uint)args.values[1];
-
-            skillTimeLine line = SkillFactory.getTimeLineById(avatarOwner, newTimeLineId, SkillNodeType.P3);
-            avatarOwner.timeLineManager.addTimeLine(uuid, line);
+            
         }
     }
 }

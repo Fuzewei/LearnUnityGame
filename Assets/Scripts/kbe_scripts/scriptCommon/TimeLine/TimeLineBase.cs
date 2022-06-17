@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using KBEngine;
+using System;
 
 
 namespace GameLogic
@@ -73,7 +74,9 @@ namespace GameLogic
 
         public float getNextTimeStamp()
         {
-           return nodesList[nextIndex].runTimeStamp;
+            var realTime = nodesList[nextIndex].runTimeStamp - delterTimeStamp + tickTimeStamp;
+            float now = Utils.localTime();
+            return Math.Max(realTime - now, 0);
         }
 
         public float getNextDelterTime()

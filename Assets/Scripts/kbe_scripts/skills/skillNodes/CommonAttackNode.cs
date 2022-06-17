@@ -20,9 +20,12 @@ namespace KBEngine
             World.world.setObjectParentToEntity(attackBoxId, avatarOwner.renderEntity);
         }
 
-        public override void runP3()
+        public override void runMonster()
         {
-
+            if (avatarOwner.isBeControl())
+            {
+                runP1();
+            }
         }
 
         public override void serverCall(TABLE args)
@@ -54,7 +57,7 @@ namespace KBEngine
             arg.dictOrlist = 0;
             arg.values.Add(attackeEntityId);
 
-            var hitTar = entity.position - avatarOwner.position;
+            var hitTar = entity.position - ((Entity)avatarOwner).position;
             hitTar.y = 0;
             hitTar.Normalize();
             var inverstRotation = Quaternion.Inverse(entity_R.renderEntity.rotation);
