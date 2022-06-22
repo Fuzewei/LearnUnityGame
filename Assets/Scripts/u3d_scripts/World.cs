@@ -148,7 +148,7 @@ public partial class World : MonoBehaviour
 		{
 			if (curSpaceId > 0 && !player.GetComponent<GameEntity>().entityEnabled)
 			{
-				player.GetComponent<GameEntity>().entityEnable(avatar);
+				return;
 			}
 				
 			return;
@@ -158,12 +158,11 @@ public partial class World : MonoBehaviour
 		if(avatar.isOnGround)
 			y = 2.3f;
 
-		player = Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z), 
-		                     Quaternion.Euler(new Vector3(avatar.direction.y, avatar.direction.z, avatar.direction.x))) as UnityEngine.GameObject;
-
-		player.GetComponent<GameEntity>().entityDisable();
+		player = Instantiate(avatarPerfab, new Vector3(avatar.position.x, y, avatar.position.z), Quaternion.Euler(avatar.direction)) as UnityEngine.GameObject;
+		GameEntity gameEntity = player.GetComponent<GameEntity>();
 		avatar.renderObj = player;
-		((UnityEngine.GameObject)avatar.renderObj).GetComponent<GameEntity>().isPlayer = true;
+		gameEntity.isPlayer = true;
+		gameEntity.entityEnable(avatar);
 
 
 
@@ -179,13 +178,7 @@ public partial class World : MonoBehaviour
 		set_direction(avatar);
         set_entityName(avatar, avatar.name);
     }
-
-	public void onAddSkill(KBEngine.Entity entity)
-	{
-		Debug.Log("onAddSkill");
-	}
 	
-
 	public void onEnterWorld(KBEngine.Entity entity)
 	{
 		Debug.Log("onEnterWorld");
@@ -200,9 +193,7 @@ public partial class World : MonoBehaviour
         if (entity is KBEngine.Avatar)
         {
 			var p3 = entity as KBEngine.Avatar;
-			entity.renderObj = Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z),
-			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
-
+			entity.renderObj = Instantiate(entityPerfab, new Vector3(entity.position.x, y, entity.position.z), Quaternion.Euler(entity.direction)) as UnityEngine.GameObject;
 			var renderEntity = entity.renderObj as UnityEngine.GameObject;
 			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
 			gameEntity.entityEnable((KBEngine.Avatar)entity);
@@ -214,8 +205,7 @@ public partial class World : MonoBehaviour
         if (entity is KBEngine.Monster)
         {
 			var monster = entity as KBEngine.Monster;
-			monster.renderObj = Instantiate(monsterPerfab, new Vector3(entity.position.x, y, entity.position.z),
-			Quaternion.Euler(new Vector3(entity.direction.y, entity.direction.z, entity.direction.x))) as UnityEngine.GameObject;
+			monster.renderObj = Instantiate(monsterPerfab, new Vector3(entity.position.x, y, entity.position.z), Quaternion.Euler(entity.direction)) as UnityEngine.GameObject;
 			var renderEntity = entity.renderObj as UnityEngine.GameObject;
 			GameEntity gameEntity = renderEntity.GetComponent<GameEntity>();
 			gameEntity.entityEnable((KBEngine.Monster)entity);
@@ -224,7 +214,11 @@ public partial class World : MonoBehaviour
 		}
 		
 	}
-	
+
+	public void onAddSkill(KBEngine.Entity entity)
+	{
+		Debug.Log("onAddSkill");
+	}
 	public void onLeaveWorld(KBEngine.Entity entity)
 	{
 		Debug.Log("onLeaveWorld");

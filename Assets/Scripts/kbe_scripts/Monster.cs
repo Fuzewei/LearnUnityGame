@@ -15,6 +15,7 @@ namespace KBEngine
 			set { _renderEntity = value; }
 		}
 
+
 		public Monster() : base()
 		{
 		}
@@ -31,7 +32,14 @@ namespace KBEngine
 		public void onRenderObjectCreate(GameEntity render)
 		{
 			renderEntity = render;
-			Event.fireOut("onRenderObjectCreat", this);
+			Event.fireOut("onRenderObjectCreate", this);
+			Dbg.DEBUG_MSG("Monster:onRenderObjectCreate:0");
+			if (isBeControl() && p3MoveTimer == 0)
+			{
+				Dbg.DEBUG_MSG("Monster:onRenderObjectCreate:");
+				p3MoveTimer = TimerUtils.addTimer(0.1f, 0.1f, new TimerCallback(uploadPositionAndRotation), Utils.localTime(), confirmTime);
+			}
+			confirmMoveTimeStamp(confirmTime);
 		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
@@ -81,7 +89,7 @@ namespace KBEngine
 
 		public override void onMoveSpeedChanged(float oldValue)
 		{
-			// Dbg.DEBUG_MSG(className + "::set_moveSpeed: " + old + " => " + v); 
+			Dbg.DEBUG_MSG(className + "::set_moveSpeed: " + oldValue + " => " + moveSpeed); 
 			Event.fireOut("set_moveSpeed", new object[] { this, moveSpeed });
 		}
 
@@ -111,13 +119,15 @@ namespace KBEngine
 		//渲染层对象的旋转，只有渲染对象创建后才有效
 		public Vector3 renderRotation
 		{
-			get
+			get //unity上显示的rotation是-180到180，但是实际值是0-360，应该进行一个转换
 			{
 				Vector3 ans = renderEntity.eulerAngles;
 				var y = (double)(ans.y / 360 * (System.Math.PI * 2));
 				if (y - System.Math.PI > 0.0)
 					y -= System.Math.PI * 2;
 				ans.y = (float)y;
+				ans.x = 0;
+				ans.z = 0;
 				return ans;
 			}
 			set { renderEntity.eulerAngles = value; }

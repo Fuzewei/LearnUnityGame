@@ -17,9 +17,9 @@ public class InputControl : MonoBehaviour
 
     void Start()
     {
-        KBEngine.Event.registerOut("onRenderObjectCreat", this, "onRenderObjectCreat");
+        KBEngine.Event.registerOut("onRenderObjectCreate", this, "onRenderObjectCreate");
     }
-    public void onRenderObjectCreat(KBEngine.Entity entity)
+    public void onRenderObjectCreate(KBEngine.Entity entity)
     {
         if (entity.isPlayer())
         {
@@ -63,6 +63,7 @@ public class InputControl : MonoBehaviour
         if (directionVector.magnitude >= 0.2 && acc == false)
         {
             KBEngine.Event.fireIn("playerWalk");
+            Dbg.DEBUG_MSG("playerWalk:");
         }
         else if (directionVector.magnitude >= 0.2 && acc == true)
         {

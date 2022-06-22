@@ -30,6 +30,10 @@ namespace KBEngine
 		public TestBase component1 = null;
 		public TestBase component2 = null;
 		public TestNoBaseBase component3 = null;
+		public float confirmTime = 0f;
+		public virtual void onConfirmTimeChanged(float oldValue) {}
+		public Int32 controlId = 0;
+		public virtual void onControlIdChanged(Int32 oldValue) {}
 		public Int32 forbids = 0;
 		public virtual void onForbidsChanged(Int32 oldValue) {}
 		public Byte inBattle = 0;
@@ -75,7 +79,7 @@ namespace KBEngine
 		public abstract void serverSkillFinish(Int32 arg1); 
 		public abstract void setPositionRotation(UInt32 arg1, Vector3 arg2, Vector3 arg3); 
 		public abstract void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3); 
-		public abstract void startP3ClientMove(float arg1, Int32 arg2); 
+		public abstract void startP3ClientMove(float arg1); 
 		public abstract void stopP3ClientMove(float arg1); 
 
 		public AvatarBase()
@@ -87,7 +91,7 @@ namespace KBEngine
 				{
 					component1 = (TestBase)Activator.CreateInstance(entityComponentScript);
 					component1.owner = this;
-					component1.entityComponentPropertyID = 20;
+					component1.entityComponentPropertyID = 22;
 					component1.name_ = "Test";
 				}
 			}
@@ -102,7 +106,7 @@ namespace KBEngine
 				{
 					component2 = (TestBase)Activator.CreateInstance(entityComponentScript);
 					component2.owner = this;
-					component2.entityComponentPropertyID = 25;
+					component2.entityComponentPropertyID = 27;
 					component2.name_ = "Test";
 				}
 			}
@@ -117,7 +121,7 @@ namespace KBEngine
 				{
 					component3 = (TestNoBaseBase)Activator.CreateInstance(entityComponentScript);
 					component3.owner = this;
-					component3.entityComponentPropertyID = 26;
+					component3.entityComponentPropertyID = 28;
 					component3.name_ = "TestNoBase";
 				}
 			}
@@ -253,13 +257,13 @@ namespace KBEngine
 				Property pComponentPropertyDescription = sm.idpropertys[componentPropertyUType];
 				switch(pComponentPropertyDescription.properUtype)
 				{
-					case 20:
+					case 22:
 						component1.onRemoteMethodCall(methodUtype, stream);
 						break;
-					case 25:
+					case 27:
 						component2.onRemoteMethodCall(methodUtype, stream);
 						break;
-					case 26:
+					case 28:
 						component3.onRemoteMethodCall(methodUtype, stream);
 						break;
 					default:
@@ -333,8 +337,7 @@ namespace KBEngine
 					break;
 				case 39:
 					float startP3ClientMove_arg1 = stream.readFloat();
-					Int32 startP3ClientMove_arg2 = stream.readInt32();
-					startP3ClientMove(startP3ClientMove_arg1, startP3ClientMove_arg2);
+					startP3ClientMove(startP3ClientMove_arg1);
 					break;
 				case 40:
 					float stopP3ClientMove_arg1 = stream.readFloat();
@@ -379,13 +382,13 @@ namespace KBEngine
 					Property pComponentPropertyDescription = pdatas[_t_utype];
 					switch(pComponentPropertyDescription.properUtype)
 					{
-						case 20:
+						case 22:
 							component1.onUpdatePropertys(_t_child_utype, stream, -1);
 							break;
-						case 25:
+						case 27:
 							component2.onUpdatePropertys(_t_child_utype, stream, -1);
 							break;
-						case 26:
+						case 28:
 							component3.onUpdatePropertys(_t_child_utype, stream, -1);
 							break;
 						default:
@@ -461,14 +464,46 @@ namespace KBEngine
 						}
 
 						break;
-					case 20:
+					case 22:
 						component1.createFromStream(stream);
 						break;
-					case 25:
+					case 27:
 						component2.createFromStream(stream);
 						break;
-					case 26:
+					case 28:
 						component3.createFromStream(stream);
+						break;
+					case 18:
+						float oldval_confirmTime = confirmTime;
+						confirmTime = stream.readFloat();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onConfirmTimeChanged(oldval_confirmTime);
+						}
+						else
+						{
+							if(inWorld)
+								onConfirmTimeChanged(oldval_confirmTime);
+						}
+
+						break;
+					case 19:
+						Int32 oldval_controlId = controlId;
+						controlId = stream.readInt32();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onControlIdChanged(oldval_controlId);
+						}
+						else
+						{
+							if(inWorld)
+								onControlIdChanged(oldval_controlId);
+						}
+
 						break;
 					case 40001:
 						Vector3 oldval_direction = direction;
@@ -862,6 +897,48 @@ namespace KBEngine
 
 			component3.callPropertysSetMethods();
 
+			float oldval_confirmTime = confirmTime;
+			Property prop_confirmTime = pdatas[11];
+			if(prop_confirmTime.isBase())
+			{
+				if(inited && !inWorld)
+					onConfirmTimeChanged(oldval_confirmTime);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_confirmTime.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onConfirmTimeChanged(oldval_confirmTime);
+					}
+				}
+			}
+
+			Int32 oldval_controlId = controlId;
+			Property prop_controlId = pdatas[12];
+			if(prop_controlId.isBase())
+			{
+				if(inited && !inWorld)
+					onControlIdChanged(oldval_controlId);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_controlId.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onControlIdChanged(oldval_controlId);
+					}
+				}
+			}
+
 			Vector3 oldval_direction = direction;
 			Property prop_direction = pdatas[2];
 			if(prop_direction.isBase())
@@ -884,7 +961,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_forbids = forbids;
-			Property prop_forbids = pdatas[11];
+			Property prop_forbids = pdatas[13];
 			if(prop_forbids.isBase())
 			{
 				if(inited && !inWorld)
@@ -905,7 +982,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_inBattle = inBattle;
-			Property prop_inBattle = pdatas[12];
+			Property prop_inBattle = pdatas[14];
 			if(prop_inBattle.isBase())
 			{
 				if(inited && !inWorld)
@@ -926,7 +1003,7 @@ namespace KBEngine
 			}
 
 			UInt16 oldval_level = level;
-			Property prop_level = pdatas[13];
+			Property prop_level = pdatas[15];
 			if(prop_level.isBase())
 			{
 				if(inited && !inWorld)
@@ -947,7 +1024,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_modelID = modelID;
-			Property prop_modelID = pdatas[14];
+			Property prop_modelID = pdatas[16];
 			if(prop_modelID.isBase())
 			{
 				if(inited && !inWorld)
@@ -968,7 +1045,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_modelScale = modelScale;
-			Property prop_modelScale = pdatas[15];
+			Property prop_modelScale = pdatas[17];
 			if(prop_modelScale.isBase())
 			{
 				if(inited && !inWorld)
@@ -989,7 +1066,7 @@ namespace KBEngine
 			}
 
 			Vector3 oldval_moveDirection = moveDirection;
-			Property prop_moveDirection = pdatas[16];
+			Property prop_moveDirection = pdatas[18];
 			if(prop_moveDirection.isBase())
 			{
 				if(inited && !inWorld)
@@ -1010,7 +1087,7 @@ namespace KBEngine
 			}
 
 			MOVE_INFOS oldval_moveInfo = moveInfo;
-			Property prop_moveInfo = pdatas[17];
+			Property prop_moveInfo = pdatas[19];
 			if(prop_moveInfo.isBase())
 			{
 				if(inited && !inWorld)
@@ -1031,7 +1108,7 @@ namespace KBEngine
 			}
 
 			float oldval_moveSpeed = moveSpeed;
-			Property prop_moveSpeed = pdatas[18];
+			Property prop_moveSpeed = pdatas[20];
 			if(prop_moveSpeed.isBase())
 			{
 				if(inited && !inWorld)
@@ -1052,7 +1129,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_moveType = moveType;
-			Property prop_moveType = pdatas[19];
+			Property prop_moveType = pdatas[21];
 			if(prop_moveType.isBase())
 			{
 				if(inited && !inWorld)
@@ -1073,7 +1150,7 @@ namespace KBEngine
 			}
 
 			string oldval_name = name;
-			Property prop_name = pdatas[20];
+			Property prop_name = pdatas[22];
 			if(prop_name.isBase())
 			{
 				if(inited && !inWorld)
@@ -1094,7 +1171,7 @@ namespace KBEngine
 			}
 
 			UInt16 oldval_own_val = own_val;
-			Property prop_own_val = pdatas[21];
+			Property prop_own_val = pdatas[23];
 			if(prop_own_val.isBase())
 			{
 				if(inited && !inWorld)
@@ -1136,7 +1213,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_spaceUType = spaceUType;
-			Property prop_spaceUType = pdatas[22];
+			Property prop_spaceUType = pdatas[24];
 			if(prop_spaceUType.isBase())
 			{
 				if(inited && !inWorld)
@@ -1157,7 +1234,7 @@ namespace KBEngine
 			}
 
 			SByte oldval_state = state;
-			Property prop_state = pdatas[23];
+			Property prop_state = pdatas[25];
 			if(prop_state.isBase())
 			{
 				if(inited && !inWorld)
@@ -1178,7 +1255,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_subState = subState;
-			Property prop_subState = pdatas[24];
+			Property prop_subState = pdatas[26];
 			if(prop_subState.isBase())
 			{
 				if(inited && !inWorld)
@@ -1199,7 +1276,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_uid = uid;
-			Property prop_uid = pdatas[25];
+			Property prop_uid = pdatas[27];
 			if(prop_uid.isBase())
 			{
 				if(inited && !inWorld)
@@ -1220,7 +1297,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_utype = utype;
-			Property prop_utype = pdatas[26];
+			Property prop_utype = pdatas[28];
 			if(prop_utype.isBase())
 			{
 				if(inited && !inWorld)

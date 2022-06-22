@@ -50,12 +50,16 @@ public class GameEntity : MonoBehaviour
 
 	void Awake ()   
 	{
+		characterController = ((UnityEngine.GameObject)gameObject).GetComponent<CharacterController>();
+		moveMotor = GetComponent<MoveMotor>();
 	}
 	
 	void Start() 
 	{
-		characterController = ((UnityEngine.GameObject)gameObject).GetComponent<CharacterController>();
-		moveMotor = GetComponent<MoveMotor>();
+        if (logicEntity != null)
+        {
+			logicEntity.onRenderObjectCreate(this);
+		}
 	}
 	
 	void OnGUI()
@@ -203,7 +207,6 @@ public class GameEntity : MonoBehaviour
 	{
 		entityEnabled = true;
 		logicEntity = entity;
-		logicEntity.onRenderObjectCreate(this);
 	}
 
 	public void entityDisable()
@@ -292,8 +295,7 @@ public class GameEntity : MonoBehaviour
 
 	public void setAiMoveTarget(Int32 entityId)
 	{
-		KBEngineApp.app.findEntity(entityId);
-		var entity = KBEngineApp.app.findEntity(entityId);
+		Entity entity = KBEngineApp.app.findEntity(entityId);
 		var renderEntity = entity.renderObj as UnityEngine.GameObject;
 		moveMotor.setAiMoveTarget(renderEntity.transform);
 	}

@@ -47,7 +47,7 @@ class MoveMotorMonster : MoveMotorAvatarP3
         if (aiMovingType == AiMoveConst.CHAST_RUN)
         {
             Vector3 _direction = moveTarget.position - transform.position;
-            float _dis = _direction.magnitude;
+            _direction.y = 0;
             _direction = _direction.normalized;
             setMoveDirection(_direction);
 
@@ -65,7 +65,6 @@ class MoveMotorMonster : MoveMotorAvatarP3
             Vector3 pos = transform.position;
             Vector3 nextPoint = path[pathIndex];
             Vector3 _direction = nextPoint - pos;
-            float _dis = _direction.magnitude;
             _direction = _direction.normalized;
             setMoveDirection(_direction);
 
@@ -78,7 +77,7 @@ class MoveMotorMonster : MoveMotorAvatarP3
         if (aiMovingType == AiMoveConst.CHAST_RUN)
         {
             Vector3 _direction = moveTarget.position - transform.position;
-            float _dis = _direction.magnitude;
+            _direction.y = 0;
             _direction = _direction.normalized;
             setMoveDirection(_direction);
             float rotateAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;

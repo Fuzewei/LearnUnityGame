@@ -10,7 +10,7 @@
     {
         public static skillTimeLine getTimeLineById(IServerEntity entity, int timeLineId, SkillNodeType nodeType = SkillNodeType.P1)
         {
-            skillTimeLine line = new skillTimeLine((Entity)entity);
+            skillTimeLine line = new skillTimeLine(entity);
             switch (timeLineId)
             {
                 case 1:

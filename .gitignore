@@ -29,3 +29,4 @@ Thumbs.db
 
 # ignore log
 **/*.log
+/.vs/kbengine_unity3d_demo/v16

@@ -17,6 +17,8 @@
 		private void __init__Combat()
 		{
 			_timeLineManager = new TimeLineManager();
+			curUseSkills = new Dictionary<int, Skill>();
+
 		}
 
 		public TimeLineManager timeLineManager

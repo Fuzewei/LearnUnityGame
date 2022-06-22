@@ -8,18 +8,12 @@ namespace KBEngine
 {
     public class skillTimeLine: TimeLineBase
     {
-        public Entity ownerEntity;
-        public uint uuid;
+        public IServerEntity ownerEntity;
         public int skillId;
 
-        public skillTimeLine(Entity ownerEntity) :base()
+        public skillTimeLine(IServerEntity ownerEntity) :base()
         {
             this.ownerEntity = ownerEntity;
-        }
-
-        public void setUUID(uint uuid)
-        {
-            this.uuid = uuid;
         }
 
         public void setSkillId(int skillId)

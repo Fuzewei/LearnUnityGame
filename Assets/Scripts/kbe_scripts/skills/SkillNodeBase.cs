@@ -23,7 +23,7 @@ namespace KBEngine
 
         public override void OnSetTimeLine()
         {
-            avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity as Avatar; ;
+            avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity;
         }
 
         //服务端发来的信息

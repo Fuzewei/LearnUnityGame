@@ -30,6 +30,11 @@ namespace GameLogic
             nodesList = new List<NodeBase>();
             speed = 1.0f;
         }
+
+        public void setUUID(uint uuid)
+        {
+            this.uuid = uuid;
+        }
         public void setManager(TimeLineManager m)
         {
             manager = m;
