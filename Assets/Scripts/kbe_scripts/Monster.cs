@@ -106,10 +106,6 @@ namespace KBEngine
 		}
 
 		//！！！！！！！！！！！！！！后面要重构的,avatar和monster
-		public override void skillNodeCallClient(UInt32 arg1, Int32 arg2, TABLE arg3)
-		{
-
-		}
 
 		public Vector3 renderPosition
 		{

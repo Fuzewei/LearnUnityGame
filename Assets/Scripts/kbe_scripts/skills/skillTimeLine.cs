@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using GameLogic;
 
 namespace KBEngine
@@ -44,10 +44,11 @@ namespace KBEngine
         public void callServer(int nodeId, TABLE arg)
         {
             Dbg.DEBUG_MSG("skillTimeLine:callServer");
-            Avatar avatar = ownerEntity as Avatar;
+            Entity avatar = ownerEntity as Entity;
             if (avatar!= null)
             {
-                avatar.cellEntityCall.skillNodeCallServer(uuid, nodeId, arg);
+                dynamic cellEntityCall = avatar.getCellEntityCall();
+                cellEntityCall.skillNodeCallServer(uuid, nodeId, arg);
             }
         }
 

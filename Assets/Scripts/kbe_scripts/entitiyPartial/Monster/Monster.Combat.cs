@@ -32,6 +32,17 @@
 				_timeLineManager = value;
 			}
 		}
+
+		public override void skillNodeCallClient(UInt32 uuid, Int32 nodeId, TABLE args)
+		{
+			Dbg.DEBUG_MSG("skillNodeCallClient:" + uuid + nodeId);
+			var timeLine = timeLineManager.getTimeLine(uuid);
+			if (timeLine != null)
+			{
+				((skillTimeLine)timeLine).callFromServer(nodeId, args);
+			}
+		}
+
 		public override void serverRequestUseSkill(uint UUid, Int32 skillId) //服务端通知p3放技能
 		{
 			var skill = new Skill(skillId, this, SkillNodeType.Monster);

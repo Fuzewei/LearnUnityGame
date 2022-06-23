@@ -34,6 +34,7 @@
 
 		public override void skillNodeCallClient(UInt32 uuid, Int32 nodeId, TABLE args)
 		{
+			Dbg.DEBUG_MSG("skillNodeCallClient:" + uuid + nodeId);
 			var timeLine = timeLineManager.getTimeLine(uuid);
             if (timeLine != null)
             {

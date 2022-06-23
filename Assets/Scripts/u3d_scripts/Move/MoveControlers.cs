@@ -349,7 +349,7 @@ namespace SwordMaster
                 if (item.clip.name != aniClipName)
                 {
                     aniClipName = item.clip.name;
-                    Dbg.DEBUG_MSG("NormalUseSkillControler: " + rootMotion[aniClipName]);
+                    Dbg.DEBUG_MSG("NormalUseSkillControler: " + aniClipName);
                     currentCurve = new MotionCurve(rootMotion[aniClipName], item.clip.length);
                     timeStamp = 0;
                 }
