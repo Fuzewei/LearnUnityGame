@@ -49,7 +49,7 @@ namespace SwordMaster
 
     class ServerMoveSamples : SampleBase
     {
-        public ServerMoveSamples(Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle) : base(MoveConst.ServerMove, position, faceDirection, moveDirection, inBattle)
+        public ServerMoveSamples(Vector3 position, Vector3 faceDirection, Vector3 moveDirection, bool inBattle) : base(MoveConst.beStrikefly, position, faceDirection, moveDirection, inBattle)
         {
         }
     }

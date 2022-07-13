@@ -10,7 +10,7 @@ namespace KBEngine
             Jump = 3,//跳
             Rush = 4,//冲刺
             Skill = 5,//技能
-            ServerMove = 6,//服务端表示产生了突发的移动（技能击飞等,表示服务端触发的突发移动行为）
+            beStrikefly = 6,//服务端表示产生了突发的移动（技能击飞等,表示服务端触发的突发移动行为）
         }
 
         public enum AiMoveConst //ai的移动类型
@@ -19,7 +19,8 @@ namespace KBEngine
             RANDOM_MOVE = 1,
             ROOTMOTION = 2,
             CHAST_RUN = 3,
-            USING_SKILL = 4
+            USING_SKILL = 4,
+            FIGHT_MOVE = 6
         }
 
         public enum EntityStage //其他状态

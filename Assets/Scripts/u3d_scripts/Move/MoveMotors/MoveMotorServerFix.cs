@@ -178,7 +178,7 @@ public class MoveMotorServerFix : MoveMotor
             case MoveConst.Skill:
                 ans = new SkillSamples(position, faceDirection, moveDirection, inBattle);
                 break;
-            case MoveConst.ServerMove:
+            case MoveConst.beStrikefly:
                 ans = new ServerMoveSamples(position, faceDirection, moveDirection, inBattle);
                 break;
         }

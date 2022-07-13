@@ -173,7 +173,7 @@ public class MoveMotor : MonoBehaviour
 
     #region 设置怪物移动的各种属性接口
 
-    public virtual bool setAiMovePath(PATH_POINTS _state)
+    public virtual bool setAiMovePath(PATH_POINTS _state, uint _pathIndex)
     {
         return true;
     }
@@ -184,6 +184,11 @@ public class MoveMotor : MonoBehaviour
     }
 
     public virtual bool setAiMovType(AiMoveConst aiMoveType)
+    {
+        return true;
+    }
+
+    public virtual bool setAiMovPoint(Vector3 movePostion)
     {
         return true;
     }
@@ -210,7 +215,7 @@ public class MoveMotor : MonoBehaviour
             case MoveConst.Skill:
                 ans = useSkill;
                 break;
-            case MoveConst.ServerMove:
+            case MoveConst.beStrikefly:
                 ans = serverMove;
                 break;
         }
@@ -262,7 +267,7 @@ public class MoveMotor : MonoBehaviour
 
     //        var newSample = serverOpQueue.getSampleByPosition(recentPackageTime);
     //        serverOpQueue.popBeforePosition(float.MaxValue);
-    //        if (newSample.Item2.moveType == MoveConst.ServerMove)
+    //        if (newSample.Item2.moveType == MoveConst.beStrikefly)
     //        {
     //            p3Update();
     //            return;

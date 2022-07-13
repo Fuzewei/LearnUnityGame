@@ -9,35 +9,53 @@
 	public partial class Monster : MonsterBase, IServerEntity
 	{
 
-		public override void randomWalk(PATH_POINTS pathPoints)
+		private void __init__Ai()
 		{
-			Dbg.DEBUG_MSG("randomWalk:" + pathPoints);
-			renderEntity.setAiMovePath(pathPoints);
+			
+		}
+
+		private void __onRenderObjectCreate__Ai()
+		{
+			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
+			renderEntity.setAiMovePath(aiMoviePath, aiMoviePathIndex);
+			renderEntity.setAiMoveTarget(targetID);
+			renderEntity.setAiMovPoint(aiMovieToPoint);
+		}
+
+		public override void randomWalk()
+		{
+			Dbg.DEBUG_MSG("[monsterAI]randomWalk:" + aiMoviePath);
+			renderEntity.setAiMovePath(aiMoviePath, aiMoviePathIndex);
 			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
 		}
 
 		public override void chaseTarget(Int32 entityId)
 		{
-			Dbg.DEBUG_MSG("chaseTarget:" + entityId);
-			renderEntity.setAiMoveTarget(entityId);
+			Dbg.DEBUG_MSG("[monsterAI]chaseTarget:" + entityId);
+			renderEntity.setAiMoveTarget(targetID);
 			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
 		}
 		public override void useSkill(Int32 entityId, Int32 skillId)
         {
-			Dbg.DEBUG_MSG("useSkill:" + entityId);
+			Dbg.DEBUG_MSG("[monsterAI]useSkill:" + entityId);
 			
-				renderEntity.setAiMoveTarget(entityId);
-				renderEntity.setAiMovType((AiMoveConst)aiMovingType);
-			
-			
+			renderEntity.setAiMoveTarget(entityId);
+			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
+	
 		}
 		public override void stopMotion()
 		{
-			Dbg.DEBUG_MSG("stopMotion:");
+			Dbg.DEBUG_MSG("[monsterAI]stopMotion:");
 			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
 		}
 
-
+		public override void fightMove(SByte moveId, Vector3 movePostion)
+		{
+			Dbg.DEBUG_MSG("[monsterAI]fightMove:" + moveId + movePostion);
+			renderEntity.setAiMovType((AiMoveConst)aiMovingType);
+			renderEntity.setAiMoveTarget(targetID);
+			renderEntity.setAiMovPoint(aiMovieToPoint);
+		}
 
 
 	}

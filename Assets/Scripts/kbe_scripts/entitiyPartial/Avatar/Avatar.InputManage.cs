@@ -52,7 +52,7 @@
 
 		public virtual void playerJump()
 		{
-			if (curUseSkills.Count > 0  || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (curUseSkills.Count > 0  || moveType == (int)MoveConst.beStrikefly) //使用技能状态 被击退禁止移动
 			{
 				return;
 			}
@@ -73,7 +73,7 @@
 
 		public virtual void playerWalk()
 		{
-			if (curUseSkills.Count > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (curUseSkills.Count > 0 || moveType ==(int) MoveConst.beStrikefly) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
@@ -88,7 +88,7 @@
 
 		public virtual void playerRun()
 		{
-			if (curUseSkills.Count > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (curUseSkills.Count > 0 || moveType == (int)MoveConst.beStrikefly) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}
@@ -103,7 +103,7 @@
 
 		public virtual void playerIdle()
 		{
-			if (curUseSkills.Count > 0 || preMoveState == MoveConst.ServerMove) //使用技能状态禁止移动, 服务端移动也禁止移动
+			if (curUseSkills.Count > 0 || moveType == (int)MoveConst.beStrikefly) //使用技能状态禁止移动, 服务端移动也禁止移动
 			{
 				return;
 			}

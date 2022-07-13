@@ -341,26 +341,7 @@ namespace SwordMaster
             this.yMoveSpeed = -9.8f;
         }
 
-        public override Vector3 calcuteDelterPosition()
-        {
-            var clips = montor.animator.GetCurrentAnimatorClipInfo(0);
-            foreach (var item in clips)
-            {
-                if (item.clip.name != aniClipName)
-                {
-                    aniClipName = item.clip.name;
-                    Dbg.DEBUG_MSG("NormalUseSkillControler: " + aniClipName);
-                    currentCurve = new MotionCurve(rootMotion[aniClipName], item.clip.length);
-                    timeStamp = 0;
-                }
-            }
 
-            Vector3 delta = currentCurve.deltaPosition(timeStamp, timeStamp + deltaTime);
-            delta.y += yMoveSpeed * deltaTime;
-
-            timeStamp += deltaTime;
-            return Quaternion.Euler(montor.faceDirection) * delta;
-        }
     }
 
     //服务端驱动的移动

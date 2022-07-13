@@ -288,9 +288,9 @@ public class GameEntity : MonoBehaviour
 		moveMotor.setMoveDirection(moveDirection);
 	}
 
-	public void setAiMovePath(PATH_POINTS param)
+	public void setAiMovePath(PATH_POINTS param, uint _pathIndex)
 	{
-		moveMotor.setAiMovePath(param);
+		moveMotor.setAiMovePath(param, _pathIndex);
 	}
 
 	public void setAiMoveTarget(Int32 entityId)
@@ -303,6 +303,11 @@ public class GameEntity : MonoBehaviour
 	public void setAiMovType(AiMoveConst aiMoveType)
 	{
 		moveMotor.setAiMovType(aiMoveType);
+	}
+
+	public void setAiMovPoint(Vector3 movePostion)
+	{
+		moveMotor.setAiMovPoint(movePostion);
 	}
 
 	public void confirmMoveTimeStamp(float timeStamp, MoveConst moveType, Vector3 position, Vector3 direction, Vector3 moveDirection, bool inBattle)

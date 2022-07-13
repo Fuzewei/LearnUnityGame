@@ -37,6 +37,7 @@ public class AnimatorController : StateMachineBehaviour
 
         if (inBattle!= inBattleNew)
         {
+            inBattle = inBattleNew;
             if (inBattleNew)
             {
                 var index = common.FindIndex((x) => x == fullPathHash);
@@ -48,7 +49,6 @@ public class AnimatorController : StateMachineBehaviour
                 animator.CrossFadeInFixedTime(common[index], 0.25f, 0, getCurrentClipOffset(animator));
             }
         }
-        inBattle = inBattleNew;
     }
 
     public void playerSkillAttackAnimatior(Animator animator, string name, int index = 0, float fixTransDuration = 0.0f, float offset = 0.0f)

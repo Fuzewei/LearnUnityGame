@@ -27,6 +27,12 @@ namespace KBEngine
 		public virtual void onMPChanged(Int32 oldValue) {}
 		public Int32 MP_Max = 0;
 		public virtual void onMP_MaxChanged(Int32 oldValue) {}
+		public PATH_POINTS aiMoviePath = new PATH_POINTS();
+		public virtual void onAiMoviePathChanged(PATH_POINTS oldValue) {}
+		public UInt32 aiMoviePathIndex = 0;
+		public virtual void onAiMoviePathIndexChanged(UInt32 oldValue) {}
+		public Vector3 aiMovieToPoint = new Vector3(0f, 0f, 0f);
+		public virtual void onAiMovieToPointChanged(Vector3 oldValue) {}
 		public UInt32 aiMovingType = 0;
 		public virtual void onAiMovingTypeChanged(UInt32 oldValue) {}
 		public float confirmTime = 0f;
@@ -57,6 +63,8 @@ namespace KBEngine
 		public virtual void onStateChanged(SByte oldValue) {}
 		public Byte subState = 0;
 		public virtual void onSubStateChanged(Byte oldValue) {}
+		public Int32 targetID = 0;
+		public virtual void onTargetIDChanged(Int32 oldValue) {}
 		public UInt32 uid = 0;
 		public virtual void onUidChanged(UInt32 oldValue) {}
 		public UInt32 utype = 0;
@@ -64,7 +72,8 @@ namespace KBEngine
 
 		public abstract void chaseTarget(Int32 arg1); 
 		public abstract void confirmMoveTimeStamp(float arg1); 
-		public abstract void randomWalk(PATH_POINTS arg1); 
+		public abstract void fightMove(SByte arg1, Vector3 arg2); 
+		public abstract void randomWalk(); 
 		public abstract void recvDamage(Int32 arg1, Int32 arg2, Int32 arg3, Int32 arg4); 
 		public abstract void serverRequestUseSkill(UInt32 arg1, Int32 arg2); 
 		public abstract void serverSkillFinish(Int32 arg1); 
@@ -168,13 +177,17 @@ namespace KBEngine
 					Int32 chaseTarget_arg1 = stream.readInt32();
 					chaseTarget(chaseTarget_arg1);
 					break;
-				case 72:
+				case 73:
 					float confirmMoveTimeStamp_arg1 = stream.readFloat();
 					confirmMoveTimeStamp(confirmMoveTimeStamp_arg1);
 					break;
+				case 66:
+					SByte fightMove_arg1 = stream.readInt8();
+					Vector3 fightMove_arg2 = stream.readVector3();
+					fightMove(fightMove_arg1, fightMove_arg2);
+					break;
 				case 62:
-					PATH_POINTS randomWalk_arg1 = ((DATATYPE_PATH_POINTS)method.args[0]).createFromStreamEx(stream);
-					randomWalk(randomWalk_arg1);
+					randomWalk();
 					break;
 				case 51:
 					Int32 recvDamage_arg1 = stream.readInt32();
@@ -198,14 +211,14 @@ namespace KBEngine
 					TABLE skillNodeCallClient_arg3 = ((DATATYPE_TABLE)method.args[2]).createFromStreamEx(stream);
 					skillNodeCallClient(skillNodeCallClient_arg1, skillNodeCallClient_arg2, skillNodeCallClient_arg3);
 					break;
-				case 73:
+				case 74:
 					float startP3ClientMove_arg1 = stream.readFloat();
 					startP3ClientMove(startP3ClientMove_arg1);
 					break;
 				case 65:
 					stopMotion();
 					break;
-				case 74:
+				case 75:
 					float stopP3ClientMove_arg1 = stream.readFloat();
 					stopP3ClientMove(stopP3ClientMove_arg1);
 					break;
@@ -326,6 +339,54 @@ namespace KBEngine
 						}
 
 						break;
+					case 43:
+						PATH_POINTS oldval_aiMoviePath = aiMoviePath;
+						aiMoviePath = ((DATATYPE_PATH_POINTS)EntityDef.id2datatypes[24]).createFromStreamEx(stream);
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onAiMoviePathChanged(oldval_aiMoviePath);
+						}
+						else
+						{
+							if(inWorld)
+								onAiMoviePathChanged(oldval_aiMoviePath);
+						}
+
+						break;
+					case 44:
+						UInt32 oldval_aiMoviePathIndex = aiMoviePathIndex;
+						aiMoviePathIndex = stream.readUint32();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onAiMoviePathIndexChanged(oldval_aiMoviePathIndex);
+						}
+						else
+						{
+							if(inWorld)
+								onAiMoviePathIndexChanged(oldval_aiMoviePathIndex);
+						}
+
+						break;
+					case 42:
+						Vector3 oldval_aiMovieToPoint = aiMovieToPoint;
+						aiMovieToPoint = stream.readVector3();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onAiMovieToPointChanged(oldval_aiMovieToPoint);
+						}
+						else
+						{
+							if(inWorld)
+								onAiMovieToPointChanged(oldval_aiMovieToPoint);
+						}
+
+						break;
 					case 41:
 						UInt32 oldval_aiMovingType = aiMovingType;
 						aiMovingType = stream.readUint32();
@@ -342,7 +403,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 48:
+					case 51:
 						float oldval_confirmTime = confirmTime;
 						confirmTime = stream.readFloat();
 
@@ -358,7 +419,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 49:
+					case 52:
 						Int32 oldval_controlId = controlId;
 						controlId = stream.readInt32();
 
@@ -470,7 +531,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 45:
+					case 48:
 						Vector3 oldval_moveDirection = moveDirection;
 						moveDirection = stream.readVector3();
 
@@ -486,7 +547,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 46:
+					case 49:
 						MOVE_INFOS oldval_moveInfo = moveInfo;
 						moveInfo = ((DATATYPE_MOVE_INFOS)EntityDef.id2datatypes[33]).createFromStreamEx(stream);
 
@@ -502,7 +563,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 47:
+					case 50:
 						float oldval_moveSpeed = moveSpeed;
 						moveSpeed = stream.readFloat();
 
@@ -518,7 +579,7 @@ namespace KBEngine
 						}
 
 						break;
-					case 44:
+					case 47:
 						UInt32 oldval_moveType = moveType;
 						moveType = stream.readUint32();
 
@@ -598,6 +659,22 @@ namespace KBEngine
 						{
 							if(inWorld)
 								onSubStateChanged(oldval_subState);
+						}
+
+						break;
+					case 40:
+						Int32 oldval_targetID = targetID;
+						targetID = stream.readInt32();
+
+						if(prop.isBase())
+						{
+							if(inited)
+								onTargetIDChanged(oldval_targetID);
+						}
+						else
+						{
+							if(inWorld)
+								onTargetIDChanged(oldval_targetID);
 						}
 
 						break;
@@ -728,8 +805,71 @@ namespace KBEngine
 				}
 			}
 
+			PATH_POINTS oldval_aiMoviePath = aiMoviePath;
+			Property prop_aiMoviePath = pdatas[8];
+			if(prop_aiMoviePath.isBase())
+			{
+				if(inited && !inWorld)
+					onAiMoviePathChanged(oldval_aiMoviePath);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_aiMoviePath.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onAiMoviePathChanged(oldval_aiMoviePath);
+					}
+				}
+			}
+
+			UInt32 oldval_aiMoviePathIndex = aiMoviePathIndex;
+			Property prop_aiMoviePathIndex = pdatas[9];
+			if(prop_aiMoviePathIndex.isBase())
+			{
+				if(inited && !inWorld)
+					onAiMoviePathIndexChanged(oldval_aiMoviePathIndex);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_aiMoviePathIndex.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onAiMoviePathIndexChanged(oldval_aiMoviePathIndex);
+					}
+				}
+			}
+
+			Vector3 oldval_aiMovieToPoint = aiMovieToPoint;
+			Property prop_aiMovieToPoint = pdatas[10];
+			if(prop_aiMovieToPoint.isBase())
+			{
+				if(inited && !inWorld)
+					onAiMovieToPointChanged(oldval_aiMovieToPoint);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_aiMovieToPoint.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onAiMovieToPointChanged(oldval_aiMovieToPoint);
+					}
+				}
+			}
+
 			UInt32 oldval_aiMovingType = aiMovingType;
-			Property prop_aiMovingType = pdatas[8];
+			Property prop_aiMovingType = pdatas[11];
 			if(prop_aiMovingType.isBase())
 			{
 				if(inited && !inWorld)
@@ -750,7 +890,7 @@ namespace KBEngine
 			}
 
 			float oldval_confirmTime = confirmTime;
-			Property prop_confirmTime = pdatas[9];
+			Property prop_confirmTime = pdatas[12];
 			if(prop_confirmTime.isBase())
 			{
 				if(inited && !inWorld)
@@ -771,7 +911,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_controlId = controlId;
-			Property prop_controlId = pdatas[10];
+			Property prop_controlId = pdatas[13];
 			if(prop_controlId.isBase())
 			{
 				if(inited && !inWorld)
@@ -813,7 +953,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_entityNO = entityNO;
-			Property prop_entityNO = pdatas[11];
+			Property prop_entityNO = pdatas[14];
 			if(prop_entityNO.isBase())
 			{
 				if(inited && !inWorld)
@@ -834,7 +974,7 @@ namespace KBEngine
 			}
 
 			Int32 oldval_forbids = forbids;
-			Property prop_forbids = pdatas[12];
+			Property prop_forbids = pdatas[15];
 			if(prop_forbids.isBase())
 			{
 				if(inited && !inWorld)
@@ -855,7 +995,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_inBattle = inBattle;
-			Property prop_inBattle = pdatas[13];
+			Property prop_inBattle = pdatas[16];
 			if(prop_inBattle.isBase())
 			{
 				if(inited && !inWorld)
@@ -876,7 +1016,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_modelID = modelID;
-			Property prop_modelID = pdatas[14];
+			Property prop_modelID = pdatas[17];
 			if(prop_modelID.isBase())
 			{
 				if(inited && !inWorld)
@@ -897,7 +1037,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_modelScale = modelScale;
-			Property prop_modelScale = pdatas[15];
+			Property prop_modelScale = pdatas[18];
 			if(prop_modelScale.isBase())
 			{
 				if(inited && !inWorld)
@@ -918,7 +1058,7 @@ namespace KBEngine
 			}
 
 			Vector3 oldval_moveDirection = moveDirection;
-			Property prop_moveDirection = pdatas[16];
+			Property prop_moveDirection = pdatas[19];
 			if(prop_moveDirection.isBase())
 			{
 				if(inited && !inWorld)
@@ -939,7 +1079,7 @@ namespace KBEngine
 			}
 
 			MOVE_INFOS oldval_moveInfo = moveInfo;
-			Property prop_moveInfo = pdatas[17];
+			Property prop_moveInfo = pdatas[20];
 			if(prop_moveInfo.isBase())
 			{
 				if(inited && !inWorld)
@@ -960,7 +1100,7 @@ namespace KBEngine
 			}
 
 			float oldval_moveSpeed = moveSpeed;
-			Property prop_moveSpeed = pdatas[18];
+			Property prop_moveSpeed = pdatas[21];
 			if(prop_moveSpeed.isBase())
 			{
 				if(inited && !inWorld)
@@ -981,7 +1121,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_moveType = moveType;
-			Property prop_moveType = pdatas[19];
+			Property prop_moveType = pdatas[22];
 			if(prop_moveType.isBase())
 			{
 				if(inited && !inWorld)
@@ -1002,7 +1142,7 @@ namespace KBEngine
 			}
 
 			string oldval_name = name;
-			Property prop_name = pdatas[20];
+			Property prop_name = pdatas[23];
 			if(prop_name.isBase())
 			{
 				if(inited && !inWorld)
@@ -1044,7 +1184,7 @@ namespace KBEngine
 			}
 
 			SByte oldval_state = state;
-			Property prop_state = pdatas[21];
+			Property prop_state = pdatas[24];
 			if(prop_state.isBase())
 			{
 				if(inited && !inWorld)
@@ -1065,7 +1205,7 @@ namespace KBEngine
 			}
 
 			Byte oldval_subState = subState;
-			Property prop_subState = pdatas[22];
+			Property prop_subState = pdatas[25];
 			if(prop_subState.isBase())
 			{
 				if(inited && !inWorld)
@@ -1085,8 +1225,29 @@ namespace KBEngine
 				}
 			}
 
+			Int32 oldval_targetID = targetID;
+			Property prop_targetID = pdatas[26];
+			if(prop_targetID.isBase())
+			{
+				if(inited && !inWorld)
+					onTargetIDChanged(oldval_targetID);
+			}
+			else
+			{
+				if(inWorld)
+				{
+					if(prop_targetID.isOwnerOnly() && !isPlayer())
+					{
+					}
+					else
+					{
+						onTargetIDChanged(oldval_targetID);
+					}
+				}
+			}
+
 			UInt32 oldval_uid = uid;
-			Property prop_uid = pdatas[23];
+			Property prop_uid = pdatas[27];
 			if(prop_uid.isBase())
 			{
 				if(inited && !inWorld)
@@ -1107,7 +1268,7 @@ namespace KBEngine
 			}
 
 			UInt32 oldval_utype = utype;
-			Property prop_utype = pdatas[24];
+			Property prop_utype = pdatas[28];
 			if(prop_utype.isBase())
 			{
 				if(inited && !inWorld)

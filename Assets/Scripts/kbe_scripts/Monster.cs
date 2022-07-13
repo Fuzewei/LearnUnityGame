@@ -26,6 +26,7 @@ namespace KBEngine
 			// 但只有一个是自己的玩家实体，所以需要判断一下
 			__init__Combat();
 			__init__Motion();
+			__init__Ai();
 		}
 
 		//渲染层准备就绪
@@ -40,6 +41,7 @@ namespace KBEngine
 				p3MoveTimer = TimerUtils.addTimer(0.1f, 0.1f, new TimerCallback(uploadPositionAndRotation), Utils.localTime(), confirmTime);
 			}
 			confirmMoveTimeStamp(confirmTime);
+			__onRenderObjectCreate__Ai();
 		}
 
 		public override void recvDamage(Int32 attackerID, Int32 skillID, Int32 damageType, Int32 damage)
