@@ -336,12 +336,17 @@ public class MoveMotor : MonoBehaviour
         Vector3 delter = _new - old;
         return delter;
     }
+
+#if UNITY_EDITOR
+#else
     void OnAnimatorMove()
     {
         beforeMoveUpdate();
         onMoveUpdate();
         afterMoveUpdate();
     }
+#endif
+
 
     public virtual void beforeMoveUpdate()
     {
