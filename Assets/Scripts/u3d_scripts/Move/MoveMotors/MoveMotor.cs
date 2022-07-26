@@ -338,6 +338,12 @@ public class MoveMotor : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    void OnAnimatorMove()
+    {
+        beforeMoveUpdate();
+        onMoveUpdate();
+        afterMoveUpdate();
+    }
 #else
     void OnAnimatorMove()
     {

@@ -47,7 +47,7 @@
 		{
 			var skill = new Skill(skillId, this, SkillNodeType.Monster);
 			curUseSkills[skillId] = skill;
-			skill.startTimeLine(skill.initTimeLineId, UUid);
+			skill.startTimeLine(skill.initTimeLineName, UUid);
 			renderEntity.setEntityInUseSkill(skillId);
 		}
 

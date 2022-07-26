@@ -12,10 +12,14 @@ namespace KBEngine
         public int newSkillId;
         private float beginRegisterTimer;
 
-        public StartNewSkill(float timeStamp, float _durationTime, int newSkillId) : base(timeStamp)
+        public StartNewSkill(float timeStamp) : base(timeStamp)
         {
-            durationTime = _durationTime;
-            this.newSkillId = newSkillId;
+        }
+
+        public override void resetNode(XmlSkillLogicName nodeParam)
+        {
+            durationTime = nodeParam.endTime - nodeParam.beginTime;
+            newSkillId = int.Parse(nodeParam.skillParams["newSkillId"]);
         }
 
         public override void runP1()

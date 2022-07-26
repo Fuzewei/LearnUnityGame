@@ -21,6 +21,8 @@ namespace KBEngine
         {
         }
 
+        public virtual void resetNode(XmlSkillLogicName nodeParam){}
+
         public override void OnSetTimeLine()
         {
             avatarOwner = ((skillTimeLine)owneTimeLine).ownerEntity;

@@ -14,6 +14,11 @@ namespace KBEngine
             animName = name;
         }
 
+        public override void resetNode(XmlSkillLogicName nodeParam)
+        {
+
+        }
+
         public override void runP1()
         {
             avatarOwner.renderEntity.palyerAnimation(animName);

@@ -19,6 +19,7 @@ public class SkillLogic : PlayableTrack
     {
         base.OnCreateClip(clip);
         Debug.Log("OnCreateClip:" + clip.displayName);
+        //((SkillNodeAsset)clip.asset).nodeName = clip.displayName;
     }
 
 }

@@ -2,10 +2,12 @@
 using UnityEngine;
 using KBEngine;
 using KBEngine.Const;
-using System.Collections;
-using System;
-using System.Xml;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 using System.Collections.Generic;
+
+using System;
+
 
 public class GameEntity : MonoBehaviour 
 {
@@ -19,8 +21,8 @@ public class GameEntity : MonoBehaviour
 	
 	public Vector3 destPosition = Vector3.zero;
 	public Vector3 destDirection = Vector3.zero;
-	
-	private float _speed = 0f;
+
+	public float _speed = 0f;
 	private byte jumpState = 0;
 	private float currY = 1.0f;
 	
@@ -37,6 +39,8 @@ public class GameEntity : MonoBehaviour
 
 	public MoveConst moveType;
 
+	PlayableDirector m_playabledirector;
+
 
 	public bool isOnGround = true;
 
@@ -52,7 +56,9 @@ public class GameEntity : MonoBehaviour
 	{
 		characterController = ((UnityEngine.GameObject)gameObject).GetComponent<CharacterController>();
 		moveMotor = GetComponent<MoveMotor>();
+		m_playabledirector = GetComponent<PlayableDirector>();
 	}
+
 	
 	void Start() 
 	{
@@ -356,6 +362,23 @@ public class GameEntity : MonoBehaviour
 	public void setAnimationFloatParam(string parmName, float value)
 	{
 		moveMotor.animator.SetFloat(parmName, value);
+	}
+
+
+
+
+	public Dictionary<string, PlayableBinding> bindings = new Dictionary<string, PlayableBinding>();
+
+	public void palyerTimeLine(string timeLineName)
+	{
+		TimelineAsset asset = Resources.Load<TimelineAsset>("TimeLine/Skill/" + timeLineName);
+        foreach (var item in asset.outputs)
+        {
+			m_playabledirector.SetGenericBinding(item.sourceObject, gameObject);
+			
+		}
+		m_playabledirector.Play(asset);
+
 	}
 
 }

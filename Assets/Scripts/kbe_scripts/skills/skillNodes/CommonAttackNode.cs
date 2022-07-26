@@ -5,11 +5,16 @@ using KBEngine.GameobjectHolder;
 
 namespace KBEngine
 {
-    public class CommonAttack : SkillNodeBase
+    public class CommonAttackNode : SkillNodeBase
     {
         uint attackBoxId;
-        public CommonAttack(float timeStamp) : base(timeStamp)
+        public CommonAttackNode(float timeStamp) : base(timeStamp)
         {
+        }
+
+        public override void resetNode(XmlSkillLogicName nodeParam)
+        {
+
         }
 
         public override void runP1()

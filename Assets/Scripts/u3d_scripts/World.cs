@@ -22,11 +22,15 @@ public partial class World : MonoBehaviour
 
 	private uint curSpaceId = 0;
 
+
+
+
 	void Awake() 
 	 {
 		DontDestroyOnLoad(transform.gameObject);
 		world = this;
 		AwakeGameObjectManager();
+		WorldInit();
 	}
 	 
 	// Use this for initialization
@@ -331,11 +335,11 @@ public partial class World : MonoBehaviour
 
 	public void set_moveSpeed(KBEngine.Entity entity, float v)
 	{
-		if(entity.renderObj != null)
-		{
-			((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = v;
-		}
-	}
+        if (entity.renderObj != null)
+        {
+            ((UnityEngine.GameObject)entity.renderObj).GetComponent<GameEntity>().speed = v;
+        }
+    }
 	
 	public void set_modelScale(KBEngine.Entity entity, Byte v)
 	{

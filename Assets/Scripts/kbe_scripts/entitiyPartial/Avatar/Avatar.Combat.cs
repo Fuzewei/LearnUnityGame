@@ -10,11 +10,12 @@
 		public TimeLineManager _timeLineManager;
 
 		public Dictionary<int, Skill> curUseSkills;//预记录一下
-
+ 
 		private void __init__Combat()
 		{
 			_timeLineManager = new TimeLineManager();
 			curUseSkills = new Dictionary<int, Skill>();
+			
 		}
 
 		public TimeLineManager timeLineManager { get {
@@ -59,7 +60,7 @@
 			var skill = new Skill(skillid, this, SkillNodeType.P1);
 			curUseSkills[skillid] = skill;
 			var uuid = timeLineManager.getUUid();
-			skill.startTimeLine(skill.initTimeLineId, uuid);
+			skill.startTimeLine(skill.initTimeLineName, uuid);
 			cellEntityCall.clientRequestUseSkill(uuid, skillid);
 			renderEntity.setEntityInUseSkill(skillid);
 		}
@@ -80,7 +81,7 @@
 		{
 			var skill = new Skill(skillId, this, SkillNodeType.P3);
 			curUseSkills[skillId] = skill;
-			skill.startTimeLine(skill.initTimeLineId, UUid);
+			skill.startTimeLine(skill.initTimeLineName, UUid);
 			renderEntity.setEntityInUseSkill(skillId);
 		}
 
